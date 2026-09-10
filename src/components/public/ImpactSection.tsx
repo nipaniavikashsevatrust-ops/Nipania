@@ -26,7 +26,7 @@ const STAT_ICONS: Record<string, React.ElementType> = {
 
 export default function ImpactSection({ stats = [] }: ImpactSectionProps) {
   // Default fallback if DB is initially empty
-  const displayStats = stats.length > 0 ? stats : [
+  const defaultFallback: ImpactStatItem[] = [
     { id: '1', label: 'Lives Impacted', value: '0', prefix: '', suffix: '+' },
     { id: '2', label: 'Active Volunteers', value: '0', prefix: '', suffix: '+' },
     { id: '3', label: 'Active Members', value: '0', prefix: '', suffix: '+' },
@@ -34,6 +34,15 @@ export default function ImpactSection({ stats = [] }: ImpactSectionProps) {
     { id: '5', label: 'Villages & Communities', value: '0', prefix: '', suffix: '+' },
     { id: '6', label: 'Events Conducted', value: '0', prefix: '', suffix: '+' },
   ];
+
+  // Defensive de-duplication: ensure each metric label is rendered at most once
+  const displayStats = React.useMemo(() => {
+    const rawList = stats && stats.length > 0 ? stats : defaultFallback;
+    return rawList.filter(
+      (stat, index, self) =>
+        index === self.findIndex((s) => s.label.trim().toLowerCase() === stat.label.trim().toLowerCase())
+    );
+  }, [stats]);
 
   return (
     <section className="relative py-16 bg-gradient-to-b from-slate-50 via-warm-50/60 to-white border-y border-slate-200/80 text-slate-800">

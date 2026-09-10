@@ -3,6 +3,37 @@
 > **Instructions for AI Agents:**
 > Record all non-trivial changes here. Follow the exact section structure so both human developers and subsequent AI agents (Kilo Code / Google Antigravity) can follow the audit trail.
 
+## 2026-09-10 (Update 46)
+
+### Agent
+Google Antigravity
+
+### Task
+Deduplicate Impact Section Metrics on Homepage & Clean PostgreSQL Database
+
+### Problem Addressed
+- User reported: "Transparent & Verified Our Growing Impact & Outreach ... 0+ Lives Impacted 0+ Lives Impacted 1+ Active Volunteers 1+ Active Volunteers ... in homepage this section data are repate dso fi xthis".
+- In the "Our Growing Impact & Outreach" section on the homepage, each of the 6 impact metrics was rendering twice (12 cards total).
+
+### Root Cause
+- The `ImpactStat` table in the live PostgreSQL database contained 12 records: 2 identical rows per metric label with different UUIDs (one set created during preliminary seeding, and another set inserted with specific UUIDs from the SQLite dump).
+- `schema.prisma` did not have a unique constraint on `ImpactStat.label`.
+
+### Changes
+1. **Database Deduplication**:
+   - Cleaned the live PostgreSQL database (`db.prisma.io:5432`).
+   - Removed 6 redundant duplicate records from `ImpactStat`, retaining exactly 6 canonical rows ordered 1 to 6.
+2. **Defensive UI Guard (`src/components/public/ImpactSection.tsx`)**:
+   - Added a `useMemo` filter (`uniqueStats`) that deduplicates stats by normalized label, ensuring each metric appears at most once on the page regardless of any transient database anomalies.
+3. **Idempotent Seed Script (`prisma/seed.js`)**:
+   - Updated the `ImpactStat` seed logic to find existing rows by `label`, update the canonical record, and prune any extra duplicates.
+
+### Testing & Verification
+- Queried live PostgreSQL database: exactly 6 stats remaining, cleanly ordered from 1 to 6.
+- Ran `npx tsc --noEmit`: 0 errors.
+
+---
+
 ## 2026-09-10 (Update 45)
 
 ### Agent

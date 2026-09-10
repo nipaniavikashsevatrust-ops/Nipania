@@ -56,9 +56,26 @@ async function main() {
   ];
 
   for (const stat of stats) {
-    const existing = await prisma.impactStat.findFirst({ where: { label: stat.label } });
-    if (!existing) {
+    const existingList = await prisma.impactStat.findMany({ where: { label: stat.label } });
+    if (existingList.length === 0) {
       await prisma.impactStat.create({ data: stat });
+    } else {
+      const [first, ...duplicates] = existingList;
+      await prisma.impactStat.update({
+        where: { id: first.id },
+        data: {
+          value: stat.value,
+          prefix: stat.prefix,
+          suffix: stat.suffix,
+          order: stat.order,
+          isActive: true,
+        },
+      });
+      if (duplicates.length > 0) {
+        await prisma.impactStat.deleteMany({
+          where: { id: { in: duplicates.map((d) => d.id) } },
+        });
+      }
     }
   }
 

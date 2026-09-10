@@ -34,6 +34,20 @@
 
 ## 🟢 COMPLETED
 
+### Task: Deduplicate Impact Section Metrics on Homepage & Clean PostgreSQL Database
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-10
+- **Completed**: 2026-09-10
+- **Notes**:
+  1. Addressed user request: "Transparent & Verified Our Growing Impact & Outreach ... in homepage this section data are repate dso fi xthis".
+  2. Identified root cause: `ImpactStat` table in PostgreSQL contained 12 records (duplicate entries of each of the 6 metrics) due to prior seeding mismatch with differing UUIDs.
+  3. Cleaned live PostgreSQL database by removing 6 duplicate records and preserving exactly 6 unique metrics in order 1 to 6.
+  4. Updated `src/components/public/ImpactSection.tsx` with a defensive deduplication memo (`useMemo`) filtering by normalized label so that duplicate metric cards will never be rendered.
+  5. Updated `prisma/seed.js` to ensure upserting impact stats updates the primary row and cleans any duplicate records with the same label.
+  6. Verified `npx tsc --noEmit` passes with 0 errors.
+
 ### Task: Migrate & Seed Complete Board of Trustees, Members & All Tables to PostgreSQL
 - **Owner**: Google Antigravity
 - **Status**: COMPLETED
