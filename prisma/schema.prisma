@@ -1,0 +1,451 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("ADMIN") // SUPER_ADMIN, ADMIN, FINANCE_MANAGER, VOLUNTEER_MANAGER, MEMBER_MANAGER, CONTENT_MANAGER, PROJECT_MANAGER, VIEWER
+  phone     String?
+  avatarUrl String?
+  status           String    @default("ACTIVE") // ACTIVE, SUSPENDED, INACTIVE
+  resetToken       String?
+  resetTokenExpiry DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+model TrustDetail {
+  id                    String   @id @default("trust-settings")
+  name                  String   @default("NIPANIA VIKASH SEVA TRUST")
+  pan                   String   @default("AAFTN4004N")
+  tagline               String   @default("SEVA | VIKASH | SAMARPAN")
+  registrationNo        String?
+  darpanId              String?
+  registrationAuthority String?
+  applicableAct         String?
+  incorporationDate     String?
+  trustDeedDate         String?
+  reg12aNo              String?
+  reg80gNo              String?
+  csrNo                 String?
+  fcraNo                String?
+  registeredAddress     String?
+  correspondenceAddress String?
+  district              String?
+  state                 String?
+  pinCode               String?
+  email                 String?  @default("info@nipaniatrust.org")
+  phone                 String?  @default("+91 9876543210")
+  altPhone              String?
+  website               String?  @default("https://nipaniatrust.org")
+  facebook              String?
+  instagram             String?
+  twitter               String?
+  linkedin              String?
+  youtube               String?
+  upiId                 String?
+  accountName           String?
+  accountNumber         String?
+  bankName              String?
+  ifscCode              String?
+  branchName            String?
+  isBankPublic          Boolean  @default(false)
+  presidentName         String?  @default("Managing Trustee")
+  presidentTitle        String?  @default("President / Managing Trustee")
+  presidentSignature    String?
+  presidentStamp        String?
+  smtpHost              String?  @default("smtp.gmail.com")
+  smtpPort              Int?     @default(587)
+  smtpSecure            Boolean  @default(false)
+  smtpUser              String?
+  smtpPassword          String?
+  smtpSenderName        String?  @default("Nipania Vikash Seva Trust")
+  smtpSenderEmail       String?  @default("info@nipaniatrust.org")
+  // Payment Gateway & Membership Fee Settings (INR Currency)
+  paymentGatewayEnabled Boolean  @default(false)
+  paymentGatewayProvider String @default("RAZORPAY") // RAZORPAY, CASHFREE, PHONEPE, PAYTM, UPI_DIRECT
+  paymentGatewayMode    String   @default("TEST") // TEST, LIVE
+  paymentCurrency       String   @default("INR") // Indian Rupee (INR)
+  // Razorpay credentials
+  razorpayKeyId         String?
+  razorpayKeySecret     String?
+  razorpayWebhookSecret String?
+  // Cashfree credentials
+  cashfreeAppId         String?
+  cashfreeSecretKey     String?
+  cashfreeApiVersion    String?  @default("2023-08-01")
+  // PhonePe credentials
+  phonepeMerchantId     String?
+  phonepeSaltKey        String?
+  phonepeSaltIndex      String?  @default("1")
+  // Paytm credentials
+  paytmMerchantId       String?
+  paytmMerchantKey      String?
+  paytmWebsite          String?  @default("DEFAULT")
+  // Instamojo credentials
+  instamojoApiKey       String?
+  instamojoAuthToken    String?
+  instamojoSalt         String?
+  // CCAvenue credentials
+  ccavenueMerchantId    String?
+  ccavenueAccessCode    String?
+  ccavenueWorkingKey    String?
+  // Stripe credentials
+  stripePublishableKey  String?
+  stripeSecretKey       String?
+  stripeWebhookSecret   String?
+  // Direct UPI & QR Details
+  upiPayeeName          String?  @default("Nipania Vikash Seva Trust")
+  upiQrImage            String?
+  // Membership Fee Controls
+  membershipFeeEnabled  Boolean  @default(true)  // Admin power to toggle membership fee
+  generalMemberFee      Float    @default(500)   // General Member registration charge in INR
+  lifeMemberFee         Float    @default(5000)  // Life Member registration charge in INR
+  executiveMemberFee    Float    @default(2100)  // Executive Member registration charge in INR
+  patronMemberFee       Float    @default(11000) // Patron Member registration charge in INR
+  updatedAt             DateTime @updatedAt
+}
+
+model ImpactStat {
+  id        String   @id @default(uuid())
+  label     String
+  value     String   @default("0+")
+  prefix    String?  @default("")
+  suffix    String?  @default("+")
+  order     Int      @default(0)
+  isActive  Boolean  @default(true)
+  updatedAt DateTime @updatedAt
+}
+
+model Donation {
+  id              String   @id @default(uuid())
+  donationId      String   @unique // NVS-DON-2026-0001
+  donorName       String
+  donorEmail      String
+  donorPhone      String
+  donorPan        String?
+  donorAddress    String?
+  amount          Float
+  type            String   @default("ONE_TIME") // ONE_TIME, MONTHLY
+  projectId       String?
+  projectTitle    String?
+  paymentMethod   String   @default("ONLINE") // ONLINE, UPI, CARD, NETBANKING, OFFLINE
+  paymentId       String?
+  orderId         String?
+  status          String   @default("SUCCESS") // PENDING, SUCCESS, FAILED, REFUNDED
+  isReceiptIssued Boolean  @default(true)
+  receiptUrl      String?
+  notes           String?
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+
+  // 80G & 10BD/10BE Compliance Fields
+  financialYear        String?   // e.g. "2026-27"
+  donorPincode         String?
+  donationEligible80G  Boolean   @default(true)
+
+  // 10BD Statement Preparation & Filing
+  tenBdStatus          String    @default("PENDING") // PENDING, READY, INCLUDED, FILED, EXCLUDED
+  tenBdFinancialYear   String?
+  tenBdBatchId         String?
+  tenBdIncludedAt      DateTime?
+  tenBdFilingId        String?
+  tenBdFiling          TenBDFiling? @relation(fields: [tenBdFilingId], references: [id])
+
+  // Official Form 10BE Certificate Management
+  tenBeStatus          String    @default("PENDING") // PENDING, AVAILABLE, UPLOADED, ISSUED, NOT_APPLICABLE
+  tenBeNumber          String?
+  tenBeIssueDate       DateTime?
+  tenBePdfUrl          String?
+  tenBeUploadedAt      DateTime?
+  tenBeUploadedBy      String?
+
+  // 10BE Email Delivery Tracking
+  tenBeEmailStatus     String    @default("NOT_SENT") // NOT_SENT, SENT, FAILED
+  tenBeEmailSentAt     DateTime?
+  tenBeEmailError      String?
+
+  // Official Receipt Number
+  officialReceiptNumber String?
+
+  // Secure Token for Donor Document Access
+  secureAccessToken    String?   @unique
+}
+
+model TenBDFiling {
+  id                String     @id @default(uuid())
+  financialYear     String     // e.g. "2026-27"
+  batchNumber       String     @unique // e.g. "10BD-2026-27-001"
+  filingDate        DateTime?
+  filingStatus      String     @default("DRAFT") // DRAFT, VALIDATED, EXPORTED, FILED, CORRECTION_REQUIRED, COMPLETED
+  acknowledgementNo String?
+  notes             String?
+  totalDonations    Int        @default(0)
+  totalAmount       Float      @default(0)
+  filedBy           String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+
+  donations         Donation[]
+}
+
+model Volunteer {
+  id                String   @id @default(uuid())
+  volunteerId       String   @unique // NVS-VOL-000001
+  fullName          String
+  guardianName      String?
+  dob               String?
+  gender            String?
+  mobile            String
+  email             String
+  address           String?
+  district          String?
+  state             String?
+  pincode           String?
+  education         String?
+  occupation        String?
+  category          String   @default("Community Volunteer")
+  skills            String?
+  areasOfInterest   String?
+  availability      String?  @default("Weekends")
+  preferredLocation String?
+  emergencyContact  String?
+  photoUrl          String?
+  idProofUrl        String?
+  status            String   @default("PENDING") // PENDING, APPROVED, REJECTED, SUSPENDED, NEEDS_CORRECTION
+  rejectionReason   String?
+  adminRemarks      String?
+  idCardIssued      Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Member {
+  id              String    @id @default(uuid())
+  memberId        String    @unique // NVS-MEM-000001
+  fullName        String
+  guardianName    String?
+  dob             String?
+  gender          String?
+  mobile          String
+  email           String
+  address         String?
+  district        String?
+  state           String?
+  pincode         String?
+  occupation      String?
+  category        String    @default("General Member") // General Member, Life Member, Executive Member, Patron
+  photoUrl        String?
+  feeAmount       Float?    @default(0)
+  paymentStatus   String    @default("FREE") // FREE, PENDING, PAID, FAILED
+  paymentId       String?
+  paymentMethod   String?   @default("FREE") // RAZORPAY, UPI, OFFLINE, FREE
+  status          String    @default("PENDING") // PENDING, ACTIVE, EXPIRED, SUSPENDED, REJECTED, NEEDS_CORRECTION
+  rejectionReason String?
+  adminRemarks    String?
+  joiningDate     DateTime  @default(now())
+  validUntil      DateTime?
+  idCardIssued    Boolean   @default(false)
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
+}
+
+model IdCard {
+  id          String   @id @default(uuid())
+  cardNumber  String   @unique // NVS-VOL-000001 / NVS-MEM-000001 / NVS-STF-000001
+  personType  String   // VOLUNTEER, MEMBER, STAFF, TRUSTEE
+  personId    String
+  fullName    String
+  role        String
+  photoUrl    String?
+  issueDate   DateTime @default(now())
+  validUntil  DateTime
+  qrCodeData  String
+  status      String   @default("ACTIVE") // ACTIVE, EXPIRED, DEACTIVATED
+  remarks     String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Project {
+  id                 String          @id @default(uuid())
+  slug               String          @unique
+  title              String
+  category           String
+  summary            String
+  description        String
+  location           String?
+  targetAmount       Float           @default(0)
+  raisedAmount       Float           @default(0)
+  beneficiariesCount Int             @default(0)
+  status             String          @default("ACTIVE") // PLANNING, ACTIVE, COMPLETED, PAUSED
+  bannerImage        String?
+  startDate          String?
+  endDate            String?
+  isFeatured         Boolean         @default(false)
+  updates            ProjectUpdate[]
+  createdAt          DateTime        @default(now())
+  updatedAt          DateTime        @updatedAt
+}
+
+model ProjectUpdate {
+  id        String   @id @default(uuid())
+  projectId String
+  project   Project  @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  title     String
+  content   String
+  date      String
+  imageUrl  String?
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id                   String              @id @default(uuid())
+  slug                 String              @unique
+  title                String
+  category             String
+  description          String
+  location             String
+  eventDate            String
+  eventTime            String?
+  organizer            String?             @default("Nipania Vikash Seva Trust")
+  maxSeats             Int                 @default(100)
+  registrationRequired Boolean             @default(true)
+  bannerImage          String?
+  status               String              @default("UPCOMING") // UPCOMING, ONGOING, COMPLETED, CANCELLED
+  isFeatured           Boolean             @default(false)
+  registrations        EventRegistration[]
+  createdAt            DateTime            @default(now())
+  updatedAt            DateTime            @updatedAt
+}
+
+model EventRegistration {
+  id             String   @id @default(uuid())
+  eventId        String
+  event          Event    @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  fullName       String
+  email          String
+  phone          String
+  numberOfGuests Int      @default(1)
+  status         String   @default("CONFIRMED") // CONFIRMED, CANCELLED
+  createdAt      DateTime @default(now())
+}
+
+model GalleryItem {
+  id         String   @id @default(uuid())
+  title      String
+  category   String   // Community Work, Healthcare, Education, Women Empowerment, Events, Environment
+  mediaUrl   String
+  mediaType  String   @default("IMAGE") // IMAGE, VIDEO
+  isFeatured Boolean  @default(false)
+  caption    String?
+  createdAt  DateTime @default(now())
+}
+
+model Document {
+  id          String   @id @default(uuid())
+  title       String
+  category    String   // TRUST_DEED, PAN, DARPAN, 12A, 80G, CSR, ANNUAL_REPORT, FINANCIAL_REPORT, POLICY, OTHER
+  year        String?
+  fileUrl     String
+  fileSize    String?
+  isPublic    Boolean  @default(true)
+  description String?
+  createdAt   DateTime @default(now())
+}
+
+model NewsArticle {
+  id          String   @id @default(uuid())
+  slug        String   @unique
+  title       String
+  excerpt     String
+  content     String
+  category    String   @default("General")
+  coverImage  String?
+  author      String   @default("Trust Communications Team")
+  isPublished Boolean  @default(true)
+  publishedAt DateTime @default(now())
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model ContactMessage {
+  id         String   @id @default(uuid())
+  name       String
+  email      String
+  phone      String?
+  subject    String
+  message    String
+  status     String   @default("NEW") // NEW, IN_PROGRESS, RESOLVED
+  adminNotes String?
+  createdAt  DateTime @default(now())
+}
+
+model NewsletterSubscriber {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  name         String?
+  isActive     Boolean  @default(true)
+  subscribedAt DateTime @default(now())
+}
+
+model AuditLog {
+  id          String   @id @default(uuid())
+  action      String   // CREATE, UPDATE, DELETE, APPROVE, REJECT, ID_GENERATED, LOGIN
+  module      String   // DONATION, VOLUNTEER, MEMBER, PROJECT, EVENT, ID_CARD, DOCUMENT, SETTINGS, AUTH
+  performedBy String
+  userEmail   String
+  details     String
+  ipAddress   String?  @default("127.0.0.1")
+  createdAt   DateTime @default(now())
+}
+
+model ContentBlock {
+  id          String   @id @default(uuid())
+  key         String   @unique // hero_title, hero_subtitle, about_text, mission_text, vision_text, values_json
+  title       String?
+  subtitle    String?
+  content     String?
+  jsonContent String?
+  updatedAt   DateTime @updatedAt
+}
+
+model BoardMember {
+  id          String   @id @default(uuid())
+  name        String
+  designation String
+  category    String   @default("Executive Leadership") // Executive Leadership, Operations & Community, Finance & Governance, Advisory Panel
+  image       String?
+  quote       String?
+  roleDetails String?
+  tenure      String?  @default("Trustee")
+  order       Int      @default(0)
+  isActive    Boolean  @default(true)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model SponsorshipTier {
+  id            String   @id @default(uuid())
+  category      String   @default("MEALS") // MEALS, HYGIENE, EDUCATION, HEALTHCARE, EMERGENCY, OTHER
+  title         String
+  amount        Float
+  monthlyAmount Float?
+  icon          String   @default("🤝")
+  unitLabel     String   @default("people supported")
+  description   String
+  impactMetrics String   @default("[]") // JSON stringified array of metrics
+  isFeatured    Boolean  @default(false)
+  order         Int      @default(0)
+  isActive      Boolean  @default(true)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}

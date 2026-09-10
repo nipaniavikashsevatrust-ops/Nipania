@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "ms-vscode.vscode-webhint",
+    "deque-systems.axe-linter",
+    "bierner.markdown-preview-github-styles",
+    "dbaeumer.vscode-eslint"
+  ]
+}

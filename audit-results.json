@@ -1,0 +1,2036 @@
+{
+  "url": "http://localhost:3000",
+  "scores": {
+    "overall": 76,
+    "categories": {
+      "security": 60,
+      "social": 85,
+      "robots": 100,
+      "article": 75,
+      "broken_links": 100,
+      "internal_links": 60,
+      "redirects": 100,
+      "llms_txt": 95,
+      "pagespeed": 0,
+      "onpage": 100,
+      "readability": 25,
+      "entity": 35,
+      "link_profile": 55,
+      "hreflang": 0,
+      "duplicate_content": 100
+    },
+    "weights": {
+      "security": 8,
+      "social": 5,
+      "robots": 8,
+      "broken_links": 10,
+      "internal_links": 8,
+      "redirects": 3,
+      "llms_txt": 5,
+      "pagespeed": 13,
+      "onpage": 10,
+      "readability": 8,
+      "entity": 5,
+      "link_profile": 7,
+      "hreflang": 5,
+      "duplicate_content": 5
+    },
+    "scoring_version": 1
+  },
+  "data": {
+    "url": "http://localhost:3000",
+    "domain": "localhost:3000",
+    "timestamp": "2026-09-10T14:40:34.628216",
+    "sections": {
+      "robots": {
+        "url": "http://localhost:3000/robots.txt",
+        "status": 200,
+        "user_agents": {
+          "*": {
+            "allow": [
+              "/"
+            ],
+            "disallow": [
+              "/admin/",
+              "/api/"
+            ]
+          },
+          "GPTBot": {
+            "allow": [],
+            "disallow": []
+          },
+          "ChatGPT-User": {
+            "allow": [],
+            "disallow": []
+          },
+          "ClaudeBot": {
+            "allow": [],
+            "disallow": []
+          },
+          "anthropic-ai": {
+            "allow": [],
+            "disallow": []
+          },
+          "PerplexityBot": {
+            "allow": [],
+            "disallow": []
+          },
+          "Google-Extended": {
+            "allow": [],
+            "disallow": []
+          },
+          "Applebot-Extended": {
+            "allow": [],
+            "disallow": []
+          },
+          "Amazonbot": {
+            "allow": [],
+            "disallow": []
+          },
+          "FacebookBot": {
+            "allow": [],
+            "disallow": []
+          },
+          "Bytespider": {
+            "allow": [],
+            "disallow": []
+          },
+          "CCBot": {
+            "allow": [
+              "/"
+            ],
+            "disallow": [
+              "/admin/",
+              "/api/"
+            ]
+          }
+        },
+        "sitemaps": [
+          "https://nipaniatrust.org/sitemap.xml"
+        ],
+        "crawl_delays": {},
+        "ai_crawler_status": {
+          "GPTBot": "declared but no rules",
+          "ChatGPT-User": "declared but no rules",
+          "ClaudeBot": "declared but no rules",
+          "PerplexityBot": "declared but no rules",
+          "Google-Extended": "declared but no rules",
+          "Applebot-Extended": "declared but no rules",
+          "Bytespider": "declared but no rules",
+          "CCBot": "partially blocked (2 paths)",
+          "anthropic-ai": "declared but no rules",
+          "FacebookBot": "declared but no rules",
+          "Amazonbot": "declared but no rules"
+        },
+        "issues": [],
+        "error": null
+      },
+      "security": {
+        "url": "http://localhost:3000",
+        "score": 60,
+        "https": false,
+        "headers_present": {
+          "HSTS (Strict-Transport-Security)": "max-age=31536000; includeSubDomains; preload",
+          "X-Frame-Options": "SAMEORIGIN",
+          "X-Content-Type-Options": "nosniff",
+          "Referrer-Policy": "strict-origin-when-cross-origin",
+          "Permissions-Policy": "camera=(), microphone=(), geolocation=()"
+        },
+        "headers_missing": {
+          "Content-Security-Policy (CSP)": "Prevents XSS, clickjacking, and code injection."
+        },
+        "header_values": {
+          "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+          "x-frame-options": "SAMEORIGIN",
+          "x-content-type-options": "nosniff",
+          "referrer-policy": "strict-origin-when-cross-origin",
+          "permissions-policy": "camera=(), microphone=(), geolocation=()"
+        },
+        "issues": [
+          "\ud83d\udd34 Site not using HTTPS \u2014 critical for SEO and trust",
+          "\u26a0\ufe0f 1 security header(s) missing"
+        ],
+        "recommendations": [
+          "Migrate to HTTPS and set up 301 redirects from HTTP",
+          "Content-Security-Policy (CSP): Add a Content-Security-Policy header restricting script/style sources."
+        ],
+        "error": null
+      },
+      "social": {
+        "url": "http://localhost:3000",
+        "score": 85,
+        "og_tags": {
+          "og:title": "Nipania Vikash Seva Trust | Seva | Vikash | Samarpan",
+          "og:description": "Committed to Seva, Vikash, and Samarpan through rural development, primary education, healthcare drives, and social welfare in India.",
+          "og:url": "https://nipaniatrust.org",
+          "og:site_name": "Nipania Vikash Seva Trust",
+          "og:locale": "en_IN",
+          "og:image": "http://localhost:3000/logo.png",
+          "og:image:width": "800",
+          "og:image:height": "800",
+          "og:image:alt": "Nipania Vikash Seva Trust Official Logo",
+          "og:type": "website"
+        },
+        "twitter_tags": {
+          "twitter:card": "summary_large_image",
+          "twitter:title": "Nipania Vikash Seva Trust | Seva | Vikash | Samarpan",
+          "twitter:description": "Committed to Seva, Vikash, and Samarpan through rural development, primary education, healthcare drives, and social welfare in India.",
+          "twitter:image": "http://localhost:3000/logo.png"
+        },
+        "og_present": [
+          "og:title",
+          "og:description",
+          "og:image",
+          "og:url",
+          "og:type",
+          "og:site_name",
+          "og:locale"
+        ],
+        "og_missing": [],
+        "twitter_present": [
+          "twitter:card",
+          "twitter:title",
+          "twitter:description",
+          "twitter:image"
+        ],
+        "twitter_missing": [],
+        "issues": [],
+        "recommendations": [],
+        "preview": {
+          "title": "Nipania Vikash Seva Trust | Seva | Vikash | Samarpan",
+          "description": "Committed to Seva, Vikash, and Samarpan through rural development, primary education, healthcare drives, and social welfare in India.",
+          "image": "http://localhost:3000/logo.png",
+          "site_name": "Nipania Vikash Seva Trust"
+        },
+        "error": null
+      },
+      "redirects": {
+        "url": "http://localhost:3000",
+        "final_url": "http://localhost:3000",
+        "chain": [
+          {
+            "step": 1,
+            "url": "http://localhost:3000",
+            "status": 200,
+            "time_ms": 108,
+            "final": true
+          }
+        ],
+        "total_hops": 0,
+        "total_time_ms": 108,
+        "has_loop": false,
+        "has_mixed_protocol": false,
+        "issues": [],
+        "error": null
+      },
+      "llms_txt": {
+        "url": "http://localhost:3000/llms.txt",
+        "full_url": "http://localhost:3000/llms-full.txt",
+        "exists": true,
+        "full_exists": false,
+        "status": 200,
+        "full_status": 404,
+        "parsed": {
+          "title": "Nipania Vikash Seva Trust",
+          "description": "Nipania Vikash Seva Trust is a registered non-profit charitable trust in India dedicated to rural community welfare, child education, preventative healthcare camps, women empowerment, and disaster relief. Guided by the core tenets of Seva (Selfless Service), Vikash (Inclusive Progress), and Samarpan (Wholehearted Dedication).",
+          "sections": [
+            {
+              "name": "Key Information",
+              "links": []
+            },
+            {
+              "name": "Core Programs & Initiatives",
+              "links": []
+            },
+            {
+              "name": "Key Links & Endpoints",
+              "links": [
+                {
+                  "title": "Donate Directly",
+                  "url": "https://nipaniatrust.org/donate",
+                  "description": "Secure UPI QR, Razorpay, and direct bank transfer with instant 80G tax receipts."
+                },
+                {
+                  "title": "Active Campaigns & Causes",
+                  "url": "https://nipaniatrust.org/campaigns",
+                  "description": "Transparent goal tracking for urgent community needs."
+                },
+                {
+                  "title": "About the Trust",
+                  "url": "https://nipaniatrust.org/about",
+                  "description": "Trust history, philosophy, legal registrations, and mission statement."
+                },
+                {
+                  "title": "Board of Trustees",
+                  "url": "https://nipaniatrust.org/board-members",
+                  "description": "Managing trustees, secretary, treasurer, and advisory members."
+                },
+                {
+                  "title": "Sponsor a Cause",
+                  "url": "https://nipaniatrust.org/sponsor",
+                  "description": "Monthly or one-time child and village sponsorship programs."
+                },
+                {
+                  "title": "Volunteer Network",
+                  "url": "https://nipaniatrust.org/volunteer",
+                  "description": "On-ground youth and professional volunteering opportunities."
+                },
+                {
+                  "title": "Financial Transparency",
+                  "url": "https://nipaniatrust.org/transparency",
+                  "description": "Audit reports, donation tracking, and utilization proofs."
+                },
+                {
+                  "title": "Photo Gallery",
+                  "url": "https://nipaniatrust.org/gallery",
+                  "description": "Verified photography from field distributions and health camps."
+                },
+                {
+                  "title": "Contact Us",
+                  "url": "https://nipaniatrust.org/contact",
+                  "description": "Regional office location, contact numbers, and feedback channels."
+                }
+              ]
+            }
+          ],
+          "links": [
+            {
+              "title": "Donate Directly",
+              "url": "https://nipaniatrust.org/donate",
+              "description": "Secure UPI QR, Razorpay, and direct bank transfer with instant 80G tax receipts."
+            },
+            {
+              "title": "Active Campaigns & Causes",
+              "url": "https://nipaniatrust.org/campaigns",
+              "description": "Transparent goal tracking for urgent community needs."
+            },
+            {
+              "title": "About the Trust",
+              "url": "https://nipaniatrust.org/about",
+              "description": "Trust history, philosophy, legal registrations, and mission statement."
+            },
+            {
+              "title": "Board of Trustees",
+              "url": "https://nipaniatrust.org/board-members",
+              "description": "Managing trustees, secretary, treasurer, and advisory members."
+            },
+            {
+              "title": "Sponsor a Cause",
+              "url": "https://nipaniatrust.org/sponsor",
+              "description": "Monthly or one-time child and village sponsorship programs."
+            },
+            {
+              "title": "Volunteer Network",
+              "url": "https://nipaniatrust.org/volunteer",
+              "description": "On-ground youth and professional volunteering opportunities."
+            },
+            {
+              "title": "Financial Transparency",
+              "url": "https://nipaniatrust.org/transparency",
+              "description": "Audit reports, donation tracking, and utilization proofs."
+            },
+            {
+              "title": "Photo Gallery",
+              "url": "https://nipaniatrust.org/gallery",
+              "description": "Verified photography from field distributions and health camps."
+            },
+            {
+              "title": "Contact Us",
+              "url": "https://nipaniatrust.org/contact",
+              "description": "Regional office location, contact numbers, and feedback channels."
+            }
+          ]
+        },
+        "quality": {
+          "score": 95,
+          "issues": [],
+          "suggestions": []
+        },
+        "error": null
+      },
+      "broken_links": {
+        "page_url": "http://localhost:3000",
+        "total_links": 22,
+        "checked": 22,
+        "broken": [],
+        "redirected": [
+          {
+            "url": "https://wa.me/919876543210?text=Hello%20Nipania%20Trust,%20I%20have%20completed%20a%20direct%20bank%20transfer.%20Kindly%20issue%20my%2080G%20receipt.",
+            "anchor_text": "WhatsApp Support",
+            "is_internal": false,
+            "status": 200,
+            "error": null,
+            "redirect": {
+              "from": "https://wa.me/919876543210?text=Hello%20Nipania%20Trust,%20I%20have%20completed%20a%20direct%20bank%20transfer.%20Kindly%20issue%20my%2080G%20receipt.",
+              "to": "https://api.whatsapp.com/send/?phone=919876543210&text=Hello+Nipania+Trust%2C+I+have+completed+a+direct+bank+transfer.+Kindly+issue+my+80G+receipt.&type=phone_number&app_absent=0",
+              "hops": 1,
+              "codes": [
+                302
+              ]
+            },
+            "response_time_ms": 607
+          }
+        ],
+        "timeout": [],
+        "healthy": 21,
+        "summary": {
+          "total": 22,
+          "healthy": 21,
+          "broken": 0,
+          "redirected": 1,
+          "timeout": 0
+        },
+        "issues": [],
+        "error": null
+      },
+      "internal_links": {
+        "start_url": "http://localhost:3000",
+        "domain": "localhost:3000",
+        "pages_crawled": 16,
+        "total_internal_links": 246,
+        "unique_pages_found": 20,
+        "max_depth_reached": 1,
+        "pages": {
+          "http://localhost:3000/membership": {
+            "outgoing_links": 17,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/admin/login": {
+            "outgoing_links": 1,
+            "incoming_links": 14
+          },
+          "http://localhost:3000": {
+            "outgoing_links": 18,
+            "incoming_links": 0
+          },
+          "http://localhost:3000/work": {
+            "outgoing_links": 18,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/gallery": {
+            "outgoing_links": 17,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/sponsor": {
+            "outgoing_links": 18,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/correction": {
+            "outgoing_links": 17,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/contact": {
+            "outgoing_links": 17,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/verify": {
+            "outgoing_links": 17,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/about": {
+            "outgoing_links": 17,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/campaigns": {
+            "outgoing_links": 19,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/donate": {
+            "outgoing_links": 18,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/": {
+            "outgoing_links": 18,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/volunteer": {
+            "outgoing_links": 17,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/legal/privacy": {
+            "outgoing_links": 17,
+            "incoming_links": 14
+          },
+          "http://localhost:3000/qr.png": {
+            "outgoing_links": 0,
+            "incoming_links": 5
+          }
+        },
+        "anchor_texts": {
+          "Verify ID": 14,
+          "Admin": 14,
+          "Nipania Vikash Seva TrustSEVA \u2022 VIKASH \u2022 SAMARPAN": 14,
+          "About Us": 14,
+          "Campaigns": 14,
+          "Our Work": 14,
+          "Contact": 14,
+          "SPONSOR A CAUSE": 14,
+          "Privacy Policy": 14,
+          "Terms & Conditions": 14,
+          "Donation Policy": 14,
+          "Volunteer Code": 14,
+          "Application Correction": 13,
+          "Photo Gallery": 12,
+          "Become a Member": 12,
+          "DONATE NOW": 9,
+          "Become a Volunteer": 9,
+          "Support ReliefSupport": 5,
+          "Download QR": 5,
+          "Join as Field Volunteer": 2
+        },
+        "link_distribution": {
+          "min": 1,
+          "max": 19,
+          "avg": 16.4
+        },
+        "orphan_candidates": [
+          {
+            "url": "http://localhost:3000/admin/forgot-password",
+            "incoming_links": 1
+          }
+        ],
+        "nofollow_links": [],
+        "issues": [
+          "\u26a0\ufe0f 1 potential orphan page(s) (\u22641 internal link pointing to them)",
+          "\u26a0\ufe0f 1 page(s) have fewer than 3 internal links"
+        ],
+        "recommendations": [
+          "Add internal links pointing to orphan pages from related content"
+        ],
+        "error": null
+      },
+      "pagespeed": {
+        "url": "http://localhost:3000",
+        "strategy": "mobile",
+        "performance_score": null,
+        "metrics": {},
+        "opportunities": [],
+        "diagnostics": [],
+        "field_data_available": false,
+        "error": "Rate limited by Google API. Wait a few minutes or add an API key."
+      },
+      "entity": {
+        "url": "http://localhost:3000",
+        "entity_name": "Nipania Vikash Seva Trust",
+        "entities_in_schema": [
+          {
+            "type": "Organization",
+            "name": "Nipania Vikash Seva Trust",
+            "url": "https://nipaniatrust.org",
+            "sameAs": [
+              "https://facebook.com",
+              "https://twitter.com",
+              "https://instagram.com",
+              "https://linkedin.com",
+              "https://youtube.com"
+            ],
+            "logo": "https://nipaniatrust.org/logo.png",
+            "description": "A registered charitable trust committed to Seva, Vikash, and Samarpan through rural development, child education, medical healthcare camps, and social welfare in India.",
+            "identifier": ""
+          }
+        ],
+        "sameas_analysis": {
+          "found": {
+            "Facebook": {
+              "url": "https://facebook.com",
+              "priority": "Low",
+              "kg_signal": "Weak"
+            },
+            "Twitter/X": {
+              "url": "https://twitter.com",
+              "priority": "High",
+              "kg_signal": "Strong"
+            },
+            "Instagram": {
+              "url": "https://instagram.com",
+              "priority": "Low",
+              "kg_signal": "Weak"
+            },
+            "LinkedIn": {
+              "url": "https://linkedin.com",
+              "priority": "High",
+              "kg_signal": "Strong"
+            },
+            "YouTube": {
+              "url": "https://youtube.com",
+              "priority": "Medium",
+              "kg_signal": "Moderate"
+            }
+          },
+          "missing": {
+            "Wikipedia": {
+              "domain": "wikipedia.org",
+              "priority": "Critical",
+              "kg_signal": "Primary"
+            },
+            "Wikidata": {
+              "domain": "wikidata.org",
+              "priority": "Critical",
+              "kg_signal": "Primary"
+            }
+          },
+          "issues": [],
+          "total_found": 5,
+          "total_missing_critical": 2
+        },
+        "wikidata": {
+          "found": false,
+          "qid": null,
+          "url": null
+        },
+        "wikipedia": {
+          "found": false,
+          "url": null
+        },
+        "google_kg": {
+          "checked": false,
+          "found": false,
+          "result": null
+        },
+        "nap_issues": [],
+        "issues": [
+          {
+            "severity": "Info",
+            "area": "Wikidata",
+            "finding": "No Wikidata entry found for 'Nipania Vikash Seva Trust'.",
+            "fix": "If the entity meets Wikidata notability guidelines, create or improve an item with accurate third-party references. Do not create one solely for SEO."
+          },
+          {
+            "severity": "Info",
+            "area": "Wikipedia",
+            "finding": "No Wikipedia article found for 'Nipania Vikash Seva Trust'.",
+            "fix": "Only pursue Wikipedia if the entity meets independent notability standards. Otherwise, strengthen official schema, sameAs profiles, citations, and About/Contact signals."
+          },
+          {
+            "severity": "Info",
+            "area": "sameAs",
+            "finding": "Missing sameAs link to Wikipedia (Primary KG signal).",
+            "fix": "Add the existing official 'wikipedia.org' URL to sameAs; do not create this profile solely for SEO."
+          },
+          {
+            "severity": "Info",
+            "area": "sameAs",
+            "finding": "Missing sameAs link to Wikidata (Primary KG signal).",
+            "fix": "Add the existing official 'wikidata.org' URL to sameAs; do not create this profile solely for SEO."
+          }
+        ],
+        "summary": {
+          "entities_found": 1,
+          "sameas_count": 5,
+          "sameas_missing_critical": 2,
+          "wikidata_found": false,
+          "wikipedia_found": false,
+          "google_kg_checked": false,
+          "google_kg_found": false,
+          "total_issues": 4
+        }
+      },
+      "link_profile": {
+        "pages_crawled": 1,
+        "total_internal_links": 46,
+        "total_external_links": 1,
+        "unique_internal_targets": 18,
+        "unique_external_domains": 1,
+        "avg_internal_links_per_page": 46.0,
+        "orphan_pages": {
+          "count": 14,
+          "urls": [
+            "https://nipaniatrust.org/gallery",
+            "https://nipaniatrust.org/contact",
+            "https://nipaniatrust.org/volunteer",
+            "https://nipaniatrust.org/legal/terms",
+            "https://nipaniatrust.org/work",
+            "https://nipaniatrust.org/about",
+            "https://nipaniatrust.org/donate",
+            "https://nipaniatrust.org/legal/privacy",
+            "https://nipaniatrust.org/campaigns",
+            "https://nipaniatrust.org/sponsor",
+            "https://nipaniatrust.org/membership",
+            "https://nipaniatrust.org",
+            "https://nipaniatrust.org/board-members",
+            "https://nipaniatrust.org/transparency"
+          ]
+        },
+        "dead_end_pages": {
+          "count": 0,
+          "urls": []
+        },
+        "top_linked_pages": [
+          {
+            "url": "http://localhost:3000/donate",
+            "inbound_links": 11
+          },
+          {
+            "url": "http://localhost:3000/campaigns",
+            "inbound_links": 5
+          },
+          {
+            "url": "http://localhost:3000/contact",
+            "inbound_links": 4
+          },
+          {
+            "url": "http://localhost:3000/verify",
+            "inbound_links": 3
+          },
+          {
+            "url": "http://localhost:3000/volunteer",
+            "inbound_links": 3
+          },
+          {
+            "url": "http://localhost:3000/admin/login",
+            "inbound_links": 2
+          },
+          {
+            "url": "http://localhost:3000/",
+            "inbound_links": 2
+          },
+          {
+            "url": "http://localhost:3000/about",
+            "inbound_links": 2
+          },
+          {
+            "url": "http://localhost:3000/work",
+            "inbound_links": 2
+          },
+          {
+            "url": "http://localhost:3000/sponsor",
+            "inbound_links": 2
+          },
+          {
+            "url": "http://localhost:3000/gallery",
+            "inbound_links": 2
+          },
+          {
+            "url": "http://localhost:3000/membership",
+            "inbound_links": 2
+          },
+          {
+            "url": "http://localhost:3000/qr.png",
+            "inbound_links": 1
+          },
+          {
+            "url": "http://localhost:3000/correction",
+            "inbound_links": 1
+          },
+          {
+            "url": "http://localhost:3000/legal/privacy",
+            "inbound_links": 1
+          },
+          {
+            "url": "http://localhost:3000/legal/terms",
+            "inbound_links": 1
+          },
+          {
+            "url": "http://localhost:3000/legal/donation-policy",
+            "inbound_links": 1
+          },
+          {
+            "url": "http://localhost:3000/legal/volunteer-policy",
+            "inbound_links": 1
+          }
+        ],
+        "top_external_domains": [
+          {
+            "domain": "wa.me",
+            "links": 1
+          }
+        ],
+        "issues": [
+          {
+            "type": "orphan_pages",
+            "severity": "High",
+            "count": 14,
+            "finding": "14 orphan page(s) with zero inbound internal links.",
+            "pages": [
+              "https://nipaniatrust.org/gallery",
+              "https://nipaniatrust.org/contact",
+              "https://nipaniatrust.org/volunteer",
+              "https://nipaniatrust.org/legal/terms",
+              "https://nipaniatrust.org/work",
+              "https://nipaniatrust.org/about",
+              "https://nipaniatrust.org/donate",
+              "https://nipaniatrust.org/legal/privacy",
+              "https://nipaniatrust.org/campaigns",
+              "https://nipaniatrust.org/sponsor"
+            ],
+            "fix": "Add internal links from relevant content pages to these orphan pages."
+          }
+        ],
+        "site_url": "http://localhost:3000"
+      },
+      "hreflang": {
+        "url": "http://localhost:3000/",
+        "implementation_method": "none",
+        "hreflang_tags_found": 0,
+        "tags": [],
+        "sitemap": {
+          "found": false,
+          "url": "http://localhost:3000/sitemap.xml",
+          "has_xhtml_namespace": false,
+          "language_variants_found": [],
+          "note": "No hreflang found in sitemap."
+        },
+        "checks": {
+          "hreflang_present": {
+            "passed": false,
+            "severity": "Info",
+            "finding": "No hreflang tags found (HTML, HTTP headers, or sitemap).",
+            "fix": "If this is a single-language site, hreflang is not needed. For multi-language sites, implement hreflang via HTML link tags or sitemap."
+          }
+        },
+        "language_code_issues": [],
+        "return_tag_checks": [],
+        "summary": {
+          "critical": 0,
+          "high": 0,
+          "medium": 0,
+          "low": 0,
+          "passed": 0
+        }
+      },
+      "duplicate_content": {
+        "pages_analyzed": 19,
+        "exact_duplicates": [
+          {
+            "type": "exact_duplicate",
+            "severity": "Critical",
+            "urls": [
+              "http://localhost:3000/campaigns",
+              "http://localhost:3000/projects"
+            ],
+            "finding": "2 indexable pages have identical content.",
+            "fix": "Consolidate into a single canonical page and redirect duplicates with 301."
+          }
+        ],
+        "near_duplicates": [],
+        "thin_content": [
+          {
+            "type": "thin_content",
+            "severity": "Warning",
+            "url": "http://localhost:3000/legal/donation-policy",
+            "word_count": 134,
+            "threshold": 300,
+            "finding": "Only 134 words (minimum: 300).",
+            "fix": "Expand content to at least 300 words of substantive, unique content, or noindex if low-value."
+          },
+          {
+            "type": "thin_content",
+            "severity": "Warning",
+            "url": "http://localhost:3000/volunteer",
+            "word_count": 215,
+            "threshold": 300,
+            "finding": "Only 215 words (minimum: 300).",
+            "fix": "Expand content to at least 300 words of substantive, unique content, or noindex if low-value."
+          },
+          {
+            "type": "thin_content",
+            "severity": "Critical",
+            "url": "http://localhost:3000/admin/login",
+            "word_count": 26,
+            "threshold": 300,
+            "finding": "Only 26 words (minimum: 300).",
+            "fix": "Expand content to at least 300 words of substantive, unique content, or noindex if low-value."
+          },
+          {
+            "type": "thin_content",
+            "severity": "Critical",
+            "url": "http://localhost:3000/verify",
+            "word_count": 64,
+            "threshold": 300,
+            "finding": "Only 64 words (minimum: 300).",
+            "fix": "Expand content to at least 300 words of substantive, unique content, or noindex if low-value."
+          },
+          {
+            "type": "thin_content",
+            "severity": "Warning",
+            "url": "http://localhost:3000/membership",
+            "word_count": 274,
+            "threshold": 300,
+            "finding": "Only 274 words (minimum: 300).",
+            "fix": "Expand content to at least 300 words of substantive, unique content, or noindex if low-value."
+          },
+          {
+            "type": "thin_content",
+            "severity": "Warning",
+            "url": "http://localhost:3000/legal/volunteer-policy",
+            "word_count": 146,
+            "threshold": 300,
+            "finding": "Only 146 words (minimum: 300).",
+            "fix": "Expand content to at least 300 words of substantive, unique content, or noindex if low-value."
+          },
+          {
+            "type": "thin_content",
+            "severity": "Warning",
+            "url": "http://localhost:3000/contact",
+            "word_count": 116,
+            "threshold": 300,
+            "finding": "Only 116 words (minimum: 300).",
+            "fix": "Expand content to at least 300 words of substantive, unique content, or noindex if low-value."
+          },
+          {
+            "type": "thin_content",
+            "severity": "Warning",
+            "url": "http://localhost:3000/correction",
+            "word_count": 154,
+            "threshold": 300,
+            "finding": "Only 154 words (minimum: 300).",
+            "fix": "Expand content to at least 300 words of substantive, unique content, or noindex if low-value."
+          },
+          {
+            "type": "thin_content",
+            "severity": "Warning",
+            "url": "http://localhost:3000/legal/terms",
+            "word_count": 150,
+            "threshold": 300,
+            "finding": "Only 150 words (minimum: 300).",
+            "fix": "Expand content to at least 300 words of substantive, unique content, or noindex if low-value."
+          },
+          {
+            "type": "thin_content",
+            "severity": "Warning",
+            "url": "http://localhost:3000/legal/privacy",
+            "word_count": 213,
+            "threshold": 300,
+            "finding": "Only 213 words (minimum: 300).",
+            "fix": "Expand content to at least 300 words of substantive, unique content, or noindex if low-value."
+          },
+          {
+            "type": "thin_content",
+            "severity": "Critical",
+            "url": "http://localhost:3000/admin/forgot-password",
+            "word_count": 27,
+            "threshold": 300,
+            "finding": "Only 27 words (minimum: 300).",
+            "fix": "Expand content to at least 300 words of substantive, unique content, or noindex if low-value."
+          }
+        ],
+        "summary": {
+          "exact_duplicate_groups": 1,
+          "near_duplicate_pairs": 0,
+          "thin_pages": 11,
+          "avg_word_count": 474
+        }
+      },
+      "onpage": {
+        "title": "Nipania Vikash Seva Trust | Seva | Vikash | Samarpan",
+        "meta_description": "Official website of Nipania Vikash Seva Trust. Dedicated to Seva, Vikash, and Samarpan through rural community welfare, children education, medical camps, and social empowerment initiatives in India.",
+        "meta_robots": "index, follow",
+        "x_robots_tag": null,
+        "canonical": "https://nipaniatrust.org",
+        "lang": "en",
+        "charset": "utf-8",
+        "viewport": "width=device-width, initial-scale=1",
+        "favicon": "http://localhost:3000/logo.png",
+        "h1": [
+          "Dedicated to the Service & Upliftment ofRURAL VILLAGE FAMILIES"
+        ],
+        "h2": [
+          "Current Community Campaigns & Seva Drives",
+          "Make an Immediate Impact",
+          "How We Respond to Crisis & Community Need",
+          "Our Growing Impact & Outreach",
+          "How Can You Support Nipania Trust?",
+          "Guided by Compassion, Driven by Service",
+          "Our On-GroundSevain Action",
+          "Board of Trustees & Leadership",
+          "What People Say About Us",
+          "Frequently Asked Questions",
+          "Join Hands with Nipania Vikash Seva Trust"
+        ],
+        "h3": [
+          "Nipania Vikash Seva Trust",
+          "Winter Warmth: Heavy Blanket & Woolen Drive",
+          "Scan to Donate via UPI",
+          "Bank Account & NEFT / RTGS / IMPS Details",
+          "Alert & Assess",
+          "Mobilize Teams",
+          "Immediate Relief",
+          "Rehabilitation",
+          "One-Time Contribution",
+          "Monthly Seva Partner",
+          "Corporate CSR Partner",
+          "Our Mission",
+          "Our Vision",
+          "Emergency Food & Ration Distribution Drive",
+          "Rural Pediatric & General Healthcare Camp",
+          "School Bags, Books & Stationery Kits",
+          "Solar Clean Water Filtration Installation",
+          "Women Tailoring & Handloom Skill Workshop",
+          "Gramin Van Mahotsav & Tree Plantation Drive",
+          "Winter Warmth: Heavy Blanket & Woolen Distribution",
+          "Youth Computer Lab & Digital Literacy Center",
+          "President & Managing Trustee",
+          "General Secretary",
+          "Treasurer & Compliance Trustee",
+          "Advisory Council & Welfare Panel",
+          "Nipania Vikash Seva Trust"
+        ],
+        "h4": [
+          "Supported Donation Payment Modes \u2022 100% Safe & Encrypted",
+          "Rajesh Kumar",
+          "Quick Links",
+          "Get Involved",
+          "Trust Office"
+        ],
+        "h5": [],
+        "h6": [],
+        "images": [
+          {
+            "src": "http://localhost:3000/_next/image?url=%2Flogo.png&w=3840&q=75",
+            "alt": "Nipania Vikash Seva Trust Logo",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": null
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1542601906990-b4d3fb778b09%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D85&w=3840&q=75",
+            "alt": "Emergency Flood Relief, Nutrition & Ration Kits",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": null
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1488521787991-ed7bbaae773c%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D85&w=3840&q=75",
+            "alt": "Free Primary School Kits, Daily Meals & Tutoring",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1576091160399-112ba8d25d1d%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D85&w=3840&q=75",
+            "alt": "Mobile Health Clinics, Doctor Camps & First Aid Kits",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1509099836639-18ba1795216d%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D85&w=3840&q=75",
+            "alt": "Eco-Seeds, Water Security & Rural Self-Reliance",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=%2Flogo.png&w=3840&q=75",
+            "alt": "Nipania Trust Logo",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1517486808906-6ca8b3f04846%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Winter Warmth: Heavy Blanket & Woolen Drive",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=%2Fqr.png&w=3840&q=75",
+            "alt": "Nipania Vikash Seva Trust Official UPI QR Code",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1542601906990-b4d3fb778b09%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Emergency Food & Ration Distribution Drive",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1576091160399-112ba8d25d1d%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Rural Pediatric & General Healthcare Camp",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1509099836639-18ba1795216d%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "School Bags, Books & Stationery Kits",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1488521787991-ed7bbaae773c%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Solar Clean Water Filtration Installation",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1573496359142-b8d87734a5a2%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Women Tailoring & Handloom Skill Workshop",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1542601906990-b4d3fb778b09%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Gramin Van Mahotsav & Tree Plantation Drive",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1469571486292-0ba58a3f068b%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Winter Warmth: Heavy Blanket & Woolen Distribution",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1516321318423-f06f85e504b3%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Youth Computer Lab & Digital Literacy Center",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1534528741775-53994a69daeb%3Fauto%3Dformat%26fit%3Dcrop%26w%3D600%26q%3D80&w=3840&q=75",
+            "alt": "President & Managing Trustee",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1507003211169-0a1dd7228f2d%3Fauto%3Dformat%26fit%3Dcrop%26w%3D600%26q%3D80&w=3840&q=75",
+            "alt": "General Secretary",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1573496359142-b8d87734a5a2%3Fauto%3Dformat%26fit%3Dcrop%26w%3D600%26q%3D80&w=3840&q=75",
+            "alt": "Treasurer & Compliance Trustee",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1544005313-94ddf0286df2%3Fauto%3Dformat%26fit%3Dcrop%26w%3D600%26q%3D80&w=3840&q=75",
+            "alt": "Advisory Council & Welfare Panel",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          },
+          {
+            "src": "http://localhost:3000/_next/image?url=%2Flogo.png&w=3840&q=75",
+            "alt": "Nipania Vikash Seva Trust Logo",
+            "width": null,
+            "height": null,
+            "is_responsive_fill": true,
+            "loading": "lazy"
+          }
+        ],
+        "links": {
+          "internal": [
+            {
+              "href": "http://localhost:3000/verify",
+              "text": "Verify ID",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/admin/login",
+              "text": "Admin",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/donate",
+              "text": "Support ReliefSupport",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/",
+              "text": "Nipania Vikash Seva TrustSEVA \u2022 VIKASH \u2022 SAMARPAN",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/",
+              "text": "Home",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/about",
+              "text": "About Us",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/campaigns",
+              "text": "Campaigns",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/work",
+              "text": "Our Work",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/contact",
+              "text": "Contact",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/sponsor",
+              "text": "SPONSOR A CAUSE",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/donate",
+              "text": "DONATE NOW",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/donate",
+              "text": "DONATE",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/donate?amount=1500",
+              "text": "Donate to Active Causes",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/campaigns",
+              "text": "Explore Ongoing Seva",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/donate?amount=1500",
+              "text": "Contribute \u20b91,500Now",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/volunteer",
+              "text": "Join as Field Volunteer",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/verify",
+              "text": "Verify ID Card of Volunteer / Staff",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/donate?campaign=Winter%20Warmth%3A%20Heavy%20Blanket%20%26%20Woolen%20Drive",
+              "text": "Support Winter Warmth: Heavy B...",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/campaigns",
+              "text": "Explore All Campaigns",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/qr.png",
+              "text": "Download QR",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/donate",
+              "text": "Make a Donation",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/donate?type=monthly",
+              "text": "Start Monthly Giving",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/contact",
+              "text": "Contact Partnerships Team",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/gallery",
+              "text": "Full Media Archive",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/donate",
+              "text": "Support This Seva",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/contact",
+              "text": "Contact Support",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/volunteer",
+              "text": "Register as Volunteer",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/membership",
+              "text": "Become a Trust Member",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/donate",
+              "text": "Support with Donation",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/about",
+              "text": "About Us",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/work",
+              "text": "Our Focus Areas",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/campaigns",
+              "text": "Current Campaigns",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/sponsor",
+              "text": "Sponsor a Cause",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/campaigns",
+              "text": "Events & Drives",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/gallery",
+              "text": "Photo Gallery",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/donate",
+              "text": "Donate Now",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/volunteer",
+              "text": "Become a Volunteer",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/membership",
+              "text": "Become a Member",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/verify",
+              "text": "Verify ID Card",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/correction",
+              "text": "Application Correction",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/contact",
+              "text": "Contact Trust Office",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/admin/login",
+              "text": "Secure Admin Portal",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/legal/privacy",
+              "text": "Privacy Policy",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/legal/terms",
+              "text": "Terms & Conditions",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/legal/donation-policy",
+              "text": "Donation Policy",
+              "rel": []
+            },
+            {
+              "href": "http://localhost:3000/legal/volunteer-policy",
+              "text": "Volunteer Code",
+              "rel": []
+            }
+          ],
+          "external": [
+            {
+              "href": "mailto:info@nipaniatrust.org?subject=80G Receipt Request for Bank Transfer",
+              "text": "info@nipaniatrust.org",
+              "rel": []
+            },
+            {
+              "href": "https://wa.me/919876543210?text=Hello%20Nipania%20Trust,%20I%20have%20completed%20a%20direct%20bank%20transfer.%20Kindly%20issue%20my%2080G%20receipt.",
+              "text": "WhatsApp Support",
+              "rel": [
+                "noopener",
+                "noreferrer"
+              ]
+            },
+            {
+              "href": "mailto:info@nipaniatrust.org",
+              "text": "info@nipaniatrust.org",
+              "rel": []
+            },
+            {
+              "href": "tel:+919876543210",
+              "text": "+91 98765 43210",
+              "rel": []
+            }
+          ]
+        },
+        "pagination": {
+          "prev": null,
+          "next": null
+        },
+        "resource_hints": {
+          "preload": [
+            {
+              "href": "http://localhost:3000/_next/static/chunks/webpack.js?v=1789031434666",
+              "as": "script",
+              "type": null,
+              "crossorigin": null
+            }
+          ],
+          "preconnect": [],
+          "dns-prefetch": [],
+          "prefetch": [],
+          "prerender": []
+        },
+        "schema": [
+          {
+            "@type": "Unknown",
+            "@types": [
+              "Unknown"
+            ],
+            "@id": null,
+            "@context": "https://schema.org",
+            "status": "active",
+            "note": "",
+            "has_context": true,
+            "has_type": false,
+            "from_graph": false,
+            "raw": {
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "additionalType": "https://schema.org/NGO",
+                  "@id": "https://nipaniatrust.org/#organization",
+                  "name": "Nipania Vikash Seva Trust",
+                  "alternateName": "Nipania Trust",
+                  "url": "https://nipaniatrust.org",
+                  "logo": "https://nipaniatrust.org/logo.png",
+                  "image": "https://nipaniatrust.org/logo.png",
+                  "description": "A registered charitable trust committed to Seva, Vikash, and Samarpan through rural development, child education, medical healthcare camps, and social welfare in India.",
+                  "taxID": "12A & 80G Tax-Exempt NGO India",
+                  "nonprofitStatus": "Nonprofit501c3",
+                  "foundingLocation": {
+                    "@type": "Place",
+                    "name": "Balrampur, Uttar Pradesh, India"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Balrampur",
+                    "addressRegion": "Uttar Pradesh",
+                    "addressCountry": "IN"
+                  },
+                  "contactPoint": [
+                    {
+                      "@type": "ContactPoint",
+                      "telephone": "+91 98765 43210",
+                      "contactType": "customer support",
+                      "email": "info@nipaniatrust.org",
+                      "availableLanguage": [
+                        "en",
+                        "hi"
+                      ]
+                    }
+                  ],
+                  "sameAs": [
+                    "https://facebook.com",
+                    "https://twitter.com",
+                    "https://instagram.com",
+                    "https://linkedin.com",
+                    "https://youtube.com"
+                  ]
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://nipaniatrust.org/#website",
+                  "url": "https://nipaniatrust.org",
+                  "name": "Nipania Vikash Seva Trust",
+                  "publisher": {
+                    "@id": "https://nipaniatrust.org/#organization"
+                  },
+                  "inLanguage": "en-IN"
+                }
+              ]
+            }
+          },
+          {
+            "@type": "Organization",
+            "@types": [
+              "Organization"
+            ],
+            "@id": "https://nipaniatrust.org/#organization",
+            "@context": "https://schema.org",
+            "status": "active",
+            "note": "",
+            "has_context": true,
+            "has_type": true,
+            "from_graph": true,
+            "raw": {
+              "@type": "Organization",
+              "additionalType": "https://schema.org/NGO",
+              "@id": "https://nipaniatrust.org/#organization",
+              "name": "Nipania Vikash Seva Trust",
+              "alternateName": "Nipania Trust",
+              "url": "https://nipaniatrust.org",
+              "logo": "https://nipaniatrust.org/logo.png",
+              "image": "https://nipaniatrust.org/logo.png",
+              "description": "A registered charitable trust committed to Seva, Vikash, and Samarpan through rural development, child education, medical healthcare camps, and social welfare in India.",
+              "taxID": "12A & 80G Tax-Exempt NGO India",
+              "nonprofitStatus": "Nonprofit501c3",
+              "foundingLocation": {
+                "@type": "Place",
+                "name": "Balrampur, Uttar Pradesh, India"
+              },
+              "address": {
+                "@type": "PostalAddress",
+                "addressLocality": "Balrampur",
+                "addressRegion": "Uttar Pradesh",
+                "addressCountry": "IN"
+              },
+              "contactPoint": [
+                {
+                  "@type": "ContactPoint",
+                  "telephone": "+91 98765 43210",
+                  "contactType": "customer support",
+                  "email": "info@nipaniatrust.org",
+                  "availableLanguage": [
+                    "en",
+                    "hi"
+                  ]
+                }
+              ],
+              "sameAs": [
+                "https://facebook.com",
+                "https://twitter.com",
+                "https://instagram.com",
+                "https://linkedin.com",
+                "https://youtube.com"
+              ]
+            }
+          },
+          {
+            "@type": "WebSite",
+            "@types": [
+              "WebSite"
+            ],
+            "@id": "https://nipaniatrust.org/#website",
+            "@context": "https://schema.org",
+            "status": "active",
+            "note": "",
+            "has_context": true,
+            "has_type": true,
+            "from_graph": true,
+            "raw": {
+              "@type": "WebSite",
+              "@id": "https://nipaniatrust.org/#website",
+              "url": "https://nipaniatrust.org",
+              "name": "Nipania Vikash Seva Trust",
+              "publisher": {
+                "@id": "https://nipaniatrust.org/#organization"
+              },
+              "inLanguage": "en-IN"
+            }
+          }
+        ],
+        "open_graph": {
+          "og:title": "Nipania Vikash Seva Trust | Seva | Vikash | Samarpan",
+          "og:description": "Committed to Seva, Vikash, and Samarpan through rural development, primary education, healthcare drives, and social welfare in India.",
+          "og:url": "https://nipaniatrust.org",
+          "og:site_name": "Nipania Vikash Seva Trust",
+          "og:locale": "en_IN",
+          "og:image": "http://localhost:3000/logo.png",
+          "og:image:width": "800",
+          "og:image:height": "800",
+          "og:image:alt": "Nipania Vikash Seva Trust Official Logo",
+          "og:type": "website"
+        },
+        "twitter_card": {
+          "twitter:card": "summary_large_image",
+          "twitter:title": "Nipania Vikash Seva Trust | Seva | Vikash | Samarpan",
+          "twitter:description": "Committed to Seva, Vikash, and Samarpan through rural development, primary education, healthcare drives, and social welfare in India.",
+          "twitter:image": "http://localhost:3000/logo.png"
+        },
+        "word_count": 1865,
+        "hreflang": []
+      },
+      "readability": {
+        "word_count": 995,
+        "sentence_count": 55,
+        "paragraph_count": 68,
+        "syllable_count": 2039,
+        "avg_sentence_length": 18.1,
+        "avg_paragraph_length": 0.8,
+        "avg_syllables_per_word": 2.05,
+        "flesch_reading_ease": 15.1,
+        "flesch_kincaid_grade": 15.6,
+        "reading_level": "Extremely Difficult (post-graduate)",
+        "estimated_reading_time_min": 5.0,
+        "complex_words": 310,
+        "complex_word_pct": 31.2,
+        "issues": [
+          "\u26a0\ufe0f Content is difficult to read (Flesch: 15.1) \u2014 may reduce engagement",
+          "\u26a0\ufe0f 31.2% complex words (3+ syllables) \u2014 consider simplifying"
+        ],
+        "recommendations": [
+          "Simplify vocabulary and shorten sentences",
+          "Rewrite the flagged long sentences below using the suggested replacements."
+        ],
+        "sentence_rewrites": [
+          {
+            "current": "Homepage hero intro block is broad and hard to scan.",
+            "suggested": "Use a 2-3 sentence hero: who you help, what users can do here, and where to start. Example: \"Learn practical ethical hacking with step-by-step guides. Start with Wi-Fi security, Active Directory, or malware analysis using the tracks below.\"",
+            "current_word_count": "template",
+            "target_word_count": "40-60 total (split into 2-3 sentences)"
+          },
+          {
+            "current": "Section descriptions mix too many topics in one long paragraph.",
+            "suggested": "Replace with short blurbs per section (1 sentence each) and add a clear CTA link: \"Start Wi-Fi Security\", \"Explore AD Attack Paths\", \"View Red-Team Cheat Sheets\".",
+            "current_word_count": "template",
+            "target_word_count": "12-20 words per blurb"
+          }
+        ]
+      },
+      "article": {
+        "url": "http://localhost:3000",
+        "cms_detected": "generic",
+        "title": "Nipania Vikash Seva Trust | Seva | Vikash | Samarpan",
+        "meta_description": "Official website of Nipania Vikash Seva Trust. Dedicated to Seva, Vikash, and Samarpan through rural community welfare, children education, medical camps, and social empowerment initiatives in India.",
+        "og_description": "Committed to Seva, Vikash, and Samarpan through rural development, primary education, healthcare drives, and social welfare in India.",
+        "author": "",
+        "publish_date": "",
+        "labels": [],
+        "headings": {
+          "h1": [
+            "Dedicated to the Service & Upliftment ofRURAL VILLAGE FAMILIES"
+          ],
+          "h2": [
+            "Current Community Campaigns & Seva Drives",
+            "Make an Immediate Impact",
+            "How We Respond to Crisis & Community Need",
+            "Our Growing Impact & Outreach",
+            "How Can You Support Nipania Trust?",
+            "Guided by Compassion, Driven by Service",
+            "Our On-GroundSevain Action",
+            "Board of Trustees & Leadership",
+            "What People Say About Us",
+            "Frequently Asked Questions",
+            "Join Hands with Nipania Vikash Seva Trust"
+          ],
+          "h3": [
+            "Nipania Vikash Seva Trust",
+            "Winter Warmth: Heavy Blanket & Woolen Drive",
+            "Scan to Donate via UPI",
+            "Bank Account & NEFT / RTGS / IMPS Details",
+            "Alert & Assess",
+            "Mobilize Teams",
+            "Immediate Relief",
+            "Rehabilitation",
+            "One-Time Contribution",
+            "Monthly Seva Partner",
+            "Corporate CSR Partner",
+            "Our Mission",
+            "Our Vision",
+            "Emergency Food & Ration Distribution Drive",
+            "Rural Pediatric & General Healthcare Camp",
+            "School Bags, Books & Stationery Kits",
+            "Solar Clean Water Filtration Installation",
+            "Women Tailoring & Handloom Skill Workshop",
+            "Gramin Van Mahotsav & Tree Plantation Drive",
+            "Winter Warmth: Heavy Blanket & Woolen Distribution",
+            "Youth Computer Lab & Digital Literacy Center",
+            "President & Managing Trustee",
+            "General Secretary",
+            "Treasurer & Compliance Trustee",
+            "Advisory Council & Welfare Panel"
+          ]
+        },
+        "paragraphs": [
+          "Committed to Seva, Vikash and Samarpan through meaningful community development and social initiatives.",
+          "Instant Section 80G Tax Exemption Receipt issued via Email & WhatsApp.",
+          "Choose a social cause close to your heart and help us serve vulnerable families with dignity and immediate impact.",
+          "Distributing thick fleece blankets, thermal wear, and caps to destitute elderly and homeless.",
+          "Scan the official Trust UPI QR code on the left with any payment app, or use our verified direct bank account details on the right for NEFT, RTGS, IMPS, or Cheque transfers.",
+          "Compatible with GPay, PhonePe, Paytm, BHIM, Amazon Pay & all banking apps.",
+          "Transfer directly from your banking portal or branch counter using the details below.",
+          "After completing your bank transfer, submit your UTR reference on our portal, or share your transfer screenshot with your PAN details via WhatsApp or Email to receive your digitally certified 80G receipt immediately:",
+          "A battle-tested 4-stage emergency response and community seva framework, ensuring prompt, transparent, and dignified assistance.",
+          "Real-time monitoring of community distress, localized flood alerts, and instant on-ground rapid needs assessment.",
+          "Activate verified regional volunteer cadres and coordinate logistics for ration kits, clean water, blankets, and first aid.",
+          "Direct distribution of cooked meals, dry food packets, medical consultations, and emergency rescue assistance on site.",
+          "Long-term support including village medical camps, school education kits, rural livelihood revival, and community empowerment.",
+          "Real metrics updated directly from Trust field programs and verified social initiatives.",
+          "Every contribution \u2014 whether an individual gift, a monthly seva pledge, or a corporate CSR partnership \u2014 directly fuels on-ground humanitarian assistance.",
+          "Make an immediate difference. Your contribution funds emergency food supplies, medical camps, and essential care.",
+          "Become a continuous patron. Recurring monthly support helps us run uninterrupted village medical drives and child education centers.",
+          "Collaborate with Nipania Trust for Corporate Social Responsibility programs in health, village development, and youth education.",
+          "The philosophical pillars steering every initiative, volunteer drive, and community relief program at Nipania Vikash Seva Trust.",
+          "To provide prompt humanitarian aid, free medical support, quality primary learning opportunities, and sustainable livelihood support to underprivileged rural communities with empathy, dignity, and absolute transparency.",
+          "An inclusive, self-reliant, and compassionate society where every child receives education, every vulnerable family has access to healthcare, and no rural household is left without support in times of crisis.",
+          "Transparent visual proof of compassionate service. Every picture reflects transformed families, restored health, empowered women, and educated children across rural India.",
+          "Supplied comprehensive monthly ration kits containing rice, pulses, edible oil, salt, and nutritional supplements to vulnerable rural families during winter shortages.",
+          "Mobilized certified physicians and pediatricians for diagnostic checkups, essential medicine distribution, and hygiene counseling in underserved villages.",
+          "Equipped eager young learners from marginalized backgrounds with durable backpacks, notebooks, geometry sets, and storybooks to boost primary school retention.",
+          "Commissioned solar-powered community water filtration systems, drastically reducing fluorosis and waterborne illnesses across remote habitations.",
+          "Conducted vocational training in apparel production, handloom embroidery, and basic bookkeeping, helping women establish self-help groups and independent livelihoods.",
+          "Mobilized local youths and elders to plant fruit-bearing and indigenous medicinal trees with protective bamboo tree guards to restore local ecology.",
+          "Provided heavy fleece blankets, thermal jackets, and caps to elderly citizens and daily-wage laborers during intense northern winter cold waves.",
+          "Established a 10-workstation computer lab providing certified basic IT, typing, government digital portal usage, and computer literacy courses.",
+          "The governing council of Nipania Vikash Seva Trust, committed to ethical administration, transparent fund management, and grassroots social development.",
+          "Steering trust governance, statutory compliance, and strategic grassroots development programs.",
+          "Leading community mobilization, volunteer coordination, and regional health camp execution.",
+          "Managing financial audits, statutory accounts, donor receipts, and statutory compliance filings.",
+          "Composed of seasoned educationists, legal advocates, and medical doctors guiding outreach policy.",
+          "Hear from the communities we serve and partners who support our mission",
+          "\" When the floods destroyed everything we had, Nipania Trust was there within hours. Their team provided food, medicine, and shelter. They gave us hope when we had lost everything. \"",
+          "Common questions about Nipania Trust, donations, and how to get involved",
+          "Yes. Nipania Vikash Seva Trust is a registered Indian non-governmental organization (Govt. Regd IV-120/2022) operating with full transparency on fund utilization and enrolled with NITI Aayog Darpan.",
+          "Yes. Nipania Vikash Seva Trust is registered under Section 80G of the Income Tax Act, so eligible donations qualify for tax exemption in India. You receive a tax-deductible receipt by email after your donation is processed.",
+          "Visit the Volunteer page and submit your details. We respond within a few working days with open roles and field opportunities that best match your skills and location.",
+          "Every donation funds a specific outcome \u2014 meals served, medical camps conducted, education kits distributed, shelter and rehabilitation for disaster-affected families. You can earmark your contribution to a specific campaign, and we publish utilization updates.",
+          "We work with corporate partners on CSR projects across disaster relief, community kitchens, sanitation drives and rural healthcare. Contact us through the Contact page or write to the trust, and our partnerships team will reach out within 2 business days.",
+          "Instantly! Your signed and stamped Section 80G PDF receipt is generated immediately upon payment completion, and a copy is dispatched to your email address automatically.",
+          "Whether you wish to contribute your skills as an on-ground volunteer, become a regular trust member, or support our ongoing emergency relief drives through donations, your participation brings hope and dignity."
+        ],
+        "images": [
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1542601906990-b4d3fb778b09%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D85&w=3840&q=75",
+            "alt": "Emergency Flood Relief, Nutrition & Ration Kits",
+            "width": "",
+            "height": "",
+            "loading": ""
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1488521787991-ed7bbaae773c%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D85&w=3840&q=75",
+            "alt": "Free Primary School Kits, Daily Meals & Tutoring",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1576091160399-112ba8d25d1d%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D85&w=3840&q=75",
+            "alt": "Mobile Health Clinics, Doctor Camps & First Aid Kits",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1509099836639-18ba1795216d%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1600%26q%3D85&w=3840&q=75",
+            "alt": "Eco-Seeds, Water Security & Rural Self-Reliance",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=%2Flogo.png&w=3840&q=75",
+            "alt": "Nipania Trust Logo",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1517486808906-6ca8b3f04846%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Winter Warmth: Heavy Blanket & Woolen Drive",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=%2Fqr.png&w=3840&q=75",
+            "alt": "Nipania Vikash Seva Trust Official UPI QR Code",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1542601906990-b4d3fb778b09%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Emergency Food & Ration Distribution Drive",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1576091160399-112ba8d25d1d%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Rural Pediatric & General Healthcare Camp",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1509099836639-18ba1795216d%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "School Bags, Books & Stationery Kits",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1488521787991-ed7bbaae773c%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Solar Clean Water Filtration Installation",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1573496359142-b8d87734a5a2%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Women Tailoring & Handloom Skill Workshop",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1542601906990-b4d3fb778b09%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Gramin Van Mahotsav & Tree Plantation Drive",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1469571486292-0ba58a3f068b%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Winter Warmth: Heavy Blanket & Woolen Distribution",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1516321318423-f06f85e504b3%3Fauto%3Dformat%26fit%3Dcrop%26w%3D1200%26q%3D80&w=3840&q=75",
+            "alt": "Youth Computer Lab & Digital Literacy Center",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1534528741775-53994a69daeb%3Fauto%3Dformat%26fit%3Dcrop%26w%3D600%26q%3D80&w=3840&q=75",
+            "alt": "President & Managing Trustee",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1507003211169-0a1dd7228f2d%3Fauto%3Dformat%26fit%3Dcrop%26w%3D600%26q%3D80&w=3840&q=75",
+            "alt": "General Secretary",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1573496359142-b8d87734a5a2%3Fauto%3Dformat%26fit%3Dcrop%26w%3D600%26q%3D80&w=3840&q=75",
+            "alt": "Treasurer & Compliance Trustee",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          },
+          {
+            "src": "/_next/image?url=https%3A%2F%2Fimages.unsplash.com%2Fphoto-1544005313-94ddf0286df2%3Fauto%3Dformat%26fit%3Dcrop%26w%3D600%26q%3D80&w=3840&q=75",
+            "alt": "Advisory Council & Welfare Panel",
+            "width": "",
+            "height": "",
+            "loading": "lazy"
+          }
+        ],
+        "structured_data": [
+          {
+            "@type": "Unknown",
+            "@context": "https://schema.org",
+            "status": "active",
+            "note": "",
+            "has_context": true,
+            "has_type": false,
+            "raw": {
+              "@context": "https://schema.org",
+              "@graph": [
+                {
+                  "@type": "Organization",
+                  "additionalType": "https://schema.org/NGO",
+                  "@id": "https://nipaniatrust.org/#organization",
+                  "name": "Nipania Vikash Seva Trust",
+                  "alternateName": "Nipania Trust",
+                  "url": "https://nipaniatrust.org",
+                  "logo": "https://nipaniatrust.org/logo.png",
+                  "image": "https://nipaniatrust.org/logo.png",
+                  "description": "A registered charitable trust committed to Seva, Vikash, and Samarpan through rural development, child education, medical healthcare camps, and social welfare in India.",
+                  "taxID": "12A & 80G Tax-Exempt NGO India",
+                  "nonprofitStatus": "Nonprofit501c3",
+                  "foundingLocation": {
+                    "@type": "Place",
+                    "name": "Balrampur, Uttar Pradesh, India"
+                  },
+                  "address": {
+                    "@type": "PostalAddress",
+                    "addressLocality": "Balrampur",
+                    "addressRegion": "Uttar Pradesh",
+                    "addressCountry": "IN"
+                  },
+                  "contactPoint": [
+                    {
+                      "@type": "ContactPoint",
+                      "telephone": "+91 98765 43210",
+                      "contactType": "customer support",
+                      "email": "info@nipaniatrust.org",
+                      "availableLanguage": [
+                        "en",
+                        "hi"
+                      ]
+                    }
+                  ],
+                  "sameAs": [
+                    "https://facebook.com",
+                    "https://twitter.com",
+                    "https://instagram.com",
+                    "https://linkedin.com",
+                    "https://youtube.com"
+                  ]
+                },
+                {
+                  "@type": "WebSite",
+                  "@id": "https://nipaniatrust.org/#website",
+                  "url": "https://nipaniatrust.org",
+                  "name": "Nipania Vikash Seva Trust",
+                  "publisher": {
+                    "@id": "https://nipaniatrust.org/#organization"
+                  },
+                  "inLanguage": "en-IN"
+                }
+              ]
+            }
+          }
+        ],
+        "readability": {
+          "flesch_reading_ease": 15.6,
+          "fkgl": 15.7,
+          "grade_label": "Difficult (technical / specialist audience)",
+          "word_count": 1034,
+          "sentence_count": 56,
+          "avg_sentence_length": 18.5,
+          "avg_syllables_per_word": 2.04
+        },
+        "target_keyword": "nipania vikash seva",
+        "extracted_keywords": [
+          "nipania vikash seva",
+          "vikash seva trust",
+          "nipania trust",
+          "community",
+          "winter warmth heavy",
+          "warmth heavy blanket",
+          "heavy blanket woolen",
+          "neft rtgs imps",
+          "fleece blankets thermal",
+          "yes nipania vikash",
+          "seva trust registered",
+          "medical camps"
+        ],
+        "related_keywords": [
+          "vikash seva trust",
+          "nipania trust",
+          "community",
+          "winter warmth heavy",
+          "warmth heavy blanket",
+          "heavy blanket woolen",
+          "neft rtgs imps",
+          "fleece blankets thermal",
+          "yes nipania vikash",
+          "seva trust registered",
+          "medical camps"
+        ],
+        "seo_issues": [
+          {
+            "severity": "Warning",
+            "area": "Meta Description",
+            "finding": "Meta description may be truncated (199 chars).",
+            "fix": "Keep under 155 characters."
+          },
+          {
+            "severity": "Warning",
+            "area": "E-E-A-T",
+            "finding": "No author attribution detected.",
+            "fix": "Add a visible author byline with credentials. Critical post-Dec 2025 E-E-A-T update."
+          },
+          {
+            "severity": "Info",
+            "area": "Freshness",
+            "finding": "No publish date detected in markup.",
+            "fix": "Add visible publish/update date and datePublished in Article schema."
+          },
+          {
+            "severity": "Info",
+            "area": "Readability",
+            "finding": "Content is very difficult to read (Flesch score: 15.6).",
+            "fix": "Simplify sentences. Aim for Flesch score \u2265 50 for broader audience reach."
+          }
+        ]
+      }
+    },
+    "environment": {
+      "primary": "Next.js",
+      "runtime": "JavaScript Framework",
+      "confidence": "medium",
+      "signals": [
+        "Next.js runtime/build markers detected"
+      ],
+      "alternatives": []
+    },
+    "environment_fixes": [
+      {
+        "severity": "warning",
+        "title": "Meta description is missing or out of range",
+        "reason": "This can reduce SERP CTR and snippet quality.",
+        "fix": "Use the Next.js Metadata API (`app/`) or `next/head` (`pages/`) for title/meta/OG/Twitter tags."
+      },
+      {
+        "severity": "warning",
+        "title": "1 security headers missing",
+        "reason": "Missing headers reduce trust and can expose the site to browser/security risks.",
+        "fix": "Set security headers in `next.config.js` `headers()` or at your edge/CDN."
+      },
+      {
+        "severity": "info",
+        "title": "Performance measurement incomplete",
+        "reason": "PageSpeed API returned an error, so CWV recommendations are less reliable.",
+        "fix": "Set `PAGESPEED_API_KEY` in your environment or `.env` file (see `.env.example`), then rerun. The CLI also accepts `--api-key`. Prioritize LCP/INP/CLS fixes from that output."
+      },
+      {
+        "severity": "warning",
+        "title": "Content readability is difficult",
+        "reason": "Long, complex text can reduce engagement and comprehension.",
+        "fix": "Rewrite key sections with shorter sentences (15-20 words), shorter paragraphs (2-4 sentences), and clearer subheadings."
+      }
+    ]
+  }
+}

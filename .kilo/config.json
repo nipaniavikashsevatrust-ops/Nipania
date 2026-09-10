@@ -1,0 +1,16 @@
+{
+  "name": "nipania-vikash-seva-trust",
+  "instructions": [
+    "AGENTS.md",
+    "PROJECT_MEMORY.md",
+    "TASKS.md",
+    "CHANGELOG_AI.md",
+    "DECISIONS.md"
+  ],
+  "rulesFile": ".kilorules",
+  "coordination": {
+    "enabled": true,
+    "system": "shared-markdown-memory",
+    "agents": ["Kilo Code", "Google Antigravity"]
+  }
+}

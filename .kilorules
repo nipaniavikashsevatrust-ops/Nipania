@@ -1,0 +1,52 @@
+# Kilo Code — Shared Memory & Coordination Rules
+
+You are working in a multi-agent environment alongside Google Antigravity and human developers.
+You MUST adhere to the shared AI memory and coordination protocol defined in `AGENTS.md`.
+
+---
+
+## 1. BEFORE CODING (Mandatory Steps):
+
+1. **Read Shared Memory Files**:
+   - `AGENTS.md` (Rules of engagement)
+   - `PROJECT_MEMORY.md` (Current architectural state & tech stack)
+   - `TASKS.md` (Active, queued, and blocked tasks)
+   - `CHANGELOG_AI.md` (Recent agent changes)
+   - `DECISIONS.md` (Architectural decisions & ADRs)
+
+2. **Inspect Repository & Git Status**:
+   - Run `git status` to see unstaged changes.
+   - Run `git log --oneline -5` to see recent commit context.
+   - Inspect the target implementation files thoroughly.
+
+3. **Check & Claim Task Ownership**:
+   - Inspect `TASKS.md`.
+   - Never overwrite an active task marked `🔴 IN PROGRESS` by another agent without user confirmation.
+   - If starting a task, move it to `🔴 IN PROGRESS` and set `Owner: Kilo Code`.
+
+---
+
+## 2. DURING CODING:
+
+- **Preserve Existing Work**: Do NOT delete, rewrite, or refactor unrelated code.
+- **Maintain Consistency**: Follow existing patterns (TypeScript types, Prisma models, Next.js 14 App Router, Tailwind CSS).
+- **Scope Discipline**: Keep modifications strictly focused on the assigned task.
+- **Safety**: Never run destructive Git commands (`git reset --hard`, `git checkout .`, `git clean -fd`).
+
+---
+
+## 3. AFTER CODING (Mandatory Handoff):
+
+1. **Test & Verify**:
+   - Run build/typechecks: `npm run build` or `npx tsc --noEmit`.
+   - Validate that your changes execute cleanly without runtime errors.
+
+2. **Update Shared Memory**:
+   - **`TASKS.md`**: Move completed task to `🟢 COMPLETED` (or `🔵 BLOCKED` if waiting).
+   - **`CHANGELOG_AI.md`**: Append a new entry under today's date documenting your changes, files touched, testing performed, and follow-up notes for the next agent.
+   - **`PROJECT_MEMORY.md`**: Update if project architecture, components, models, or dependencies changed.
+   - **`DECISIONS.md`**: Record an ADR if an architectural decision was made.
+
+---
+
+> **Golden Rule**: Leave the repository and memory files in a state where Google Antigravity or any other developer can immediately continue your work without access to your conversation history.

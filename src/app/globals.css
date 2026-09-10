@@ -1,0 +1,362 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary-navy: #0C2B4E;
+  --primary-gold: #F59E0B;
+  --accent-saffron: #EA580C;
+  --accent-emerald: #10B981;
+  --accent-teal: #14B8A6;
+  --bg-canvas: #FAFAF9;
+}
+
+html {
+  overflow-x: hidden;
+  width: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* GSAP Lenis Smooth Scroll Core Rules */
+html.lenis, html.lenis body {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+body {
+  background: #FAFAF9;
+  color: #0F172A;
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  overflow-x: hidden;
+  width: 100%;
+  min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Poppins', 'Inter', sans-serif;
+  letter-spacing: -0.02em;
+}
+
+/* Custom Gradients & Accents */
+.bg-gradient-navy {
+  background: linear-gradient(135deg, #0C234C 0%, #103669 50%, #154687 100%);
+}
+
+.bg-gradient-gold {
+  background: linear-gradient(135deg, #F59E0B 0%, #D97706 50%, #B45309 100%);
+}
+
+.bg-gradient-saffron {
+  background: linear-gradient(135deg, #EA580C 0%, #F59E0B 50%, #FBBF24 100%);
+}
+
+.bg-gradient-emerald {
+  background: linear-gradient(135deg, #059669 0%, #10B981 50%, #34D399 100%);
+}
+
+.bg-gradient-teal {
+  background: linear-gradient(135deg, #0D9488 0%, #14B8A6 50%, #2DD4BF 100%);
+}
+
+.text-gradient-gold {
+  background: linear-gradient(135deg, #F59E0B 0%, #FBBF24 50%, #FCD34D 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-teal {
+  background: linear-gradient(135deg, #0D9488 0%, #10B981 50%, #34D399 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.text-gradient-saffron {
+  background: linear-gradient(135deg, #EA580C 0%, #F59E0B 50%, #FBBF24 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.gold-border-glow {
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  box-shadow: 0 0 20px rgba(245, 158, 11, 0.2);
+}
+
+.shadow-gold {
+  box-shadow: 0 8px 25px -4px rgba(245, 158, 11, 0.35);
+}
+
+.shadow-gold-lg {
+  box-shadow: 0 15px 35px -5px rgba(245, 158, 11, 0.45);
+}
+
+.shadow-emerald {
+  box-shadow: 0 8px 25px -4px rgba(16, 185, 129, 0.35);
+}
+
+.glass-navy {
+  background: rgba(10, 22, 40, 0.94);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.teal-border-glow {
+  border: 1px solid rgba(20, 184, 166, 0.4);
+  box-shadow: 0 0 20px rgba(20, 184, 166, 0.2);
+}
+
+/* Indian Motif Subtitle Decorative Lines */
+.title-ornament {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.title-ornament::before,
+.title-ornament::after {
+  content: '';
+  height: 2px;
+  width: 40px;
+  background: linear-gradient(90deg, transparent, #F59E0B);
+}
+
+.title-ornament::after {
+  background: linear-gradient(90deg, #F59E0B, transparent);
+}
+/* Hide scrollbars while allowing scroll */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* Admin Sidebar Sleek Custom Scrollbar */
+.admin-sidebar-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.3) transparent;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+.admin-sidebar-scroll::-webkit-scrollbar {
+  width: 5px;
+}
+.admin-sidebar-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.admin-sidebar-scroll::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.25);
+  border-radius: 9999px;
+}
+.admin-sidebar-scroll::-webkit-scrollbar-thumb:hover {
+  background: rgba(245, 158, 11, 0.6);
+}
+
+/* Modal Popup Custom Scrollbar */
+.admin-modal-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.5) transparent;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+.admin-modal-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.admin-modal-scroll::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 9999px;
+}
+.admin-modal-scroll::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 9999px;
+}
+.admin-modal-scroll::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+/* Mobile-specific utilities */
+@media (max-width: 640px) {
+  /* Prevent horizontal scroll on mobile */
+  body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  
+  /* Optimize touch targets for mobile (min 44x44px) */
+  button, a {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Improve text readability on small screens */
+  body {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  
+  /* Reduce excessive padding on mobile */
+  .container {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+}
+
+/* Improve tap targets and prevent double-tap zoom */
+button, a, input, select, textarea {
+  touch-action: manipulation;
+}
+
+/* Smooth scrolling for mobile */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* ID Card Realistic Hologram & Security Foil Effect */
+.security-hologram {
+  background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(20,184,166,0.4) 30%, rgba(255,255,255,0.1) 50%, rgba(16,185,129,0.3) 75%, rgba(255,255,255,0.2) 100%);
+}
+
+.pvc-card-shadow {
+  box-shadow: 0 25px 50px -12px rgba(11, 25, 44, 0.5), 0 0 0 1px rgba(20, 184, 166, 0.4);
+}
+
+/* Modern Glassmorphism Effect */
+.glass-card {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  box-shadow: 0 8px 32px 0 rgba(11, 25, 44, 0.08);
+}
+
+.glass-dark-card {
+  background: rgba(11, 25, 44, 0.85);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* Print Optimization for ID Cards, A4 Bulk Sheets, and Receipts */
+@media print {
+  @page {
+    size: auto;
+    margin: 8mm;
+  }
+
+  * {
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+    color-adjust: exact !important;
+  }
+
+  body {
+    background: #ffffff !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  body * {
+    visibility: hidden;
+  }
+
+  .printable-area, .printable-area * {
+    visibility: visible;
+  }
+
+  .printable-area {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    background: transparent !important;
+  }
+
+  .printable-area > div {
+    box-shadow: none !important;
+    border: 1.5px solid #94a3b8 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+  }
+
+  /* A4 Bulk ID Card Sheet Print */
+  .a4-print-page, .a4-print-page * {
+    visibility: visible !important;
+  }
+
+  .a4-print-page {
+    position: relative !important;
+    margin: 0 auto !important;
+    padding: 6mm !important;
+    box-sizing: border-box !important;
+    width: 210mm !important;
+    height: 297mm !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    box-shadow: none !important;
+    border: none !important;
+  }
+
+  /* Section 80G A4 Receipt Print */
+  .receipt-print-area, .receipt-print-area * {
+    visibility: visible !important;
+  }
+
+  .receipt-print-area {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 100% !important;
+    max-width: 194mm !important;
+    margin: 0 auto !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    display: block !important;
+    box-shadow: none !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-before: avoid !important;
+    break-before: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+  }
+
+  .section-80g-certificate {
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: avoid !important;
+    break-after: avoid !important;
+    box-sizing: border-box !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+}
+
