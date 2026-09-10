@@ -34,6 +34,31 @@
 
 ## 🟢 COMPLETED
 
+### Task: Migrate & Seed Complete Board of Trustees, Members & All Tables to PostgreSQL
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-10
+- **Completed**: 2026-09-10
+- **Notes**:
+  1. Addressed user request: "why you not send the members and the board of the trustee in the db" / "seed the all the tables data".
+  2. Extracted full dataset from local database (`prisma/dev.db`).
+  3. Seeded and verified all 13 core tables into the live cloud PostgreSQL database (`db.prisma.io:5432`):
+     - `BoardMember`: 4 trustees (President Raj Kumar Mahato, General Secretary, Treasurer, Advisory Panel)
+     - `Member`: 5 members (Sunita Devi Patel, Test User Sharma, Aarav Kumar, Vikash Kumar Verma, Aki)
+     - `Volunteer`: 4 volunteers
+     - `IdCard`: 5 active ID cards
+     - `Donation`: 13 donations
+     - `TenBDFiling`: 1 filing batch
+     - `Project`: 9 projects
+     - `SponsorshipTier`: 15 tiers
+     - `GalleryItem`: 9 items
+     - `Document`: 6 documents
+     - `Event`: 2 events
+     - `NewsArticle`: 1 article
+     - `TrustDetail` & `ImpactStat`: fully populated
+  4. Updated `prisma/seed.js` with complete board members and members list, committed, and pushed to GitHub `main` (`commit 77ababa`).
+
 ### Task: Push PostgreSQL Schema & Seed Live Database + Push Code to GitHub
 - **Owner**: Google Antigravity
 - **Status**: COMPLETED
