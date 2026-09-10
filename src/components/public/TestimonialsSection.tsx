@@ -152,18 +152,19 @@ export default function TestimonialsSection() {
         </div>
 
         {/* Pagination Dots */}
-        <div className="flex items-center justify-center gap-2 mt-8">
+        <div className="flex items-center justify-center gap-1.5 sm:gap-2 mt-8">
           {TESTIMONIALS.map((_, idx) => (
             <button
               key={idx}
+              type="button"
               onClick={() => {
                 setCurrentIndex(idx);
                 setIsAutoPlaying(false);
               }}
-              className={`transition-all duration-300 ${
+              className={`!min-w-0 !min-h-0 !p-0 !border-0 rounded-full transition-all duration-300 shrink-0 cursor-pointer ${
                 idx === currentIndex
-                  ? 'w-8 h-2 bg-gold-400 rounded-full'
-                  : 'w-2 h-2 bg-navy-700 hover:bg-navy-600 rounded-full'
+                  ? 'w-6 sm:w-8 h-1.5 sm:h-2 bg-gold-400 shadow-sm'
+                  : 'w-2 h-1.5 sm:h-2 bg-white/20 hover:bg-white/40'
               }`}
               aria-label={`Go to testimonial ${idx + 1}`}
             />

@@ -34,6 +34,20 @@
 
 ## 🟢 COMPLETED
 
+### Task: Mobile UX Fixes - Carousel Dots Sizing & Campaign Category Pills Scrolling
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: MEDIUM
+- **Started**: 2026-09-10
+- **Completed**: 2026-09-10
+- **Notes**:
+  1. Addressed user request: "in mobile view home page Active Seva Photo: and the What People Say About Us crousel dot show so big fix this and Current Community Campaigns & Seva Drives category botton colapsed each other so this also like last on".
+  2. Fixed root cause of huge dots: removed blanket mobile `button, a { min-height: 44px; min-width: 44px; }` in `globals.css` that was inflating carousel indicator buttons into massive 44px circles.
+  3. Added explicit sizing, reset utilities (`!min-w-0 !min-h-0 !p-0 !border-0`), and sleek pill transition styling to `HeroSection.tsx` ("Active Seva Photo:") and `TestimonialsSection.tsx` ("What People Say About Us").
+  4. Refactored category buttons in `CampaignsShowcase.tsx` into a smooth horizontal touch-scroller matching `ImpactGallerySection.tsx` (`shrink-0`, `no-scrollbar`, `overscroll-x-contain touch-pan-x -mx-4 px-4 sm:mx-0 sm:px-0 md:justify-center`).
+  5. Verified live in mobile viewport (390x844) via browser screenshots.
+  6. Verified `npx tsc --noEmit` passed with 0 errors.
+
 ### Task: Deduplicate Impact Section Metrics on Homepage & Clean PostgreSQL Database
 - **Owner**: Google Antigravity
 - **Status**: COMPLETED

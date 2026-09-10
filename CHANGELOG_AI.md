@@ -3,6 +3,42 @@
 > **Instructions for AI Agents:**
 > Record all non-trivial changes here. Follow the exact section structure so both human developers and subsequent AI agents (Kilo Code / Google Antigravity) can follow the audit trail.
 
+## 2026-09-10 (Update 47)
+
+### Agent
+Google Antigravity
+
+### Task
+Mobile UX Fixes: Carousel Dots Sizing & Campaign Category Pills Scrolling
+
+### Problem Addressed
+- In mobile view on the homepage:
+  1. "Active Seva Photo:" dots in `HeroSection.tsx` and "What People Say About Us" carousel dots in `TestimonialsSection.tsx` were rendered as massive 44px circles.
+  2. "Current Community Campaigns & Seva Drives" category buttons in `CampaignsShowcase.tsx` were collapsing/overlapping each other with an unsightly default horizontal scrollbar.
+
+### Root Cause
+1. `src/app/globals.css` had a global rule under `@media (max-width: 640px)`: `button, a { min-height: 44px; min-width: 44px; }`. This forced every `<button>` element on mobile to inflate to at least 44x44px.
+2. `CampaignsShowcase.tsx` had `flex items-center justify-center` with missing `shrink-0` on buttons, non-standard `scrollbar-none`, and lacked touch-panning edge paddings (`overscroll-x-contain touch-pan-x -mx-4 px-4`).
+
+### Changes
+1. **Removed Blanket 44px Min Sizing (`src/app/globals.css`)**:
+   - Removed `button, a { min-height: 44px; min-width: 44px; }` from the mobile media query so small UI controls, indicator dots, tags, and icon buttons retain their proper proportions.
+2. **Hero Active Seva Photo Dots (`src/components/public/HeroSection.tsx`)**:
+   - Added reset styling (`!min-w-0 !min-h-0 !p-0 !border-0`) and sleek pill dimensions (`w-5 sm:w-6 h-1.5 sm:h-2` for active, `w-2 h-1.5 sm:h-2` for inactive).
+3. **Testimonials Carousel Dots (`src/components/public/TestimonialsSection.tsx`)**:
+   - Added reset styling (`!min-w-0 !min-h-0 !p-0 !border-0`) and gold pill dimensions (`w-6 sm:w-8 h-1.5 sm:h-2` active, `w-2 h-1.5 sm:h-2` inactive).
+4. **Campaign Category Pills Scroller (`src/components/public/CampaignsShowcase.tsx`)**:
+   - Refactored category buttons to match `ImpactGallerySection.tsx`: wrapped in edge-to-edge scroll container (`-mx-4 px-4 sm:mx-0 sm:px-0 md:justify-center`), added `shrink-0`, `whitespace-nowrap`, `no-scrollbar`, and `touch-pan-x`.
+
+### Testing & Verification
+- Mobile viewport (390x844) visual inspection via automated browser screenshots confirmed:
+  - Hero dots are now sleek, miniature rounded pills.
+  - Testimonial dots are cleanly styled and properly sized.
+  - Campaign category buttons display full text without overlap/collapse and scroll smoothly.
+- Ran `npx tsc --noEmit`: 0 errors.
+
+---
+
 ## 2026-09-10 (Update 46)
 
 ### Agent

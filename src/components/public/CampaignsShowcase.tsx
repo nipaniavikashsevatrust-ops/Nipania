@@ -100,21 +100,27 @@ export default function CampaignsShowcase({
           </p>
         </div>
 
-        {/* Tab Selection */}
-        <div className="flex items-center justify-center gap-2 mb-10 overflow-x-auto pb-2 scrollbar-none">
-          {campaignList.map((cmp, idx) => (
-            <button
-              key={cmp.id}
-              onClick={() => setActiveTab(idx)}
-              className={`px-5 py-2.5 rounded-full text-xs font-bold whitespace-nowrap transition-all duration-200 ${
-                activeTab === idx
-                  ? 'bg-amber-600 text-white shadow-md ring-2 ring-amber-400/40 font-black'
-                  : 'bg-slate-100 text-slate-700 hover:bg-slate-200/80'
-              }`}
-            >
-              {cmp.category}
-            </button>
-          ))}
+        {/* Tab Selection - Touch-Optimized Horizontal Scroller */}
+        <div className="relative w-full mb-8 sm:mb-10">
+          <div className="flex items-center gap-2 sm:gap-2.5 overflow-x-auto py-2 no-scrollbar overscroll-x-contain touch-pan-x -mx-4 px-4 sm:mx-0 sm:px-0 md:justify-center">
+            {campaignList.map((cmp, idx) => {
+              const isActive = activeTab === idx;
+              return (
+                <button
+                  key={cmp.id}
+                  type="button"
+                  onClick={() => setActiveTab(idx)}
+                  className={`px-4 sm:px-5 py-2 sm:py-2.5 rounded-full text-xs font-bold transition-all shrink-0 cursor-pointer whitespace-nowrap select-none active:scale-95 ${
+                    isActive
+                      ? 'bg-amber-600 text-white shadow-md border-2 border-amber-500 ring-2 ring-amber-400/25 font-black'
+                      : 'bg-white text-slate-700 hover:text-slate-900 hover:bg-slate-100 border border-slate-300/80 shadow-xs'
+                  }`}
+                >
+                  {cmp.category}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
         {/* Interactive Showcase Card */}

@@ -181,21 +181,23 @@ export default function HeroSection({
             </div>
 
             {/* Interactive Hero Photo Switcher Dots */}
-            <div className="pt-2 flex items-center justify-center lg:justify-start gap-2">
-              <span className="text-[11px] font-bold text-slate-500 mr-1">Active Seva Photo:</span>
-              {HERO_SLIDES.map((slide, idx) => (
-                <button
-                  key={slide.cause}
-                  type="button"
-                  onClick={() => setSlideIndex(idx)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    idx === slideIndex 
-                      ? 'w-6 bg-amber-600 shadow-sm' 
-                      : 'w-2 bg-slate-300 hover:bg-amber-400'
-                  }`}
-                  aria-label={`Switch to slide ${idx + 1}: ${slide.cause}`}
-                />
-              ))}
+            <div className="pt-2 flex items-center justify-center lg:justify-start gap-1.5 flex-wrap sm:flex-nowrap">
+              <span className="text-[11px] font-bold text-slate-500 mr-1 shrink-0">Active Seva Photo:</span>
+              <div className="inline-flex items-center gap-1.5">
+                {HERO_SLIDES.map((slide, idx) => (
+                  <button
+                    key={slide.cause}
+                    type="button"
+                    onClick={() => setSlideIndex(idx)}
+                    className={`!min-w-0 !min-h-0 !p-0 !border-0 rounded-full transition-all duration-300 shrink-0 cursor-pointer ${
+                      idx === slideIndex 
+                        ? 'w-5 sm:w-6 h-1.5 sm:h-2 bg-amber-600 shadow-xs' 
+                        : 'w-2 h-1.5 sm:h-2 bg-slate-300 hover:bg-amber-400'
+                    }`}
+                    aria-label={`Switch to slide ${idx + 1}: ${slide.cause}`}
+                  />
+                ))}
+              </div>
             </div>
 
           </div>
