@@ -3,6 +3,65 @@
 > **Instructions for AI Agents:**
 > Record all non-trivial changes here. Follow the exact section structure so both human developers and subsequent AI agents (Kilo Code / Google Antigravity) can follow the audit trail.
 
+## 2026-09-10 (Update 51)
+
+### Agent
+Google Antigravity
+
+### Task
+Generate Official Social Share Link Preview Image (OG / Twitter Image)
+
+### Problem Addressed
+- The website previously used `/logo.png` (a square 800x800 logo icon) as the OpenGraph and Twitter card image, resulting in awkward cropping and lacking context when shared on social platforms (WhatsApp, Facebook, Twitter/X, LinkedIn, Telegram).
+- User requested making/generating a high-quality social share image for link previews.
+
+### Changes Made
+1. **Asset Generation**:
+   - Generated a 16:9 (1200x630 standard) social share banner displaying:
+     - Prominent Trust branding: "Nipania Vikash Seva Trust" & "Seva • Vikash • Samarpan" in gold and amber typography.
+     - Official verification seals: "Govt. Regd. Charitable Trust" and "80G Tax Exemption (Donations are tax deductible)".
+     - Inspiring authentic community visuals: Indian village school children with study kits, medical checkup seva for rural elders, and warm meal distribution.
+2. **File Placement**:
+   - Copied high-res image to `public/og-image.jpg`.
+   - Placed native App Router convention files at `src/app/opengraph-image.jpg` and `src/app/twitter-image.jpg`.
+3. **Metadata Updates (`src/app/layout.tsx`)**:
+   - Updated `openGraph.images` to point to `/og-image.jpg` with `width: 1200`, `height: 630`, and descriptive alt text.
+   - Updated `twitter.images` to `['/og-image.jpg']` with `card: 'summary_large_image'`.
+
+### Testing & Verification
+- `npx tsc --noEmit`: 0 errors.
+
+---
+
+## 2026-09-10 (Update 50)
+
+### Agent
+Google Antigravity
+
+### Task
+Fix Mobile Monthly Tab Text Overflow on Donation Page (/donate)
+
+### Problems Addressed
+- On small mobile viewports (360px - 390px), the frequency tabs ("One-Time Contribution" and "Monthly Supporter") had rigid `whitespace-nowrap` causing horizontal overflow.
+- The Monthly e-Mandate information card had an excessively long 73-character title (`Monthly Supporter e-Mandate (UPI Autopay & Card Standing Instruction)`) squished against the `RBI Compliant` badge, breaking container constraints.
+- Mandate authorization rail buttons and main donate CTA button needed responsive text containment.
+
+### Changes Made in `src/app/donate/page.tsx`
+1. **Frequency Toggle Button Container**:
+   - Added `min-w-0`, responsive text sizing, and truncate: `One-Time <span className="hidden sm:inline">Contribution</span>` and `Monthly <span className="hidden sm:inline">Supporter</span>`.
+   - Guaranteed clean rendering on narrow 320px–390px mobile screens without overflow.
+2. **Monthly e-Mandate Info Box**:
+   - Shortened header title to `Monthly Supporter e-Mandate` with `truncate` and `flex-col xs:flex-row` orientation, allowing the `RBI Compliant` badge to sit cleanly.
+   - Added `break-words` and optimized font sizes on the mandate explanation text.
+   - Added `truncate` and `min-w-0` to all 3 mandate rail buttons (UPI Autopay, Card Standing, Netbanking e-NACH).
+3. **CTA Button**:
+   - Shortened monthly payment button text to `Monthly e-Mandate • ₹X/mo` for optimal mobile fit.
+
+### Testing & Verification
+- `npx tsc --noEmit`: Exited with code 0 (0 errors).
+
+---
+
 ## 2026-09-10 (Update 49)
 
 ### Agent

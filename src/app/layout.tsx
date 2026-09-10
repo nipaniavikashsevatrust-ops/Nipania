@@ -45,10 +45,10 @@ export const metadata: Metadata = {
     siteName: 'Nipania Vikash Seva Trust',
     images: [
       {
-        url: '/logo.png',
-        width: 800,
-        height: 800,
-        alt: 'Nipania Vikash Seva Trust Official Logo',
+        url: '/og-image.jpg',
+        width: 1200,
+        height: 630,
+        alt: 'Nipania Vikash Seva Trust - Seva • Vikash • Samarpan',
       },
     ],
     locale: 'en_IN',
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     card: 'summary_large_image',
     title: 'Nipania Vikash Seva Trust | Seva | Vikash | Samarpan',
     description: 'Committed to Seva, Vikash, and Samarpan through rural development, primary education, healthcare drives, and social welfare in India.',
-    images: ['/logo.png'],
+    images: ['/og-image.jpg'],
   },
   icons: {
     icon: '/logo.png',

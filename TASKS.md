@@ -34,6 +34,33 @@
 
 ## 🟢 COMPLETED
 
+### Task: Generate Official Social Share Preview Image (OG / Twitter Image)
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: MEDIUM
+- **Started**: 2026-09-10
+- **Completed**: 2026-09-10
+- **Notes**:
+  1. Addressed user request: "also make or generate the share link social image".
+  2. Generated a photorealistic, prestigious Open Graph social preview banner (`og-image.jpg`) featuring Trust branding ("Nipania Vikash Seva Trust", "Seva • Vikash • Samarpan"), official badges ("Govt. Regd. Charitable Trust", "80G Tax Exemption"), and inspiring real-world seva imagery (smiling village schoolchildren with study books, elder medical checkup, and nutrition drive volunteers).
+  3. Placed high-resolution 1200x630 banner at `public/og-image.jpg`, `src/app/opengraph-image.jpg`, and `src/app/twitter-image.jpg` for automatic Next.js App Router metadata detection.
+  4. Updated `src/app/layout.tsx` OpenGraph and Twitter metadata to reference `/og-image.jpg` (1200x630, summary_large_image).
+  5. Verified compilation with `npx tsc --noEmit` (0 errors).
+
+### Task: Mobile Monthly Tab Overflow Fix on Donation Page (/donate)
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-10
+- **Completed**: 2026-09-10
+- **Notes**:
+  1. Addressed user request: "improve the donation page for mobile view monthly tab text overfoll so fix this".
+  2. Fixed frequency toggle button text overflow on mobile: added `min-w-0`, responsive label (`One-Time <span className="hidden sm:inline">Contribution</span>` and `Monthly <span className="hidden sm:inline">Supporter</span>`), and `truncate` to prevent narrow-screen button blow-out.
+  3. Shortened Monthly e-Mandate Info Box header: replaced long 73-character title with clean `Monthly Supporter e-Mandate` with responsive flex orientation (`flex-col xs:flex-row`) so `RBI Compliant` badge does not get squished or cause line overflow.
+  4. Added `truncate` and `min-w-0` to mandate authorization rail buttons (UPI Autopay, Card Standing, Netbanking e-NACH) and added `break-words` on the mandate description.
+  5. Shortened main submit button text from "Authorize e-Mandate" to "Monthly e-Mandate • ₹X/mo".
+  6. Verified compilation with `npx tsc --noEmit` (0 errors).
+
 ### Task: Mobile Navbar & Toggle Improvements, Close Button, Top Space Fix & Remove Events
 - **Owner**: Google Antigravity
 - **Status**: COMPLETED

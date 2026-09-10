@@ -742,55 +742,59 @@ function DonationPortalContent() {
               <div className="p-4 sm:p-8 md:p-10 space-y-4 sm:space-y-6">
                 
                 {/* 1. Frequency Toggle (One-Time vs Monthly) */}
-                <div className="flex bg-slate-100 p-1 sm:p-1.5 rounded-2xl max-w-md mx-auto">
+                <div className="flex bg-slate-100 p-1 sm:p-1.5 rounded-2xl max-w-md mx-auto w-full">
                   <button
                     type="button"
                     onClick={() => setFrequency('ONE_TIME')}
-                    className={`flex-1 py-2 sm:py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap ${
+                    className={`flex-1 py-2 sm:py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 ${
                       frequency === 'ONE_TIME'
                         ? 'bg-amber-600 text-white shadow-md font-black'
                         : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
                     <Heart className="w-3.5 h-3.5 shrink-0" />
-                    <span>One-Time Contribution</span>
+                    <span className="truncate">One-Time <span className="hidden sm:inline">Contribution</span></span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setFrequency('MONTHLY')}
-                    className={`flex-1 py-2 sm:py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap ${
+                    className={`flex-1 py-2 sm:py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1 sm:gap-1.5 min-w-0 ${
                       frequency === 'MONTHLY'
                         ? 'bg-amber-600 text-white shadow-md font-black'
                         : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
                     <RefreshCw className="w-3.5 h-3.5 shrink-0" />
-                    <span>Monthly Supporter</span>
+                    <span className="truncate">Monthly <span className="hidden sm:inline">Supporter</span></span>
                   </button>
                 </div>
 
                 {/* Monthly e-Mandate Info Box */}
                 {frequency === 'MONTHLY' && (
-                  <div className="p-3.5 sm:p-5 bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-blue-50/90 border border-blue-200/90 rounded-2xl space-y-2.5 animate-in fade-in duration-200 shadow-xs">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 text-xs sm:text-sm font-black text-blue-950">
+                  <div className="p-3 sm:p-5 bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-blue-50/90 border border-blue-200/90 rounded-2xl space-y-2.5 animate-in fade-in duration-200 shadow-xs overflow-hidden w-full">
+                    <div className="flex flex-col xs:flex-row xs:items-center justify-between gap-1.5 sm:gap-2">
+                      <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
                         <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
-                        <span>Monthly Supporter e-Mandate (UPI Autopay & Card Standing Instruction)</span>
+                        <span className="text-xs sm:text-sm font-black text-blue-950 truncate">
+                          Monthly Supporter e-Mandate
+                        </span>
                       </div>
-                      <span className="text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-300 shrink-0">
+                      <span className="self-start xs:self-auto text-[9px] sm:text-[10px] uppercase font-extrabold px-2 py-0.5 rounded-full bg-blue-100 text-blue-800 border border-blue-300 shrink-0">
                         RBI Compliant
                       </span>
                     </div>
-                    <p className="text-xs text-blue-900/90 leading-relaxed">
-                      Your monthly donation of <strong>{formatCurrency(totalPayable)}</strong> is authorized once via secure <strong>e-Mandate / UPI Autopay</strong>. Future installments debit automatically every month without manual hassle. You maintain complete control and can pause, edit, or cancel the mandate anytime from your UPI or banking app.
+
+                    <p className="text-[11px] sm:text-xs text-blue-900/90 leading-relaxed break-words">
+                      Your monthly donation of <strong>{formatCurrency(totalPayable)}</strong> is authorized once via secure <strong>e-Mandate / UPI Autopay</strong>. Future installments debit automatically every month. You can pause or cancel anytime from your UPI or banking app.
                     </p>
+
                     {/* Interactive Mandate Method Selector */}
                     <div className="pt-2 border-t border-blue-200/80 space-y-2">
-                      <div className="flex items-center justify-between">
-                        <label className="text-[11px] font-black uppercase text-blue-950 tracking-wider block">
-                          Choose Mandate Authorization Rail:
+                      <div className="flex items-center justify-between gap-2">
+                        <label className="text-[10px] sm:text-[11px] font-black uppercase text-blue-950 tracking-wider truncate">
+                          Mandate Authorization Rail:
                         </label>
-                        <span className="text-[10px] font-bold text-emerald-700 bg-emerald-100/80 px-2 py-0.5 rounded-full border border-emerald-300/60">
+                        <span className="text-[9px] sm:text-[10px] font-bold text-emerald-700 bg-emerald-100/90 px-2 py-0.5 rounded-full border border-emerald-300/60 shrink-0">
                           ₹0 Setup Fee
                         </span>
                       </div>
@@ -804,16 +808,16 @@ function DonationPortalContent() {
                               : 'bg-white/80 text-blue-950 border-blue-200 hover:bg-white'
                           }`}
                         >
-                          <div className="text-xs font-black flex items-center justify-between">
-                            <span className="flex items-center gap-1.5">
+                          <div className="text-xs font-black flex items-center justify-between gap-1">
+                            <span className="flex items-center gap-1.5 truncate">
                               <span>⚡</span>
-                              <span>UPI Autopay</span>
+                              <span className="truncate">UPI Autopay</span>
                             </span>
                             {mandateRail === 'UPI_AUTOPAY' && (
-                              <Check className="w-3 h-3 text-white" />
+                              <Check className="w-3 h-3 text-white shrink-0" />
                             )}
                           </div>
-                          <div className={`text-[10px] mt-0.5 ${mandateRail === 'UPI_AUTOPAY' ? 'text-amber-100' : 'text-slate-500'}`}>
+                          <div className={`text-[10px] mt-0.5 truncate ${mandateRail === 'UPI_AUTOPAY' ? 'text-amber-100' : 'text-slate-500'}`}>
                             GPay, PhonePe, Paytm, BHIM
                           </div>
                         </button>
@@ -827,16 +831,16 @@ function DonationPortalContent() {
                               : 'bg-white/80 text-blue-950 border-blue-200 hover:bg-white'
                           }`}
                         >
-                          <div className="text-xs font-black flex items-center justify-between">
-                            <span className="flex items-center gap-1.5">
+                          <div className="text-xs font-black flex items-center justify-between gap-1">
+                            <span className="flex items-center gap-1.5 truncate">
                               <span>💳</span>
-                              <span>Card Standing</span>
+                              <span className="truncate">Card Standing</span>
                             </span>
                             {mandateRail === 'CARD_MANDATE' && (
-                              <Check className="w-3 h-3 text-white" />
+                              <Check className="w-3 h-3 text-white shrink-0" />
                             )}
                           </div>
-                          <div className={`text-[10px] mt-0.5 ${mandateRail === 'CARD_MANDATE' ? 'text-amber-100' : 'text-slate-500'}`}>
+                          <div className={`text-[10px] mt-0.5 truncate ${mandateRail === 'CARD_MANDATE' ? 'text-amber-100' : 'text-slate-500'}`}>
                             Visa, Mastercard, RuPay Cards
                           </div>
                         </button>
@@ -850,32 +854,32 @@ function DonationPortalContent() {
                               : 'bg-white/80 text-blue-950 border-blue-200 hover:bg-white'
                           }`}
                         >
-                          <div className="text-xs font-black flex items-center justify-between">
-                            <span className="flex items-center gap-1.5">
+                          <div className="text-xs font-black flex items-center justify-between gap-1">
+                            <span className="flex items-center gap-1.5 truncate">
                               <span>🏛️</span>
-                              <span>Netbanking e-NACH</span>
+                              <span className="truncate">Netbanking e-NACH</span>
                             </span>
                             {mandateRail === 'NETBANKING_ENACH' && (
-                              <Check className="w-3 h-3 text-white" />
+                              <Check className="w-3 h-3 text-white shrink-0" />
                             )}
                           </div>
-                          <div className={`text-[10px] mt-0.5 ${mandateRail === 'NETBANKING_ENACH' ? 'text-amber-100' : 'text-slate-500'}`}>
+                          <div className={`text-[10px] mt-0.5 truncate ${mandateRail === 'NETBANKING_ENACH' ? 'text-amber-100' : 'text-slate-500'}`}>
                             Direct Bank Authorization
                           </div>
                         </button>
                       </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-1 text-[10px] sm:text-[11px] font-bold text-blue-950">
-                      <span className="bg-white px-2 py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
+                    <div className="flex flex-wrap items-center gap-1.5 pt-1 text-[10px] sm:text-[11px] font-bold text-blue-950">
+                      <span className="bg-white px-2 py-0.5 sm:py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
                         <Check className="w-3 h-3 text-emerald-600 shrink-0" />
                         <span>Zero manual reminders</span>
                       </span>
-                      <span className="bg-white px-2 py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
+                      <span className="bg-white px-2 py-0.5 sm:py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
                         <Check className="w-3 h-3 text-emerald-600 shrink-0" />
                         <span>Monthly 80G tax receipt</span>
                       </span>
-                      <span className="bg-white px-2 py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
+                      <span className="bg-white px-2 py-0.5 sm:py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
                         <Check className="w-3 h-3 text-emerald-600 shrink-0" />
                         <span>Cancel anytime in 1-click</span>
                       </span>
@@ -1116,7 +1120,7 @@ function DonationPortalContent() {
                               <span className="truncate">
                                 {paymentMode === 'ONLINE'
                                   ? frequency === 'MONTHLY'
-                                    ? `Authorize e-Mandate • ₹${totalPayable.toLocaleString('en-IN')}/mo`
+                                    ? `Monthly e-Mandate • ₹${totalPayable.toLocaleString('en-IN')}/mo`
                                     : `Donate Now • ₹${totalPayable.toLocaleString('en-IN')}`
                                   : `Submit Transfer • ₹${totalPayable.toLocaleString('en-IN')}`}
                               </span>
