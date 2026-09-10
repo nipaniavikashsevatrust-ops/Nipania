@@ -224,11 +224,67 @@ async function main() {
     },
   });
 
-  // 7. Seed Sample Member & ID Card
-  const sampleMem = await prisma.member.upsert({
-    where: { memberId: 'NVS-MEM-000001' },
-    update: {},
-    create: {
+  // 7. Seed Board Members
+  const boardMembers = [
+    {
+      name: 'Raj Kumar Mahato',
+      designation: 'President & Managing Trustee',
+      category: 'Executive Leadership',
+      image: '/uploads/1788697970579-Gemini_Generated_Image_tkp7z7tkp7z7tkp7.png',
+      quote: 'Selfless service to the underserved is the highest form of social responsibility and spiritual dedication.',
+      roleDetails: 'Steering trust governance, statutory compliance, and strategic grassroots development programs.',
+      tenure: 'Founding Trustee',
+      order: 1,
+      isActive: true,
+    },
+    {
+      name: 'General Secretary',
+      designation: 'General Secretary & Field Director',
+      category: 'Operations & Community',
+      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=600&q=80',
+      quote: 'Real transformation starts when village youth and families are empowered with education and healthcare.',
+      roleDetails: 'Leading community mobilization, volunteer coordination, and regional health camp execution.',
+      tenure: 'Executive Trustee',
+      order: 2,
+      isActive: true,
+    },
+    {
+      name: 'Treasurer & Compliance Trustee',
+      designation: 'Treasurer & Financial Controller',
+      category: 'Finance & Governance',
+      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80',
+      quote: 'Every single rupee donated is held in sacred trust and directed transparently for verified social impact.',
+      roleDetails: 'Managing financial audits, statutory accounts, donor receipts, and statutory compliance filings.',
+      tenure: 'Trustee',
+      order: 3,
+      isActive: true,
+    },
+    {
+      name: 'Advisory Council & Welfare Panel',
+      designation: 'Social Advisory Board',
+      category: 'Advisory Panel',
+      image: 'https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=600&q=80',
+      quote: 'Providing expert guidance in rural schooling pedagogy, primary diagnostic standards, and women livelihood.',
+      roleDetails: 'Composed of seasoned educationists, legal advocates, and medical doctors guiding outreach policy.',
+      tenure: 'Honorary Council',
+      order: 4,
+      isActive: true,
+    },
+  ];
+
+  for (const bm of boardMembers) {
+    const existing = await prisma.boardMember.findFirst({ where: { name: bm.name } });
+    if (existing) {
+      await prisma.boardMember.update({ where: { id: existing.id }, data: bm });
+    } else {
+      await prisma.boardMember.create({ data: bm });
+    }
+  }
+  console.log(`Board members ready: ${boardMembers.length} trustees`);
+
+  // 8. Seed Members & ID Cards
+  const membersList = [
+    {
       memberId: 'NVS-MEM-000001',
       fullName: 'Sunita Devi Patel',
       guardianName: 'Mahesh Patel',
@@ -237,8 +293,8 @@ async function main() {
       mobile: '+91 9812345678',
       email: 'sunita.patel@example.com',
       address: 'Main Bazaar, Nipania',
-      district: 'Jharkhand',
-      state: 'Jharkhand',
+      district: 'Purnea',
+      state: 'Bihar',
       pincode: '854301',
       occupation: 'Teacher & Social Advocate',
       category: 'Life Member',
@@ -248,27 +304,117 @@ async function main() {
       joiningDate: new Date('2026-01-01'),
       validUntil: new Date('2028-12-31'),
     },
-  });
+    {
+      memberId: 'NVS-MEM-000002',
+      fullName: 'Test User Sharma',
+      guardianName: 'Ram Sharma',
+      dob: '1995-05-15',
+      gender: 'Male',
+      mobile: '9876543210',
+      email: 'testuser@example.com',
+      address: 'Nipania Main Road',
+      district: 'Chatra',
+      state: 'Jharkhand',
+      pincode: '825401',
+      occupation: 'Teacher',
+      category: 'General Member',
+      feeAmount: 500,
+      paymentStatus: 'PAID',
+      paymentMethod: 'ONLINE_GATEWAY',
+      status: 'PENDING',
+      joiningDate: new Date('2026-08-15'),
+    },
+    {
+      memberId: 'NVS-MEM-000003',
+      fullName: 'Aarav Kumar',
+      guardianName: 'Sanjay Kumar',
+      dob: '1998-04-12',
+      gender: 'Male',
+      mobile: '9876543219',
+      email: 'aarav@example.com',
+      address: 'Near Kali Mandir, Main Road',
+      district: 'Chatra',
+      state: 'Jharkhand',
+      pincode: '825401',
+      occupation: 'Social Worker',
+      category: 'General Member',
+      feeAmount: 500,
+      paymentStatus: 'PAID',
+      paymentMethod: 'ONLINE_GATEWAY',
+      status: 'PENDING',
+      adminRemarks: 'Verified address and documentation.',
+      joiningDate: new Date('2026-08-15'),
+    },
+    {
+      memberId: 'NVS-MEM-000004',
+      fullName: 'Vikash Kumar Verma',
+      guardianName: 'Rajesh Verma',
+      dob: '1992-08-20',
+      gender: 'Male',
+      mobile: '9876543213',
+      email: 'vikash@example.com',
+      address: 'Main Chowk, Hunterganj',
+      district: 'Chatra',
+      state: 'Jharkhand',
+      pincode: '825401',
+      occupation: 'Advocate',
+      category: 'Executive Member',
+      feeAmount: 2100,
+      paymentStatus: 'PAID',
+      paymentMethod: 'ONLINE (RAZORPAY)',
+      status: 'PENDING',
+      joiningDate: new Date('2026-08-15'),
+    },
+    {
+      memberId: 'NVS-MEM-000005',
+      fullName: 'Aki',
+      dob: '2002-09-16',
+      gender: 'Male',
+      mobile: '7735647687',
+      email: 'oraonaniket228@gmail.com',
+      address: 'Ranchi',
+      district: 'Ranchi',
+      state: 'Jharkhand',
+      pincode: '834001',
+      occupation: 'Teacher',
+      category: 'General Member',
+      photoUrl: '/uploads/1788762766419-Aug_19__2026__08_20_44_PM.png',
+      feeAmount: 500,
+      paymentStatus: 'PAID',
+      paymentMethod: 'ONLINE (RAZORPAY)',
+      status: 'PENDING',
+      joiningDate: new Date('2026-08-19'),
+    },
+  ];
 
-  await prisma.idCard.upsert({
-    where: { cardNumber: 'NVS-MEM-000001' },
-    update: {
-      status: 'ACTIVE',
-    },
-    create: {
-      cardNumber: 'NVS-MEM-000001',
-      personType: 'MEMBER',
-      personId: sampleMem.id,
-      fullName: 'Sunita Devi Patel',
-      role: 'Life Member',
-      photoUrl: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
-      issueDate: new Date('2026-01-01'),
-      validUntil: new Date('2028-12-31'),
-      qrCodeData: 'https://nipaniatrust.org/verify/NVS-MEM-000001',
-      status: 'ACTIVE',
-      remarks: 'Official Life Member ID Card.',
-    },
-  });
+  for (const m of membersList) {
+    const memberRecord = await prisma.member.upsert({
+      where: { memberId: m.memberId },
+      update: m,
+      create: m,
+    });
+
+    if (m.idCardIssued) {
+      await prisma.idCard.upsert({
+        where: { cardNumber: m.memberId },
+        update: { status: 'ACTIVE' },
+        create: {
+          cardNumber: m.memberId,
+          personType: 'MEMBER',
+          personId: memberRecord.id,
+          fullName: m.fullName,
+          role: m.category,
+          photoUrl: m.photoUrl,
+          issueDate: new Date('2026-01-01'),
+          validUntil: new Date('2028-12-31'),
+          qrCodeData: `https://nipaniatrust.org/verify/${m.memberId}`,
+          status: 'ACTIVE',
+          remarks: 'Official Member ID Card.',
+        },
+      });
+    }
+  }
+  console.log(`Members ready: ${membersList.length} members seeded`);
 
   // 8. Seed Events
   const sampleEvents = [
