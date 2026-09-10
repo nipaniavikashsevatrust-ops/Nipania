@@ -34,6 +34,20 @@
 
 ## 🟢 COMPLETED
 
+### Task: Prepare Project for Vercel Deployment & Configure Git Repository
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-10
+- **Completed**: 2026-09-10
+- **Notes**:
+  1. Converted Prisma datasource to `postgresql` in `prisma/schema.prisma` for production persistence on Vercel (supporting Vercel Postgres, Neon, or Supabase).
+  2. Created `.env.example` documenting all required production environment variables (`DATABASE_URL`, `JWT_SECRET`, `NEXT_PUBLIC_APP_URL`, Razorpay, and SMTP).
+  3. Added `"postinstall": "prisma generate"` in `package.json` for automatic Prisma client generation during Vercel builds.
+  4. Updated `.gitignore` to securely exclude `.env`, `.env*.local`, test artifacts, and PDF documents.
+  5. Configured Git branch to `main`, set remote origin to `https://github.com/nipaniavikashsevatrust-ops/Nipania.git`, and committed all files (`commit 8662fa0`).
+  6. Provided exact push command and Vercel setup instructions.
+
 ### Task: Enrich Website with Complete SEO Infrastructure
 - **Owner**: Google Antigravity
 - **Status**: COMPLETED

@@ -3,6 +3,36 @@
 > **Instructions for AI Agents:**
 > Record all non-trivial changes here. Follow the exact section structure so both human developers and subsequent AI agents (Kilo Code / Google Antigravity) can follow the audit trail.
 
+## 2026-09-10 (Update 43)
+
+### Agent
+Google Antigravity
+
+### Task
+Vercel PostgreSQL Deployment Readiness & Git Repository Setup
+
+### Problem Addressed
+- User requested: "now make the ready prohect host in the vercel with db and push in this git repository https://github.com/nipaniavikashsevatrust-ops/Nipania.git".
+- Configured production database support, deployment build hooks, environment documentation, and staged/committed the entire project to the `main` branch with remote origin linked to GitHub.
+
+### Changes
+1. **Prisma Database Provider (`prisma/schema.prisma`)**:
+   - Switched datasource provider from `sqlite` to `postgresql` so Vercel Serverless functions can reliably persist data to cloud databases (Vercel Postgres, Neon, or Supabase).
+2. **Build Configuration (`package.json`)**:
+   - Added `"postinstall": "prisma generate"` to guarantee Prisma client binaries compile during Vercel's build lifecycle.
+3. **Environment Documentation (`.env.example`)**:
+   - Created full production environment template covering `DATABASE_URL`, `JWT_SECRET`, `NEXT_PUBLIC_APP_URL`, Razorpay keys, and SMTP mail configuration.
+4. **Git Staging & Commit**:
+   - Updated `.gitignore` to securely exclude `.env`, `.env*.local`, test artifacts, and generated PDFs.
+   - Initialized `main` branch and linked remote `https://github.com/nipaniavikashsevatrust-ops/Nipania.git`.
+   - Committed all project files under `commit 8662fa0`.
+
+### Testing & Verification
+- `npx tsc --noEmit` verified with 0 errors.
+- Verified `git log -1` and `git remote -v` outputs.
+
+---
+
 ## 2026-09-10 (Update 42)
 
 ### Agent
