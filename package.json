@@ -10,7 +10,7 @@
     "lint": "next lint",
     "prisma:generate": "prisma generate",
     "prisma:push": "prisma db push",
-    "prisma:seed": "node prisma/seed.js",
+    "prisma:seed": "node --env-file=.env prisma/seed.js",
     "seo:audit": "powershell -Command \"$env:PYTHONIOENCODING='utf-8'; $env:ALLOW_LOCAL_AUDIT='1'; python .agents/skills/seo/scripts/audit_runner.py http://localhost:3000 --html SEO-REPORT.html\"",
     "seo:links": "powershell -Command \"$env:PYTHONIOENCODING='utf-8'; $env:ALLOW_LOCAL_AUDIT='1'; python .agents/skills/seo/scripts/broken_links.py http://localhost:3000 --internal-only\"",
     "seo:headers": "powershell -Command \"$env:PYTHONIOENCODING='utf-8'; $env:ALLOW_LOCAL_AUDIT='1'; python .agents/skills/seo/scripts/security_headers.py http://localhost:3000\""
