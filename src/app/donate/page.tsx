@@ -718,60 +718,60 @@ function DonationPortalContent() {
       <main className="flex-1">
         
         {/* Hero Form Section (SikhAid Inspired) */}
-        <section className="py-12 sm:py-20 bg-gradient-to-b from-white via-slate-50 to-slate-100 border-b border-slate-200">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6">
+        <section className="py-8 sm:py-16 lg:py-20 bg-gradient-to-b from-white via-slate-50 to-slate-100 border-b border-slate-200">
+          <div className="max-w-4xl mx-auto px-3.5 sm:px-6">
             
             {/* Header copy */}
-            <div className="text-center space-y-3 mb-10">
-              <span className="inline-flex items-center gap-1.5 px-3.5 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-gold-400/20 text-gold-900 border border-gold-400/30">
+            <div className="text-center space-y-2 sm:space-y-3 mb-6 sm:mb-10">
+              <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] sm:text-xs font-bold uppercase tracking-wider bg-gold-400/20 text-gold-900 border border-gold-400/30 shadow-2xs">
                 <Sparkles className="w-3.5 h-3.5 text-gold-600" />
                 <span>100% Transparent Seva</span>
               </span>
-              <h1 className="text-3xl sm:text-5xl font-black text-navy-950 font-heading tracking-tight">
+              <h1 className="text-2xl sm:text-4xl lg:text-5xl font-black text-navy-950 font-heading tracking-tight">
                 Quick Online Donation
               </h1>
-              <p className="text-sm sm:text-base text-slate-600 max-w-xl mx-auto">
+              <p className="text-xs sm:text-base text-slate-600 max-w-xl mx-auto leading-relaxed px-1">
                 Your contribution directly funds life-saving emergency relief, nutritious meals, child education, and rural healthcare. 50% tax deductible under Section 80G.
               </p>
             </div>
 
             {/* Main Donation Card */}
-            <div className="bg-white rounded-3xl shadow-2xl border border-slate-200 overflow-hidden">
-              <div className="h-2 bg-gradient-to-r from-navy-950 via-gold-500 to-navy-950" />
+            <div id="donation-form-card" className="bg-white rounded-2xl sm:rounded-3xl shadow-xl sm:shadow-2xl border border-slate-200 overflow-hidden">
+              <div className="h-1.5 sm:h-2 bg-gradient-to-r from-navy-950 via-gold-500 to-navy-950" />
 
-              <div className="p-4 sm:p-6 sm:p-10 space-y-5 sm:space-y-6">
+              <div className="p-4 sm:p-8 md:p-10 space-y-4 sm:space-y-6">
                 
                 {/* 1. Frequency Toggle (One-Time vs Monthly) */}
-                <div className="flex bg-slate-100 p-1.5 rounded-2xl max-w-md mx-auto">
+                <div className="flex bg-slate-100 p-1 sm:p-1.5 rounded-2xl max-w-md mx-auto">
                   <button
                     type="button"
                     onClick={() => setFrequency('ONE_TIME')}
-                    className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 ${
+                    className={`flex-1 py-2 sm:py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap ${
                       frequency === 'ONE_TIME'
-                        ? 'bg-amber-600 text-white shadow-md'
+                        ? 'bg-amber-600 text-white shadow-md font-black'
                         : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
-                    <Heart className="w-3.5 h-3.5" />
+                    <Heart className="w-3.5 h-3.5 shrink-0" />
                     <span>One-Time Contribution</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setFrequency('MONTHLY')}
-                    className={`flex-1 py-2.5 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 ${
+                    className={`flex-1 py-2 sm:py-2.5 px-2 rounded-xl text-xs sm:text-sm font-bold transition-all flex items-center justify-center gap-1.5 whitespace-nowrap ${
                       frequency === 'MONTHLY'
-                        ? 'bg-amber-600 text-white shadow-md'
+                        ? 'bg-amber-600 text-white shadow-md font-black'
                         : 'text-slate-600 hover:text-slate-900'
                     }`}
                   >
-                    <RefreshCw className="w-3.5 h-3.5" />
+                    <RefreshCw className="w-3.5 h-3.5 shrink-0" />
                     <span>Monthly Supporter</span>
                   </button>
                 </div>
 
                 {/* Monthly e-Mandate Info Box */}
                 {frequency === 'MONTHLY' && (
-                  <div className="p-4 sm:p-5 bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-blue-50/90 border border-blue-200/90 rounded-2xl space-y-2.5 animate-in fade-in duration-200 shadow-xs">
+                  <div className="p-3.5 sm:p-5 bg-gradient-to-r from-blue-50/90 via-indigo-50/80 to-blue-50/90 border border-blue-200/90 rounded-2xl space-y-2.5 animate-in fade-in duration-200 shadow-xs">
                     <div className="flex items-center justify-between gap-2">
                       <div className="flex items-center gap-2 text-xs sm:text-sm font-black text-blue-950">
                         <ShieldCheck className="w-4 h-4 text-blue-600 shrink-0" />
@@ -866,16 +866,16 @@ function DonationPortalContent() {
                       </div>
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-2 pt-1 text-[11px] font-bold text-blue-950">
-                      <span className="bg-white px-2.5 py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
+                    <div className="flex flex-wrap items-center gap-1.5 sm:gap-2 pt-1 text-[10px] sm:text-[11px] font-bold text-blue-950">
+                      <span className="bg-white px-2 py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
                         <Check className="w-3 h-3 text-emerald-600 shrink-0" />
                         <span>Zero manual reminders</span>
                       </span>
-                      <span className="bg-white px-2.5 py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
+                      <span className="bg-white px-2 py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
                         <Check className="w-3 h-3 text-emerald-600 shrink-0" />
-                        <span>Monthly 80G tax receipt on email</span>
+                        <span>Monthly 80G tax receipt</span>
                       </span>
-                      <span className="bg-white px-2.5 py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
+                      <span className="bg-white px-2 py-1 rounded-lg border border-blue-200/80 flex items-center gap-1 shadow-2xs">
                         <Check className="w-3 h-3 text-emerald-600 shrink-0" />
                         <span>Cancel anytime in 1-click</span>
                       </span>
@@ -884,13 +884,13 @@ function DonationPortalContent() {
                 )}
 
                 {/* 2. Target Campaign & Sponsorship Selector */}
-                <div className="space-y-2">
-                  <div className="flex items-center justify-between">
-                    <label className="text-xs font-bold text-navy-950 uppercase tracking-wider block">
-                      Choose Designated Campaign or Sponsorship Cause:
+                <div className="space-y-1.5 sm:space-y-2">
+                  <div className="flex items-center justify-between gap-2">
+                    <label className="text-[11px] sm:text-xs font-bold text-navy-950 uppercase tracking-wider block">
+                      Choose Designated Cause:
                     </label>
                     {selectedCampaign.startsWith('Sponsorship:') && (
-                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300/50">
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-100 text-emerald-800 border border-emerald-300/50 shrink-0">
                         <Sparkles className="w-3 h-3 text-emerald-600" />
                         <span>Cause Sponsorship</span>
                       </span>
@@ -898,14 +898,14 @@ function DonationPortalContent() {
                   </div>
 
                   {selectedCampaign.startsWith('Sponsorship:') && (
-                    <div className="p-3.5 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border border-emerald-300/80 rounded-2xl flex items-center justify-between gap-3 text-xs shadow-xs">
-                      <div className="flex items-start gap-2.5">
-                        <span className="text-xl shrink-0">🤝</span>
+                    <div className="p-3 bg-gradient-to-r from-emerald-50 via-teal-50 to-emerald-50 border border-emerald-300/80 rounded-2xl flex items-center justify-between gap-2 text-xs shadow-xs">
+                      <div className="flex items-start gap-2">
+                        <span className="text-lg shrink-0">🤝</span>
                         <div>
-                          <p className="font-bold text-emerald-950">
+                          <p className="font-bold text-emerald-950 text-xs leading-tight">
                             Designated Cause: <span className="underline decoration-emerald-500 font-extrabold">{selectedCampaign.replace('Sponsorship: ', '')}</span>
                           </p>
-                          <p className="text-[11px] text-emerald-700 mt-0.5">
+                          <p className="text-[10px] sm:text-[11px] text-emerald-700 mt-0.5">
                             100% of your contribution directly funds this verified outcome on the ground.
                           </p>
                         </div>
@@ -922,7 +922,7 @@ function DonationPortalContent() {
                   <select
                     value={selectedCampaign}
                     onChange={(e) => setSelectedCampaign(e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm font-bold text-navy-950 focus:ring-2 focus:ring-navy-900 focus:bg-white transition-all"
+                    className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-300 rounded-xl text-base sm:text-sm font-bold text-navy-950 focus:ring-2 focus:ring-navy-900 focus:bg-white transition-all truncate"
                   >
                     {!CAMPAIGN_OPTIONS.includes(selectedCampaign) && !SPONSORSHIP_OPTIONS.includes(selectedCampaign) && (
                       <optgroup label="📌 Selected Initiative">
@@ -947,8 +947,8 @@ function DonationPortalContent() {
                 </div>
 
                 {/* 3. Donation Amount Selection */}
-                <div className="space-y-3">
-                  <label className="text-xs font-bold text-navy-950 uppercase tracking-wider block">
+                <div className="space-y-2 sm:space-y-3">
+                  <label className="text-[11px] sm:text-xs font-bold text-navy-950 uppercase tracking-wider block">
                     Select Donation Amount (INR ₹):
                   </label>
 
@@ -958,7 +958,7 @@ function DonationPortalContent() {
                         key={preset}
                         type="button"
                         onClick={() => handleAmountSelect(preset)}
-                        className={`py-3 rounded-xl text-sm font-black transition-all border ${
+                        className={`py-2.5 sm:py-3 rounded-xl text-sm font-black transition-all border active:scale-95 cursor-pointer ${
                           amount === preset && !customAmount
                             ? 'bg-navy-950 text-gold-400 border-navy-950 shadow-md ring-2 ring-gold-400/40'
                             : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300'
@@ -971,7 +971,7 @@ function DonationPortalContent() {
 
                   {/* Custom Rupee Input */}
                   <div className="relative">
-                    <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-slate-400 font-bold">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400 font-bold">
                       ₹
                     </div>
                     <input
@@ -980,14 +980,14 @@ function DonationPortalContent() {
                       max="5000000"
                       value={customAmount}
                       onChange={handleCustomAmountChange}
-                      placeholder="Or enter custom contribution amount (e.g. 3500)"
-                      className="w-full pl-8 pr-4 py-3 bg-white border border-slate-300 rounded-xl text-sm font-semibold text-navy-950 focus:ring-2 focus:ring-navy-900 transition-all placeholder:text-slate-400"
+                      placeholder="Enter custom amount (₹) (e.g. 3,500)"
+                      className="w-full pl-8 pr-4 py-2.5 sm:py-3 bg-white border border-slate-300 rounded-xl text-base sm:text-sm font-semibold text-navy-950 focus:ring-2 focus:ring-navy-900 transition-all placeholder:text-slate-400"
                     />
                   </div>
                 </div>
 
                 {/* 4. Voluntary Operational Support Tip (SikhAid Inspired) */}
-                <div className="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div className="bg-amber-50/70 border border-amber-200/80 rounded-2xl p-3 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 sm:gap-3">
                   <div className="space-y-0.5">
                     <strong className="text-xs font-bold text-navy-950 block">
                       Support Nipania Trust Volunteer Operations
@@ -996,7 +996,7 @@ function DonationPortalContent() {
                       Help cover volunteer travel, field fuel, and logistics without touching relief funds.
                     </p>
                   </div>
-                  <div className="flex items-center gap-1.5 shrink-0">
+                  <div className="grid grid-cols-4 sm:flex items-center gap-1.5 shrink-0">
                     {[
                       { label: '0%', val: 0 },
                       { label: '5%', val: 5 },
@@ -1007,9 +1007,9 @@ function DonationPortalContent() {
                         key={t.val}
                         type="button"
                         onClick={() => setSupportTipPercent(t.val)}
-                        className={`px-2.5 py-1.5 rounded-lg text-xs font-bold border transition-all ${
+                        className={`py-2 px-2.5 rounded-lg text-xs font-bold border transition-all text-center active:scale-95 cursor-pointer ${
                           supportTipPercent === t.val
-                            ? 'bg-amber-500 text-navy-950 border-amber-600 shadow-2xs'
+                            ? 'bg-amber-500 text-navy-950 border-amber-600 shadow-2xs font-black'
                             : 'bg-white text-slate-700 border-amber-200 hover:bg-amber-100/50'
                         }`}
                       >
@@ -1020,12 +1020,12 @@ function DonationPortalContent() {
                 </div>
 
                 {/* 5. Donor Information Inputs */}
-                <div className="space-y-3 pt-2">
-                  <label className="text-xs font-bold text-navy-950 uppercase tracking-wider block">
+                <div className="space-y-2.5 sm:space-y-3 pt-1">
+                  <label className="text-[11px] sm:text-xs font-bold text-navy-950 uppercase tracking-wider block">
                     Donor Details (For Section 80G Tax Exemption Receipt):
                   </label>
 
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
                     <div>
                       <input
                         type="text"
@@ -1033,7 +1033,7 @@ function DonationPortalContent() {
                         placeholder="Full Name (as per PAN) *"
                         value={formData.name}
                         onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-navy-950 focus:bg-white focus:ring-2 focus:ring-navy-900 transition-all placeholder:text-slate-400"
+                        className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-300 rounded-xl text-base sm:text-sm text-navy-950 focus:bg-white focus:ring-2 focus:ring-navy-900 transition-all placeholder:text-slate-400"
                       />
                     </div>
                     <div>
@@ -1044,7 +1044,7 @@ function DonationPortalContent() {
                         placeholder="10-Digit Mobile Number *"
                         value={formData.phone}
                         onChange={(e) => setFormData({ ...formData, phone: e.target.value.replace(/[^0-9]/g, '') })}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-navy-950 focus:bg-white focus:ring-2 focus:ring-navy-900 transition-all placeholder:text-slate-400"
+                        className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-300 rounded-xl text-base sm:text-sm text-navy-950 focus:bg-white focus:ring-2 focus:ring-navy-900 transition-all placeholder:text-slate-400"
                       />
                     </div>
                     <div>
@@ -1053,97 +1053,37 @@ function DonationPortalContent() {
                         placeholder="Email Address (To receive 80G PDF receipt) *"
                         value={formData.email}
                         onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm text-navy-950 focus:bg-white focus:ring-2 focus:ring-navy-900 transition-all placeholder:text-slate-400"
+                        className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-300 rounded-xl text-base sm:text-sm text-navy-950 focus:bg-white focus:ring-2 focus:ring-navy-900 transition-all placeholder:text-slate-400"
                       />
                     </div>
                     <div>
                       <input
                         type="text"
                         maxLength={10}
-                        placeholder="PAN Number (Optional, for Form 10BE tax benefit)"
+                        placeholder="PAN Number (Optional, for Form 10BE benefit)"
                         value={formData.pan}
                         onChange={(e) => setFormData({ ...formData, pan: e.target.value.toUpperCase() })}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-300 rounded-xl text-sm font-mono text-navy-950 uppercase focus:bg-white focus:ring-2 focus:ring-navy-900 transition-all placeholder:text-slate-400"
+                        className="w-full px-3.5 sm:px-4 py-2.5 sm:py-3 bg-slate-50 border border-slate-300 rounded-xl text-base sm:text-sm font-mono text-navy-950 uppercase focus:bg-white focus:ring-2 focus:ring-navy-900 transition-all placeholder:text-slate-400"
                       />
                     </div>
                   </div>
                 </div>
 
-                {/* Payment mode removed - direct online payment only */}
-                
-                {/* Removed offline payment option - keeping conditional check for compatibility */}
-                {false && (
-                  <div className="bg-slate-50 p-6 rounded-2xl border border-slate-200 space-y-4 animate-in fade-in duration-200">
-                    <div className="space-y-1">
-                      <strong className="text-sm font-bold text-navy-950 block">
-                        Step 1: Transfer Directly to Nipania Trust
-                      </strong>
-                      <p className="text-xs text-slate-500">
-                        Scan our UPI QR code or transfer via NEFT/IMPS:
-                      </p>
-                    </div>
-
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
-                      <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
-                        <span className="text-[10px] text-slate-400 font-bold uppercase">Account Number</span>
-                        <div className="flex justify-between items-center">
-                          <strong className="font-mono text-sm text-navy-950">{paymentConfig.bankAccountNumber}</strong>
-                          <button
-                            type="button"
-                            onClick={() => handleCopy(paymentConfig.bankAccountNumber, 'acc')}
-                            className="text-gold-700 text-[11px] font-bold"
-                          >
-                            {copiedField === 'acc' ? 'Copied' : 'Copy'}
-                          </button>
-                        </div>
-                      </div>
-
-                      <div className="bg-white p-3 rounded-xl border border-slate-200 space-y-1">
-                        <span className="text-[10px] text-slate-400 font-bold uppercase">IFSC Code</span>
-                        <div className="flex justify-between items-center">
-                          <strong className="font-mono text-sm text-navy-950">{paymentConfig.bankIfsc}</strong>
-                          <button
-                            type="button"
-                            onClick={() => handleCopy(paymentConfig.bankIfsc, 'ifsc')}
-                            className="text-gold-700 text-[11px] font-bold"
-                          >
-                            {copiedField === 'ifsc' ? 'Copied' : 'Copy'}
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="space-y-1 pt-2">
-                      <strong className="text-sm font-bold text-navy-950 block">
-                        Step 2: Enter Transaction UTR / Reference ID:
-                      </strong>
-                      <input
-                        type="text"
-                        required
-                        value={utrNumber}
-                        onChange={(e) => setUtrNumber(e.target.value)}
-                        placeholder="Enter 12-digit UTR or Payment Reference (e.g. 423987123456) *"
-                        className="w-full px-4 py-3 bg-white border border-slate-300 rounded-xl text-sm font-mono text-navy-950 focus:ring-2 focus:ring-navy-900"
-                      />
-                    </div>
-                  </div>
-                )}
-
                 {/* Error Banner */}
                 {error && (
-                  <div className="p-4 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-bold">
+                  <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-bold">
                     {error}
                   </div>
                 )}
 
                 {/* Total Summary & Main Donate CTA Button */}
-                <div className="pt-2 space-y-3">
-                  <div className="flex justify-between items-center px-2 text-xs font-semibold text-slate-600">
-                    <span>
+                <div className="pt-2 space-y-2.5 sm:space-y-3">
+                  <div className="flex justify-between items-center px-1 text-xs font-semibold text-slate-600">
+                    <span className="truncate mr-2">
                       Donation: <strong>₹{amount.toLocaleString('en-IN')}</strong>
-                      {tipAmount > 0 && <span> + Support Tip: <strong>₹{tipAmount}</strong></span>}
+                      {tipAmount > 0 && <span> + Tip: <strong>₹{tipAmount}</strong></span>}
                     </span>
-                    <span className="text-base font-black text-navy-950 font-mono">
+                    <span className="text-base sm:text-lg font-black text-navy-950 font-mono shrink-0">
                       Total: ₹{totalPayable.toLocaleString('en-IN')}
                     </span>
                   </div>
@@ -1163,7 +1103,7 @@ function DonationPortalContent() {
                           type="button"
                           disabled={loading || !isFormComplete}
                           onClick={paymentMode === 'ONLINE' ? handleOnlineDonation : handleOfflineDonation}
-                          className="w-full py-3.5 sm:py-4 px-4 sm:px-6 rounded-2xl text-sm sm:text-base font-black bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:scale-98 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none"
+                          className="w-full py-3.5 sm:py-4 px-4 sm:px-6 rounded-2xl text-sm sm:text-base font-black bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 hover:from-amber-400 hover:to-amber-300 text-slate-950 shadow-lg hover:shadow-xl transition-all transform hover:-translate-y-0.5 active:scale-98 flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:translate-y-0 disabled:hover:shadow-none cursor-pointer"
                         >
                           {loading ? (
                             <>
@@ -1184,16 +1124,16 @@ function DonationPortalContent() {
                           )}
                         </button>
                         {!isFormComplete && (
-                          <p className="text-[11px] text-center text-slate-400">
-                            Please fill in your name, 10-digit mobile number, and valid email above to activate donation.
-                          </p>
+                          <div className="text-[11px] text-center text-amber-900 bg-amber-50 border border-amber-200/80 rounded-xl py-2 px-3">
+                            Please fill in your name, 10-digit mobile number, and email above to activate donation.
+                          </div>
                         )}
                       </>
                     );
                   })()}
 
                   {/* Trust Badges under button */}
-                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-3 text-[10px] sm:text-[11px] font-bold text-slate-600 text-center">
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-2 text-[10px] sm:text-[11px] font-bold text-slate-600 text-center">
                     <span className="flex items-center justify-center gap-1">
                       <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
                       <span>{frequency === 'MONTHLY' ? 'RBI e-Mandate' : 'Registered NGO'}</span>
@@ -1240,17 +1180,17 @@ function DonationPortalContent() {
                 return (
                   <div
                     key={idx}
-                    className="p-6 sm:p-8 rounded-3xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:shadow-xl transition-all duration-300 space-y-4 group"
+                    className="p-4 sm:p-7 rounded-2xl sm:rounded-3xl border border-slate-200 bg-slate-50/50 hover:bg-white hover:shadow-xl transition-all duration-300 space-y-3.5 group"
                   >
-                    <div className="flex items-center gap-4">
-                      <div className={`p-3.5 rounded-2xl border ${card.color}`}>
-                        <Icon className="w-6 h-6" />
+                    <div className="flex items-center gap-3 sm:gap-4">
+                      <div className={`p-2.5 sm:p-3.5 rounded-xl sm:rounded-2xl border ${card.color} shrink-0`}>
+                        <Icon className="w-5 h-5 sm:w-6 sm:h-6" />
                       </div>
                       <div>
-                        <h3 className="text-lg font-bold text-navy-950 font-heading">
+                        <h3 className="text-base sm:text-lg font-bold text-navy-950 font-heading leading-tight">
                           {card.title}
                         </h3>
-                        <span className="text-xs font-semibold text-emerald-700">
+                        <span className="text-xs font-semibold text-emerald-700 block mt-0.5">
                           {card.impactLabel}
                         </span>
                       </div>
@@ -1260,19 +1200,24 @@ function DonationPortalContent() {
                       {card.desc}
                     </p>
 
-                    <div className="flex items-center justify-between pt-2 border-t border-slate-200">
-                      <span className="font-mono text-lg font-extrabold text-navy-950">
+                    <div className="flex items-center justify-between pt-2.5 border-t border-slate-200">
+                      <span className="font-mono text-base sm:text-lg font-extrabold text-navy-950">
                         ₹{card.suggestedAmount.toLocaleString('en-IN')}
                       </span>
                       <button
                         type="button"
                         onClick={() => {
                           handleAmountSelect(card.suggestedAmount);
-                          window.scrollTo({ top: 150, behavior: 'smooth' });
+                          const el = document.getElementById('donation-form-card');
+                          if (el) {
+                            el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                          } else {
+                            window.scrollTo({ top: 0, behavior: 'smooth' });
+                          }
                         }}
-                        className="inline-flex items-center gap-1 text-xs font-bold text-navy-950 group-hover:text-gold-700 transition-colors"
+                        className="inline-flex items-center gap-1.5 py-1.5 px-3 rounded-lg bg-amber-50 hover:bg-amber-100 text-xs font-bold text-amber-900 border border-amber-200/80 transition-colors cursor-pointer active:scale-95"
                       >
-                        <span>Select This Impact</span>
+                        <span>Select Impact</span>
                         <ArrowRight className="w-3.5 h-3.5" />
                       </button>
                     </div>
@@ -1287,58 +1232,58 @@ function DonationPortalContent() {
         <DirectDonationSection />
 
         {/* 4. Complete Transparency & Fund Allocation (SikhAid Inspired) */}
-        <section className="py-16 sm:py-20 bg-white border-t border-slate-200">
+        <section className="py-10 sm:py-20 bg-white border-t border-slate-200">
           <div className="max-w-6xl mx-auto px-4 sm:px-6">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 items-center">
               
-              <div className="space-y-6">
-                <div className="space-y-2">
+              <div className="space-y-4 sm:space-y-6">
+                <div className="space-y-1.5 sm:space-y-2">
                   <span className="text-xs font-bold text-gold-800 uppercase tracking-widest">
                     Accountability
                   </span>
-                  <h2 className="text-3xl font-extrabold text-navy-950 font-heading">
+                  <h2 className="text-2xl sm:text-3xl font-extrabold text-navy-950 font-heading">
                     How We Utilize Every Donation
                   </h2>
-                  <p className="text-sm text-slate-600 leading-relaxed">
+                  <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
                     We maintain stringent financial audits and publish public utilization reports to guarantee that maximum relief reaches on-ground beneficiaries.
                   </p>
                 </div>
 
-                <div className="space-y-4 text-xs font-semibold text-navy-950">
-                  <div className="space-y-1.5">
+                <div className="space-y-3.5 sm:space-y-4 text-xs font-semibold text-navy-950">
+                  <div className="space-y-1">
                     <div className="flex justify-between">
                       <span>Emergency Disaster & Food Relief</span>
-                      <span className="text-emerald-700">45%</span>
+                      <span className="text-emerald-700 font-bold">45%</span>
                     </div>
                     <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                       <div className="bg-emerald-600 h-full rounded-full w-[45%]" />
                     </div>
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1">
                     <div className="flex justify-between">
                       <span>Rural Health Camps & Mobile Clinic</span>
-                      <span className="text-blue-700">25%</span>
+                      <span className="text-blue-700 font-bold">25%</span>
                     </div>
                     <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                       <div className="bg-blue-600 h-full rounded-full w-[25%]" />
                     </div>
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1">
                     <div className="flex justify-between">
                       <span>Child Education & Girl Student Kits</span>
-                      <span className="text-purple-700">18%</span>
+                      <span className="text-purple-700 font-bold">18%</span>
                     </div>
                     <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                       <div className="bg-purple-600 h-full rounded-full w-[18%]" />
                     </div>
                   </div>
 
-                  <div className="space-y-1.5">
+                  <div className="space-y-1">
                     <div className="flex justify-between">
                       <span>Farmer Assistance & Winter Blankets</span>
-                      <span className="text-amber-700">12%</span>
+                      <span className="text-amber-700 font-bold">12%</span>
                     </div>
                     <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden">
                       <div className="bg-amber-500 h-full rounded-full w-[12%]" />
@@ -1348,26 +1293,26 @@ function DonationPortalContent() {
               </div>
 
               {/* Trust Callout Card */}
-              <div className="bg-gradient-to-br from-[#0c2340] to-[#0f3460] text-white p-8 sm:p-10 rounded-3xl space-y-6 shadow-2xl border-2 border-gold-400/40 relative overflow-hidden">
+              <div className="bg-gradient-to-br from-[#0c2340] to-[#0f3460] text-white p-5 sm:p-8 md:p-10 rounded-2xl sm:rounded-3xl space-y-4 sm:space-y-6 shadow-2xl border border-gold-400/30 relative overflow-hidden">
                 <div className="absolute top-0 right-0 w-32 h-32 bg-gold-400/15 rounded-full blur-2xl pointer-events-none" />
-                <h3 className="text-2xl font-black font-heading text-white">
+                <h3 className="text-xl sm:text-2xl font-black font-heading text-white leading-tight">
                   Why Donate to Nipania Vikash Seva Trust?
                 </h3>
-                <ul className="space-y-4 text-xs sm:text-sm text-blue-100/90">
+                <ul className="space-y-3.5 sm:space-y-4 text-xs sm:text-sm text-blue-100/90">
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-gold-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400 shrink-0 mt-0.5" />
                     <span>
                       <strong className="text-white block font-heading">100% Transparent Utilization:</strong> Every rupee is accounted for with zero hidden middleman fees.
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-gold-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400 shrink-0 mt-0.5" />
                     <span>
                       <strong className="text-white block font-heading">50% Income Tax Exemption (80G):</strong> Instant digitally signed Section 80G tax certificate issued on donation.
                     </span>
                   </li>
                   <li className="flex items-start gap-3">
-                    <CheckCircle2 className="w-5 h-5 text-gold-400 shrink-0 mt-0.5" />
+                    <CheckCircle2 className="w-4 h-4 sm:w-5 sm:h-5 text-gold-400 shrink-0 mt-0.5" />
                     <span>
                       <strong className="text-white block font-heading">Ground-Level Execution:</strong> Our volunteer teams live in and understand the local communities they serve.
                     </span>
@@ -1378,6 +1323,33 @@ function DonationPortalContent() {
             </div>
           </div>
         </section>
+
+        {/* Mobile Sticky Quick Donate Floating Bar */}
+        <div className="fixed bottom-0 left-0 right-0 z-40 bg-white/95 backdrop-blur-md border-t border-slate-200/90 p-3 sm:hidden shadow-[0_-4px_20px_rgba(0,0,0,0.08)] flex items-center justify-between gap-3">
+          <div className="min-w-0">
+            <span className="text-[10px] text-slate-500 font-bold block uppercase tracking-wider truncate">
+              {frequency === 'MONTHLY' ? 'Monthly' : 'One-Time'} Contribution
+            </span>
+            <div className="text-base font-black text-navy-950 font-mono leading-tight">
+              ₹{totalPayable.toLocaleString('en-IN')}{frequency === 'MONTHLY' ? '/mo' : ''}
+            </div>
+          </div>
+          <button
+            type="button"
+            onClick={() => {
+              const el = document.getElementById('donation-form-card');
+              if (el) {
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+              } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+              }
+            }}
+            className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-full text-xs font-black bg-gradient-to-r from-amber-500 via-amber-400 to-amber-500 text-slate-950 shadow-md active:scale-95 shrink-0 cursor-pointer"
+          >
+            <Heart className="w-3.5 h-3.5 fill-slate-950 text-slate-950" />
+            <span>Donate Now</span>
+          </button>
+        </div>
 
       </main>
 

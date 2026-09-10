@@ -34,6 +34,39 @@
 
 ## 🟢 COMPLETED
 
+### Task: Mobile Navbar & Toggle Improvements, Close Button, Top Space Fix & Remove Events
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-10
+- **Completed**: 2026-09-10
+- **Notes**:
+  1. Addressed user requests: "improve the nav bar in mobile view splacily the toggle var", "now toggle bar line is not visbale and the close button is also not visable and why intop there is sapce fix this", and "and from the nav bar remove the event section".
+  2. Fixed hamburger toggle button lines: Replaced CSS-only pseudo-bars with crisp, high-visibility Lucide `Menu` (3 sharp lines, `strokeWidth={2.5}`) and `X` toggle icon on active state.
+  3. Fixed top space/gap: Replaced the offset drawer with a full-viewport sheet (`fixed inset-0 z-[100]`) starting cleanly from y = 0, eliminating any dead vertical space or banner peek-through.
+  4. Added prominent Close button: Added a dedicated top header bar inside the mobile drawer with Trust logo, branding, and an unmistakable `X` close button alongside the navbar toggle.
+  5. Removed "Community Events" section from `MAIN_NAV_ITEMS` (both desktop "Get Involved" dropdown and mobile accordion).
+  6. Cleaned up unused imports and states (`Calendar`, `headerHeight`).
+  7. Verified compilation with `npx tsc --noEmit` (0 errors).
+
+### Task: Mobile UX & Layout Optimization for Donation Page (/donate)
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-10
+- **Completed**: 2026-09-10
+- **Notes**:
+  1. Addressed user request: "optimize the donation page for mobile view".
+  2. Streamlined top hero padding, typography (`text-2xl sm:text-4xl`), and container spacing (`px-3.5 sm:px-6`).
+  3. Optimized main donation card padding (`p-4 sm:p-8 md:p-10`) so full width is usable on narrow screens.
+  4. Enhanced frequency toggle with `whitespace-nowrap` and clean padding.
+  5. Refactored preset amounts grid with responsive touch-friendly buttons and concise custom amount input (`text-base sm:text-sm` to prevent iOS auto-zoom).
+  6. Re-aligned voluntary operational tip buttons to 4-column touch segmented bar (`grid grid-cols-4 sm:flex`).
+  7. Prevented mobile Safari auto-zoom across all donor fields (`Full Name`, `Mobile`, `Email`, `PAN`).
+  8. Added smooth scroll anchors (`#donation-form-card`) from "Choose Your Impact" cards directly into the donation card.
+  9. Added a sleek, floating sticky bottom donate bar on mobile screens with real-time total amount and 1-tap "Donate Now" trigger.
+  10. Verified compilation with `npx tsc --noEmit` (0 errors) and inspected live in browser at 390x844 mobile resolution.
+
 ### Task: Mobile UX Fixes - Carousel Dots Sizing & Campaign Category Pills Scrolling
 - **Owner**: Google Antigravity
 - **Status**: COMPLETED

@@ -4,23 +4,41 @@ import React, { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { Menu, X, Heart, ChevronDown, Users, UserPlus, Calendar, Sparkles } from 'lucide-react';
+import {
+  Heart,
+  ChevronDown,
+  Users,
+  UserPlus,
+  Sparkles,
+  Home,
+  Info,
+  FolderKanban,
+  FileCheck,
+  Phone,
+  ShieldCheck,
+  Award,
+  ArrowRight,
+  ExternalLink,
+  MessageCircle,
+  Menu,
+  X,
+} from 'lucide-react';
 
 const MAIN_NAV_ITEMS = [
-  { name: 'Home', href: '/' },
-  { name: 'About Us', href: '/about' },
-  { name: 'Campaigns', href: '/campaigns' },
-  { name: 'Our Work', href: '/work' },
+  { name: 'Home', href: '/', icon: Home },
+  { name: 'About Us', href: '/about', icon: Info },
+  { name: 'Campaigns', href: '/campaigns', icon: FolderKanban },
+  { name: 'Our Work', href: '/work', icon: FileCheck },
   {
     name: 'Get Involved',
     href: '#',
+    icon: Users,
     submenu: [
       { name: 'Become a Volunteer', href: '/volunteer', desc: 'Join on-ground community welfare drives', icon: Users },
       { name: 'Become a Member', href: '/membership', desc: 'Official trust membership & governance', icon: UserPlus },
-      { name: 'Community Events', href: '/campaigns', desc: 'Health camps & environmental drives', icon: Calendar },
     ],
   },
-  { name: 'Contact', href: '/contact' },
+  { name: 'Contact', href: '/contact', icon: Phone },
 ];
 
 export default function Navbar() {
@@ -30,7 +48,6 @@ export default function Navbar() {
   const [mobileSubmenuOpen, setMobileSubmenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [headerHeight, setHeaderHeight] = useState(68);
 
   // Scroll detection
   useEffect(() => {
@@ -41,12 +58,6 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Update header height dynamically for exact mobile drawer alignment
-  useEffect(() => {
-    if (headerRef.current) {
-      setHeaderHeight(headerRef.current.offsetHeight);
-    }
-  }, [scrolled]);
 
   // Lock body scroll when mobile menu is open
   useEffect(() => {
@@ -87,12 +98,12 @@ export default function Navbar() {
             : 'bg-white/95 backdrop-blur-md border-b border-slate-200/70 py-2.5 sm:py-3.5'
         }`}
       >
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 w-full">
           <div className="flex items-center justify-between gap-2 sm:gap-4 w-full">
             
             {/* Official Trust Brand Logo & Typography */}
-            <Link href="/" className="flex items-center gap-2.5 sm:gap-3 group shrink min-w-0">
-              <div className="relative w-10 h-10 sm:w-11 sm:h-11 rounded-full overflow-hidden bg-white p-0.5 shadow-sm border-2 border-amber-400 transition-all duration-300 group-hover:scale-105 shrink-0 group-hover:border-amber-500">
+            <Link href="/" className="flex items-center gap-2 sm:gap-3 group shrink min-w-0">
+              <div className="relative w-9 h-9 sm:w-11 sm:h-11 rounded-full overflow-hidden bg-white p-0.5 shadow-sm border-2 border-amber-400 transition-all duration-300 group-hover:scale-105 shrink-0 group-hover:border-amber-500">
                 <Image
                   src="/logo.png"
                   alt="Nipania Vikash Seva Trust Logo"
@@ -105,7 +116,7 @@ export default function Navbar() {
                 <span className="text-xs xs:text-sm sm:text-[15px] font-black tracking-tight text-slate-900 group-hover:text-amber-700 transition-colors uppercase leading-tight font-heading truncate">
                   Nipania Vikash Seva Trust
                 </span>
-                <span className="text-[9px] xs:text-[10px] font-bold tracking-wider text-amber-600 uppercase truncate mt-0.5">
+                <span className="text-[8px] xs:text-[9px] sm:text-[10px] font-bold tracking-wider text-amber-600 uppercase truncate mt-0.5">
                   SEVA • VIKASH • SAMARPAN
                 </span>
               </div>
@@ -205,24 +216,34 @@ export default function Navbar() {
               </Link>
             </div>
 
-            {/* Responsive Action Buttons & Mobile Drawer Trigger (Displays below xl) */}
-            <div className="flex xl:hidden items-center gap-2 shrink-0">
+            {/* Responsive Action Buttons & Modern Hamburger/Close Toggle Button (Displays below xl) */}
+            <div className="flex xl:hidden items-center gap-1.5 sm:gap-2 shrink-0">
               <Link
                 href="/donate"
-                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-full text-xs font-black bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 text-white shadow-md active:scale-95 transition-transform whitespace-nowrap leading-none shrink-0"
+                className="inline-flex items-center justify-center gap-1 px-3 sm:px-3.5 py-1.5 sm:py-2 rounded-full text-[11px] sm:text-xs font-black bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 text-white shadow-sm active:scale-95 transition-transform whitespace-nowrap leading-none shrink-0"
                 aria-label="Donate"
               >
-                <Heart className="w-3.5 h-3.5 fill-white shrink-0" />
+                <Heart className="w-3 h-3 fill-white shrink-0" />
                 <span>DONATE</span>
               </Link>
+
+              {/* Clear, High-Contrast Mobile Menu Toggle Button */}
               <button
                 type="button"
                 onClick={() => setMobileMenuOpen((prev) => !prev)}
-                className="p-2 rounded-xl text-slate-800 hover:text-slate-950 hover:bg-slate-100 focus:outline-none active:scale-95 transition-all touch-manipulation border border-slate-200 shrink-0 cursor-pointer"
-                aria-label={mobileMenuOpen ? 'Close menu' : 'Open navigation menu'}
+                className={`w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center transition-all duration-200 touch-manipulation border shrink-0 cursor-pointer active:scale-95 select-none ${
+                  mobileMenuOpen
+                    ? 'bg-amber-500 border-amber-600 text-white shadow-sm ring-2 ring-amber-400/40'
+                    : 'bg-slate-100 hover:bg-slate-200/90 border-slate-300 text-slate-800 shadow-2xs'
+                }`}
+                aria-label={mobileMenuOpen ? 'Close navigation menu' : 'Open navigation menu'}
                 aria-expanded={mobileMenuOpen}
               >
-                {mobileMenuOpen ? <X className="w-5 h-5 text-amber-600" /> : <Menu className="w-5 h-5" />}
+                {mobileMenuOpen ? (
+                  <X className="w-5 h-5 text-white stroke-[2.5]" />
+                ) : (
+                  <Menu className="w-5 h-5 text-slate-800 stroke-[2.5]" />
+                )}
               </button>
             </div>
 
@@ -230,31 +251,85 @@ export default function Navbar() {
         </div>
       </header>
 
-      {/* Slide-down Responsive Menu Drawer (Mounted outside header to guarantee full viewport visibility) */}
+      {/* Full-Screen Mobile Menu Drawer (Zero space at top, dedicated close header & smooth scroll) */}
       {mobileMenuOpen && (
-        <div
-          style={{ top: `${headerHeight}px` }}
-          className="xl:hidden fixed inset-x-0 bottom-0 z-50 bg-white/98 backdrop-blur-2xl border-t border-slate-200 overflow-y-auto overscroll-contain animate-in fade-in slide-in-from-top-2 duration-200"
-        >
-          <div className="p-4 sm:p-6 pb-28 space-y-4 max-w-lg mx-auto">
-            {/* Nav Links */}
-            <div className="space-y-1">
+        <div className="xl:hidden fixed inset-0 z-[100] bg-white flex flex-col animate-in fade-in slide-in-from-top-2 duration-200">
+          {/* Dedicated Drawer Top Bar with Trust Branding and Unmistakable Close Button */}
+          <div className="flex items-center justify-between px-4 py-3 sm:px-6 bg-white border-b border-slate-200 shadow-2xs shrink-0">
+            <Link
+              href="/"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2.5 min-w-0"
+            >
+              <div className="relative w-8 h-8 rounded-full overflow-hidden bg-white p-0.5 border border-amber-400 shrink-0">
+                <Image
+                  src="/logo.png"
+                  alt="Nipania Vikash Seva Trust Logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
+              <div className="min-w-0">
+                <div className="text-xs font-black text-slate-900 tracking-tight leading-tight truncate">
+                  NIPANIA VIKASH SEVA TRUST
+                </div>
+                <div className="text-[9px] font-extrabold text-amber-600 tracking-wider">
+                  SEVA • VIKASH • SAMARPAN
+                </div>
+              </div>
+            </Link>
+
+            {/* Clear, Prominent Close Button */}
+            <button
+              type="button"
+              onClick={() => setMobileMenuOpen(false)}
+              className="w-9 h-9 sm:w-10 sm:h-10 rounded-xl flex items-center justify-center bg-slate-100 hover:bg-slate-200 active:scale-95 text-slate-800 border border-slate-300 transition-all cursor-pointer shrink-0 shadow-2xs"
+              aria-label="Close navigation menu"
+            >
+              <X className="w-5 h-5 text-slate-800 stroke-[2.5]" />
+            </button>
+          </div>
+
+          {/* Scrollable Drawer Content */}
+          <div className="flex-1 overflow-y-auto overscroll-contain p-4 sm:p-6 pb-12 space-y-4 max-w-lg mx-auto w-full">
+            
+            {/* Trust Identity Pill Banner */}
+            <div className="bg-gradient-to-r from-amber-50 via-warm-50 to-amber-50/80 rounded-2xl p-3 border border-amber-200/80 shadow-xs flex items-center justify-between gap-2 text-xs">
+              <div className="flex items-center gap-2 min-w-0">
+                <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0" />
+                <span className="text-[11px] font-bold text-amber-950 truncate">
+                  Govt. Regd. Public Charitable Trust • Section 80G
+                </span>
+              </div>
+              <span className="text-[10px] font-black uppercase text-emerald-700 bg-emerald-100/90 px-2 py-0.5 rounded-full border border-emerald-300/60 shrink-0">
+                Verified
+              </span>
+            </div>
+
+            {/* Navigation Items List */}
+            <div className="space-y-1.5">
               {MAIN_NAV_ITEMS.map((item) => {
+                const Icon = item.icon;
+
                 if (item.submenu) {
                   const isSubActive = item.submenu.some((s) => pathname.startsWith(s.href));
                   return (
-                    <div key={item.name} className="py-1 border-b border-slate-100">
+                    <div key={item.name} className="rounded-2xl border border-slate-100 overflow-hidden bg-slate-50/50">
                       {/* Accordion Header */}
                       <button
                         type="button"
                         onClick={() => setMobileSubmenuOpen(!mobileSubmenuOpen)}
-                        className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-sm font-bold transition-all ${
-                          isSubActive ? 'text-amber-800 bg-amber-50' : 'text-slate-700 hover:bg-slate-50'
+                        className={`w-full flex items-center justify-between px-3.5 py-3 rounded-2xl text-xs font-bold transition-all cursor-pointer ${
+                          isSubActive ? 'text-amber-900 bg-amber-50/80 font-black' : 'text-slate-700 hover:bg-slate-100/80'
                         }`}
                       >
-                        <span className="flex items-center gap-2">
-                          <Users className="w-4 h-4 text-amber-600" />
-                          <span>{item.name}</span>
+                        <span className="flex items-center gap-2.5">
+                          <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 border ${
+                            isSubActive ? 'bg-amber-500 text-white border-amber-500 shadow-2xs' : 'bg-white text-amber-600 border-slate-200'
+                          }`}>
+                            <Users className="w-4 h-4" />
+                          </div>
+                          <span className="text-xs font-bold">{item.name}</span>
                         </span>
                         <ChevronDown
                           className={`w-4 h-4 text-amber-600 transition-transform duration-200 ${
@@ -265,7 +340,7 @@ export default function Navbar() {
 
                       {/* Submenu Accordion Items */}
                       {mobileSubmenuOpen && (
-                        <div className="mt-1 space-y-1 pl-2 pr-1 pb-2 animate-in fade-in slide-in-from-top-1 duration-150">
+                        <div className="p-1.5 pt-0 space-y-1 animate-in fade-in slide-in-from-top-1 duration-150">
                           {item.submenu.map((sub) => {
                             const SubIcon = sub.icon;
                             const isCurrent = pathname === sub.href;
@@ -274,20 +349,16 @@ export default function Navbar() {
                                 key={sub.name}
                                 href={sub.href}
                                 onClick={() => setMobileMenuOpen(false)}
-                                className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-xs font-semibold transition-all ${
-                                  isCurrent
-                                    ? 'bg-amber-50 text-amber-800 border border-amber-200 font-bold'
-                                    : 'text-slate-700 hover:bg-slate-100'
+                                className={`flex items-start gap-2.5 p-2.5 rounded-xl text-xs transition-colors ${
+                                  isCurrent ? 'bg-amber-100/70 text-amber-950 font-bold' : 'hover:bg-slate-100 text-slate-600'
                                 }`}
                               >
-                                <SubIcon className="w-4 h-4 text-amber-600 shrink-0" />
-                                <div className="flex flex-col min-w-0">
-                                  <span className="text-xs font-bold text-slate-900 leading-tight truncate">
-                                    {sub.name}
-                                  </span>
-                                  <span className="text-[10px] text-slate-500 mt-0.5 truncate leading-snug">
-                                    {sub.desc}
-                                  </span>
+                                <div className="w-7 h-7 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center shrink-0 mt-0.5">
+                                  <SubIcon className="w-3.5 h-3.5 text-amber-600" />
+                                </div>
+                                <div className="min-w-0">
+                                  <div className="font-bold text-slate-800">{sub.name}</div>
+                                  <div className="text-[11px] text-slate-500 leading-tight">{sub.desc}</div>
                                 </div>
                               </Link>
                             );
@@ -304,24 +375,32 @@ export default function Navbar() {
                     key={item.name}
                     href={item.href}
                     onClick={() => setMobileMenuOpen(false)}
-                    className={`flex items-center px-4 py-3 rounded-xl text-sm font-semibold transition-all ${
+                    className={`flex items-center justify-between px-3.5 py-2.5 sm:py-3 rounded-2xl text-xs font-bold transition-all border ${
                       isActive
-                        ? 'bg-amber-50 text-amber-800 font-bold border border-amber-200 shadow-2xs'
-                        : 'text-slate-700 hover:bg-slate-50'
+                        ? 'bg-amber-50 text-amber-900 border-amber-300 shadow-2xs'
+                        : 'bg-slate-50/50 hover:bg-slate-100/80 text-slate-700 border-slate-100'
                     }`}
                   >
-                    {item.name}
+                    <span className="flex items-center gap-2.5">
+                      <div className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 border ${
+                        isActive ? 'bg-amber-500 text-white border-amber-500 shadow-2xs' : 'bg-white text-slate-600 border-slate-200'
+                      }`}>
+                        <Icon className="w-4 h-4" />
+                      </div>
+                      <span className="text-xs font-bold">{item.name}</span>
+                    </span>
+                    <ArrowRight className={`w-3.5 h-3.5 ${isActive ? 'text-amber-700' : 'text-slate-400'}`} />
                   </Link>
                 );
               })}
             </div>
 
-            {/* Quick Actions: Sponsor & Donate */}
-            <div className="pt-4 border-t border-slate-200 space-y-3">
+            {/* Quick Action CTAs: Sponsor & Donate */}
+            <div className="pt-3 border-t border-slate-200 space-y-2.5">
               <Link
                 href="/sponsor"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-bold text-xs border border-amber-300 text-amber-800 bg-amber-50 hover:bg-amber-100 active:scale-98 transition-all"
+                className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl font-bold text-xs border border-amber-300 text-amber-800 bg-amber-50/90 hover:bg-amber-100 active:scale-98 transition-all shadow-2xs"
               >
                 <Sparkles className="w-4 h-4 text-amber-600" />
                 <span>SPONSOR A CAUSE</span>
@@ -330,12 +409,34 @@ export default function Navbar() {
               <Link
                 href="/donate"
                 onClick={() => setMobileMenuOpen(false)}
-                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-black text-sm bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 text-white shadow-lg active:scale-98 transition-all"
+                className="w-full flex items-center justify-center gap-2 py-3.5 rounded-2xl font-black text-xs sm:text-sm bg-gradient-to-r from-amber-500 via-amber-600 to-orange-500 text-white shadow-md active:scale-98 transition-all"
               >
                 <Heart className="w-4 h-4 fill-white" />
-                <span>DONATE NOW</span>
+                <span>DONATE TO ACTIVE SEVA</span>
               </Link>
             </div>
+
+            {/* Useful Mobile Helpline & Verification Strip */}
+            <div className="pt-3 border-t border-slate-100 grid grid-cols-2 gap-2 text-[11px] font-bold">
+              <a
+                href="https://wa.me/919876543210"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-emerald-50 text-emerald-800 border border-emerald-200/80 active:scale-95 transition-all truncate"
+              >
+                <MessageCircle className="w-3.5 h-3.5 text-emerald-600 shrink-0" />
+                <span className="truncate">WhatsApp Help</span>
+              </a>
+              <Link
+                href="/verify"
+                onClick={() => setMobileMenuOpen(false)}
+                className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-slate-100 text-slate-800 border border-slate-200 active:scale-95 transition-all truncate"
+              >
+                <ShieldCheck className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                <span className="truncate">Verify ID Card</span>
+              </Link>
+            </div>
+
           </div>
         </div>
       )}

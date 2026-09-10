@@ -3,6 +3,81 @@
 > **Instructions for AI Agents:**
 > Record all non-trivial changes here. Follow the exact section structure so both human developers and subsequent AI agents (Kilo Code / Google Antigravity) can follow the audit trail.
 
+## 2026-09-10 (Update 49)
+
+### Agent
+Google Antigravity
+
+### Task
+Mobile Navbar & Toggle Improvements, Close Button, Top Space Fix & Remove Events Section
+
+### Problems Addressed
+1. Mobile menu toggle button lines were smudged / indistinct due to invalid Tailwind gap classes and complex CSS bar translations.
+2. When the mobile menu drawer was open, there was no prominent close button visible, and the toggle button morphed into an obscured state.
+3. A large dead space / gap appeared at the top of the mobile menu drawer because the drawer was offset by `top: headerHeight`, exposing the top announcement and emergency banners.
+4. User requested removing the "Events" section from the navbar.
+
+### Changes Made
+1. **Mobile Menu Toggle Button (`src/components/public/Navbar.tsx`)**:
+   - Replaced fragile CSS spans with high-contrast, crisp Lucide `Menu` (3 sharp lines, `strokeWidth={2.5}`) and `X` (on open).
+   - Added tactile tap feedback (`active:scale-95`), clean border, and accessible `aria-label` / `aria-expanded` attributes.
+2. **Mobile Menu Drawer & Zero Top Gap (`src/components/public/Navbar.tsx`)**:
+   - Replaced the offset container with a full-viewport sheet starting cleanly from y = 0 (`fixed inset-0 z-[100] bg-white flex flex-col`).
+   - Completely eliminated dead space / banner peek-through at the top of the menu.
+3. **Dedicated Drawer Close Header (`src/components/public/Navbar.tsx`)**:
+   - Added a pinned top header bar inside the mobile drawer with Trust logo, branding ("NIPANIA VIKASH SEVA TRUST"), and a prominent `X` close button (`w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-100 hover:bg-slate-200`).
+4. **Remove Events Section (`src/components/public/Navbar.tsx`)**:
+   - Removed "Community Events" from `MAIN_NAV_ITEMS` in both the desktop dropdown and mobile accordion menu.
+   - Cleaned up unused `Calendar` icon import.
+5. **State & Cleanup**:
+   - Removed unused `headerHeight` measurement state and effect.
+
+### Testing & Verification
+- `npx tsc --noEmit`: 0 errors.
+- Visual inspection and browser rendering confirmed.
+
+---
+
+## 2026-09-10 (Update 48)
+
+### Agent
+Google Antigravity
+
+### Task
+Mobile UX & Layout Optimization for Donation Page (/donate)
+
+### Problem Addressed
+- The `/donate` page layout had cramped elements on small mobile screens:
+  - Overly large desktop hero text taking up excessive vertical screen space before the card.
+  - Large card padding (`p-6 sm:p-10`) restricting usable width for inputs and preset buttons.
+  - Custom amount placeholder text wrapping/overflowing.
+  - Tip buttons bunched up without even touch alignment.
+  - Potential iOS Safari automatic zooming on input focus due to `text-sm` (14px).
+  - Users scrolling down to read causes or bank details had no persistent way to donate without scrolling all the way back up.
+
+### Changes Made in `src/app/donate/page.tsx`
+1. **Hero & Container Proportions**:
+   - Refined hero padding (`py-8 sm:py-16 lg:py-20`) and container margins (`px-3.5 sm:px-6`).
+   - Sized header title cleanly (`text-2xl sm:text-4xl lg:text-5xl`) with concise subtitle line heights.
+2. **Main Donation Card (`#donation-form-card`)**:
+   - Adjusted padding to `p-4 sm:p-8 md:p-10` to maximize available mobile screen real estate.
+   - Enhanced frequency tabs (One-Time vs Monthly) with `whitespace-nowrap` and active font weights.
+   - Sized preset amount buttons with active tap feedback (`active:scale-95`).
+   - Made custom amount input placeholder concise (`Enter custom amount (₹) (e.g. 3,500)`).
+   - Upgraded tip percentage buttons to full-width segmented control on mobile (`grid grid-cols-4 sm:flex`).
+3. **Form Fields & iOS Zoom Prevention**:
+   - Updated all input fields (`Name`, `Phone`, `Email`, `PAN`) with `text-base sm:text-sm` to strictly prevent unwanted iOS Safari viewport auto-zooming on focus.
+4. **Interactive Impact Cards Navigation**:
+   - Wired "Choose Your Impact" cards to smoothly scroll to `#donation-form-card` upon selection with touch feedback.
+5. **Floating Sticky Quick Donate Bar**:
+   - Implemented a floating bottom bar (`fixed bottom-0 z-40 sm:hidden`) that displays live selected amount and a prominent "Donate Now" CTA button for effortless mobile conversions.
+
+### Testing & Verification
+- Mobile viewport (390x844) visual inspection via automated browser screenshot confirmed crisp layout, balanced padding, readable typography, and the floating sticky donate bar.
+- Ran `npx tsc --noEmit`: 0 errors.
+
+---
+
 ## 2026-09-10 (Update 47)
 
 ### Agent
