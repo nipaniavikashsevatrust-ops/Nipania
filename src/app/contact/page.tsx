@@ -102,8 +102,8 @@ export default function ContactPage() {
                     <div>
                       <strong className="text-slate-900 block font-heading">Registered Address</strong>
                       <p className="text-slate-600 leading-relaxed mt-1">
-                        Village Nipania, Post Office Road,<br />
-                        Jharkhand, India
+                        Nipania, P.O. Pargha, P.S. Baliapur,<br />
+                        District Dhanbad, Jharkhand – 828201
                       </p>
                     </div>
                   </div>

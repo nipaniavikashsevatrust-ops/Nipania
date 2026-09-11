@@ -22,6 +22,8 @@ import {
   Camera,
   HeartHandshake,
   FileCheck,
+  Award,
+  Building2,
 } from 'lucide-react';
 
 const MENU_GROUPS = [
@@ -36,7 +38,7 @@ const MENU_GROUPS = [
     title: 'PEOPLE & COMMUNITY',
     items: [
       { name: 'Volunteers', href: '/admin/volunteers', icon: Users },
-      { name: 'Members', href: '/admin/members', icon: UserPlus },
+      { name: 'Certificates', href: '/admin/certificates', icon: Award },
       { name: 'Board of Trustees', href: '/admin/board-members', icon: UserCog },
       { name: 'ID Card Studio', href: '/admin/id-cards', icon: CreditCard },
     ],
@@ -46,6 +48,7 @@ const MENU_GROUPS = [
     items: [
       { name: '80G & 10BD Compliance', href: '/admin/compliance/80g', icon: FileCheck },
       { name: 'Campaigns & Drives', href: '/admin/projects', icon: FolderKanban },
+      { name: 'CSR Inquiries', href: '/admin/csr', icon: Building2 },
       { name: 'Sponsor Causes', href: '/admin/sponsors', icon: HeartHandshake },
       { name: 'Photo Gallery', href: '/admin/gallery', icon: Camera },
       { name: 'CMS & Impact Stats', href: '/admin/content', icon: FileSpreadsheet },

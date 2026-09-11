@@ -197,7 +197,7 @@ function DonationPortalContent() {
     bankAccountNumber: '921020010268306',
     bankIfsc: 'UTIB0003025',
     bankName: 'Axis Bank',
-    branchName: 'Balrampur Branch',
+    branchName: 'Dhanbad Branch',
   });
 
   useEffect(() => {

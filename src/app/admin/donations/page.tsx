@@ -117,7 +117,7 @@ export default function AdminDonationsPage() {
     reg80gNo: 'AAFTN4004NF20214',
     reg12aNo: 'AAFTN4004NE20203',
     darpanId: 'UP/2021/0295112',
-    registeredAddress: 'Village & Post Nipania, Dist. Balrampur, Uttar Pradesh - 271201, India',
+    registeredAddress: 'Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201',
     email: 'info@nipaniatrust.org',
     website: 'https://nipaniatrust.org',
     presidentName: 'Managing Trustee',

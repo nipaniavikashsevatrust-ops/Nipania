@@ -41,6 +41,11 @@ export function generateVolunteerId(count: number): string {
   return `NVS-VOL-${String(count + 1).padStart(6, '0')}`;
 }
 
+export function generateCertificateNumber(count: number): string {
+  return `NVST-CERT-${String(count + 1).padStart(6, '0')}`;
+}
+
+// Deprecated member ID generator retained for read-only historical references
 export function generateMemberId(count: number): string {
   return `NVS-MEM-${String(count + 1).padStart(6, '0')}`;
 }

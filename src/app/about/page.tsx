@@ -213,7 +213,7 @@ export default async function AboutPage() {
                 <div className="grid grid-cols-1 sm:grid-cols-3 p-4">
                   <span className="font-semibold text-gold-400">Registered Office</span>
                   <span className="sm:col-span-2 text-white">
-                    {trustDetails?.registeredAddress || 'Nipania, Jharkhand, India'}
+                    {trustDetails?.registeredAddress || 'Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201'}
                   </span>
                 </div>
 

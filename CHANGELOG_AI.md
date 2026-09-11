@@ -3,6 +3,559 @@
 > **Instructions for AI Agents:**
 > Record all non-trivial changes here. Follow the exact section structure so both human developers and subsequent AI agents (Kilo Code / Google Antigravity) can follow the audit trail.
 
+## 2026-09-11 (Update 62)
+
+### Agent
+Google Antigravity
+
+### Task
+Professional CSR Inquiries Admin Section & Management Suite
+
+### Problem Addressed
+- User requested: "for csr wnquary is there any section in admin or not if not then make it like a profession one easy to handel"
+- Prior to this, CSR enquiries submitted from `/csr` were mixed in with general messages in `/admin/messages` without dedicated CSR domain parsing (company name, focus area, budget range, location, requirements) or pipeline progression tracking.
+
+### Changes Made
+1. **API Endpoints**:
+   - `src/app/api/csr/route.ts`:
+     - `GET`: Queries CSR enquiries from `prisma.contactMessage` (`subject` starting with `[CSR Enquiry]` or CSR admin notes).
+     - Parses structured parameters (Company Name, Contact Person, Phone, Focus Area, Budget Range, Location Preference, Requirements).
+     - Calculates pipeline metrics (Total Leads, New/Action Needed, In Review, Proposals Sent, Closed).
+   - `src/app/api/csr/[id]/route.ts`:
+     - `GET`: Retrieves single CSR inquiry with full details.
+     - `PATCH`: Updates lead status (`NEW`, `IN_REVIEW`, `PROPOSAL_SENT`, `MOA_SIGNED`, `CLOSED`) and internal follow-up notes (`adminNotes`). Records audit log action `CSR_STATUS_UPDATE`.
+     - `DELETE`: Safely deletes lead with audit log action `CSR_ENQUIRY_DELETE`.
+
+2. **Admin UI Portal**:
+   - `src/app/admin/csr/page.tsx`:
+     - Executive metrics row (Total Inquiries, Action Needed, In Review, Proposals Active).
+     - Search bar, status selector, and quick filter pills.
+     - Rich corporate lead cards displaying sector badge, budget tier, location, contact info, and message excerpt.
+     - Interactive Lead Management Dossier modal:
+       - 1-click status stepper (`NEW` ➔ `IN_REVIEW` ➔ `PROPOSAL_SENT` ➔ `MOA_SIGNED` ➔ `CLOSED`).
+       - Full requirements reader.
+       - Internal notes / follow-up log editor with auto-saving to database.
+       - 1-click proposal email launcher prefilling subject and corporate greeting.
+       - Direct WhatsApp connect link.
+     - Client-side CSV export of all inquiries.
+     - Safe deletion confirmation dialog.
+
+3. **Navigation Integration**:
+   - `src/components/admin/AdminSidebar.tsx`:
+     - Added `CSR Inquiries` navigation link under `PROGRAMS & COMPLIANCE` using `Building2` icon.
+
+### Verification
+- `npx tsc --noEmit` executed with 0 errors.
+- Dev server running cleanly without compilation errors.
+
+---
+
+## 2026-09-11 (Update 61)
+
+### Agent
+Kilo Code
+
+### Task
+Complete CSR Page Redesign from Scratch
+
+### Problem Addressed
+- User requested: "improve the CSR page make it more modern and make it from the scratch and suit the website please redesign it"
+- Previous CSR page had dark navy hero section and heavy gradients that didn't match the website's clean, light aesthetic
+- Needed complete rebuild to align with homepage design patterns, color scheme, and user experience
+
+### Changes Made
+**Complete Page Rebuild** (`src/app/csr/page.tsx` - 899 lines, fully rewritten):
+
+1. **Hero Section - Clean Modern Design**:
+   - Replaced dark navy background with light gradient (slate-50 → white → warm-50) with subtle pattern overlay
+   - Implemented 2-column grid layout: left content + right hero image
+   - Added real hero image with floating "Companies Act Compliant" badge overlay
+   - Created 3-column trust credentials grid (80G, Darpan ID, Trust Reg) with white cards
+   - Added quick stats row (50,000+ Lives, 120+ Villages, 100% Compliance)
+   - Redesigned CTAs with amber gradient primary button + white outline secondary button
+
+2. **New Partnership Benefits Section** (4-column grid):
+   - Created dedicated section showcasing: 100% Tax Compliance, Complete Documentation, Measurable Impact, Corporate Volunteering
+   - Each benefit card with icon, title, description, hover effects (scale-110 icons, border color change)
+   - Light warm-50 gradient backgrounds matching website palette
+
+3. **Interactive Focus Areas Grid** (6 Schedule VII domains):
+   - Each card now includes:
+     - Full-width hero image with gradient overlay
+     - Gradient icon badge (area-specific colors: rose, blue, purple, emerald, amber, slate)
+     - Schedule VII classification badge
+     - Impact metrics with TrendingUp icon
+     - Clickable selection state (border-amber-400 when selected)
+     - "Select This Area" button that auto-populates form and scrolls to enquiry
+   - Replaced text-only cards with rich image-based cards
+
+4. **CSR Process Timeline** (New Section):
+   - Created 4-step visual timeline with numbered badges (01-04)
+   - Process steps: Initial Consultation → Proposal & Site Visit → MoA & Implementation → Reporting & Impact
+   - Horizontal connector lines between steps (desktop)
+   - Icons for each step (Phone, FileText, Briefcase, BarChart3)
+
+5. **Modernized Enquiry Form**:
+   - Cleaner white card with 2px borders (removed heavy gradient backgrounds)
+   - Enhanced input focus states with ring-4 amber glow
+   - Better field grouping and spacing
+   - Simplified success state with larger CheckCircle2 icon and centered layout
+   - Added contact info strip below form (email, phone, address)
+
+6. **Enhanced FAQ Section**:
+   - Expanded from 4 to 6 comprehensive questions
+   - Cleaner accordion design with 2px borders
+   - Better hover states (border-slate-300)
+   - Improved typography and spacing
+
+7. **Design System Alignment**:
+   - Color palette: amber-600/orange-600 gradients (CTAs), navy-950 (headings), slate-600 (body text)
+   - Consistent border radius: rounded-2xl (cards), rounded-xl (buttons/inputs), rounded-3xl (hero image)
+   - Shadow system: shadow-lg (elevation), shadow-xl (modals), shadow-2xl (images)
+   - Spacing: py-16 sm:py-20 (sections), gap-6 (grids), px-4 sm:px-6 lg:px-8 (containers)
+   - Removed all dark navy-950 section backgrounds in favor of white/slate-50 gradients
+
+8. **Enhanced Interactive Elements**:
+   - Click-to-select focus area cards with visual feedback
+   - Hover animations on all cards (transform, shadow, border color)
+   - Icon scaling animations (scale-110)
+   - Gradient CTA buttons with shadow-amber-600/30
+   - Better mobile responsive breakpoints (sm:, lg:, grid patterns)
+
+### Files Modified
+- `src/app/csr/page.tsx` - Complete rewrite (734 → 899 lines)
+
+### Verification
+- Ran `npx tsc --noEmit` — passed with 0 errors
+- Design now fully aligned with website's light, clean, modern aesthetic
+- All interactive elements tested (form submission, FAQ accordion, card selection)
+- Responsive behavior verified across mobile, tablet, desktop breakpoints
+
+---
+
+## 2026-09-11 (Update 60)
+
+### Agent
+Google Antigravity
+
+### Task
+Comprehensive Trust Registered Address Standardization Across All Sections
+
+### Problem Addressed
+- Discrepant, outdated, or partial addresses (e.g. `Hunterganj, Chatra, Jharkhand - 825403`, `Balrampur, Uttar Pradesh`, or `Village & Post Nipania, Dist. Dhanbad`) were present across various components, templates, PDF generators, public pages, and database defaults.
+- The authentic, complete registered address specified by user is:
+  `NIPANIA, P.O. PARGHA, P.S. BALIAPUR, DISTRICT DHANBAD, JHARKHAND – 828201`.
+
+### Changes Made
+1. **Live Database Synchronization**:
+   - Updated active `TrustDetail` record in PostgreSQL via Prisma with `registeredAddress: 'Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201'`, `correspondenceAddress`, `district: 'Dhanbad'`, `state: 'Jharkhand'`, `pinCode: '828201'`, and `branchName: 'Dhanbad'`.
+2. **Certificates & Verification**:
+   - `src/components/certificates/CertificateRenderer.tsx`: Updated `DEFAULT_SETTINGS.address` and header fallback to `NIPANIA, P.O. PARGHA, P.S. BALIAPUR, DISTRICT DHANBAD, JHARKHAND – 828201`.
+   - `src/components/certificates/BulkCertificatePrint.tsx`: Updated `DEFAULT_SETTINGS.address` and A4 sheet fallback.
+   - `src/lib/certificatePdf.ts`: Updated `DEFAULT_SETTINGS.address` and drawn address coordinates on line 172.
+   - API endpoints (`[id]/pdf/route.ts`, `bulk-pdf/route.ts`, `bulk-email/route.ts`): Updated fallback addresses.
+3. **ID Cards, Receipts & Tax Forms**:
+   - `src/components/admin/IdCardRenderer.tsx` & `src/components/admin/BulkIdCardPrint.tsx`: Updated `trustAddress`.
+   - `src/lib/idCardPdf.ts` & `src/lib/registrationReceiptPdf.ts`: Updated default `trustDetails.address`.
+   - `src/lib/donationReceiptPdf.ts`: Updated `trustAddress` fallback on line 132.
+   - `src/components/common/Section80GCertificate.tsx`, `src/app/admin/donations/page.tsx`, `src/app/admin/donations/print/[id]/page.tsx`: Updated `registeredAddress`.
+4. **Public Pages, Admin Settings & Structured Data**:
+   - `src/components/public/Footer.tsx`: Updated Office address to `Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201`.
+   - `src/app/contact/page.tsx`: Updated Registered Address block.
+   - `src/app/csr/page.tsx`: Updated Corporate Relations Office address and location placeholder.
+   - `src/app/about/page.tsx`: Updated Registered Office fallback row.
+   - `src/app/admin/settings/page.tsx`: Updated default form values and preview block.
+   - `src/components/public/DirectDonationSection.tsx` & `src/app/donate/page.tsx`: Updated branch name to `Dhanbad Branch`.
+   - `src/app/layout.tsx`: Updated JSON-LD structured data (`Place: Dhanbad, Jharkhand, India`, `streetAddress: Nipania, P.O. Pargha, P.S. Baliapur`, `addressLocality: Dhanbad`, `postalCode: 828201`).
+   - `src/lib/mailer.ts`: Updated email notification footers (registration receipt, correction notice, and 10BE certificate emails).
+   - `prisma/seed.js`: Updated seed values.
+
+### Verification
+- Ran `npx tsc --noEmit` — passed with 0 errors.
+- Verified database record updated and verified zero remaining unintended address strings across `src`.
+
+---
+
+## 2026-09-11 (Update 59)
+
+### Agent
+Google Antigravity
+
+### Task
+Navbar Enhancement ("Get Involved" Dropdown: Volunteer & CSR, Remove Verify) & CSR Enquiry Page
+
+### Problem Addressed
+1. **Navbar Layout & Grouping**:
+   - "Volunteer" and "Verify" were standalone top-level links crowding the desktop header.
+   - There was no dedicated pathway for Corporate Social Responsibility (CSR) partnerships, Schedule VII collaborations, or corporate grants.
+   - "Verify" was occupying prime space in the primary navigation rather than living contextually or in the footer/subordinate links.
+2. **Missing Corporate CSR Portal**:
+   - Companies looking to deploy Section 135 CSR funds and claim 80G tax deductions had no dedicated intake page explaining statutory eligibility, Schedule VII domains, audit transparency, or allowing structured enquiry submissions.
+
+### Changes Made
+1. **`src/components/public/Navbar.tsx`**:
+   - Replaced standalone "Volunteer" and "Verify" with a grouped **"Get Involved"** navigation item containing an elegant dropdown with two clear options:
+     - **Volunteer** (`/volunteer`): "Join as a volunteer & create grassroots impact" with `HeartHandshake` icon.
+     - **CSR Partnerships** (`/csr`): "Schedule VII CSR projects & Section 80G tax benefits" with `Building2` icon.
+   - Removed "Verify" from the primary main navigation.
+   - Refined desktop dropdown width (`w-80`), hover states, and close-on-click handlers.
+   - Updated mobile navigation drawer to provide a smooth expandable accordion for "Get Involved" and updated the bottom quick-link strip to feature "CSR Desk" (`/csr`).
+2. **`src/app/csr/page.tsx` (NEW)**:
+   - Built a comprehensive, high-converting Corporate Social Responsibility portal:
+     - **Hero Section**: Statutory certifications, 80G tax benefits, NGO Darpan ID (`UP/2021/0295112`), and Trust Reg No (`IV-120/2022`).
+     - **Compliance Stack**: Section 80G, 12A, NGO Darpan, and audited Fund Utilization Certificates (UC).
+     - **Schedule VII Project Domains**: Rural Healthcare & Mobile Clinics, Quality Education & Digital Classrooms, Women Empowerment & Vocational SHGs, Clean Water & Environmental Sustainability, Malnutrition Relief, and Rural Infrastructure.
+     - **Interactive CSR Intake Form**: Company Name, Contact Person, Official Email, Phone, Focus Area, Budget Range, Target Geography, and Project Scope.
+     - **FAQ Accordion**: Section 135 eligibility, 80G documentation, employee volunteering, and custom project scopes.
+3. **`src/app/api/csr/route.ts` (NEW)**:
+   - Dedicated backend route processing CSR submissions, storing structured intake notes into `ContactMessage` (`status: 'NEW'`), and logging to `AuditLog` (`action: 'CSR_ENQUIRY_SUBMIT'`).
+4. **`src/components/public/Footer.tsx` & `src/app/sitemap.ts`**:
+   - Added "CSR Partnerships & Grants" link under "Get Involved" in the footer.
+   - Registered `/csr` in `sitemap.ts` with `priority: 0.85`.
+
+### Verification
+- Ran `npx tsc --noEmit` — passed with 0 errors.
+- Tested `/api/csr` with sample payload — verified HTTP 200, database insertion, and audit logging, followed by clean removal of test record.
+
+---
+
+## 2026-09-11 (Update 58)
+
+### Agent
+Google Antigravity
+
+### Task
+Bulk Certificate Print Display & Print Output Resolution
+
+### Problem Addressed
+1. **Certificate Preview Not Showing in Studio**:
+   - When launching the Bulk Certificate Print & Multi-Page PDF Studio modal from `/admin/certificates`, if `selectedCertIds` was empty, `selectedIds` state could remain uninitialized or empty, causing `activeCerts` to evaluate to `[]` and rendering a blank or "No Certificates Selected" screen instead of displaying the certificates.
+2. **Missing Output in Browser Print / Preview**:
+   - When clicking "Print All" from Bulk Print Studio, the browser print view failed to show the certificates because:
+     - The modal's fixed and scrollable containers (`fixed inset-0 overflow-hidden` and `overflow-y-auto`) lacked print overrides (`print:static print:overflow-visible print:block print:p-0 print:m-0`), clipping all child content in Chromium print rendering.
+     - `.bulk-cert-a4-sheet` had `print:border-none` removing the border in print mode.
+     - In `SINGLE` page view mode, only 1 certificate was mounted in DOM, causing "Print All" to only print 1 page rather than all selected certificates.
+
+### Changes Made
+1. **`src/components/certificates/BulkCertificatePrint.tsx`**:
+   - **Resilient Selection Fallback**: Added `hasUserDeselectedAll` state and `effectiveSelectedIds` fallback so opening the Studio guarantees certificates immediately display while still allowing intentional user deselects.
+   - **`isOpen` Syncing in `useEffect`**: Ensured `selectedIds` re-syncs reliably whenever the studio opens.
+   - **Single-to-All Print Auto-Toggle**: Updated `handlePrint` so if the user is viewing in `'SINGLE'` page mode, clicking "Print All" switches to `'ALL'` view mode, renders all selected certificates, and triggers `window.print()`.
+   - **Print Layout Overrides**: Added `print:static print:overflow-visible print:block print:p-0 print:m-0` to modal wrappers, ensured `.bulk-cert-a4-sheet` retains its 8px navy border in print (`print:border-[8px] print:border-[#0C234C]`), and added `page-break-inside: avoid; break-inside: avoid;` to prevent certificates from splitting across print pages.
+   - **QR Code Fallback**: Added dual keying by `cert.id` and `cert.certificateNumber` for verified QR code generation.
+2. **`src/app/globals.css`**:
+   - Verified that `.bulk-cert-a4-sheet` and `.bulk-cert-a4-sheet *` are whitelisted with `visibility: visible !important;` and styled with exact A4 landscape dimensions (`width: 297mm; height: 210mm; page-break-after: always; break-after: page;`).
+
+### Verification
+- Ran `npx tsc --noEmit` — 0 errors.
+- Dev server running cleanly without runtime crashes.
+
+---
+
+## 2026-09-11 (Update 57)
+
+### Agent
+Google Antigravity
+
+### Task
+Certificate Design Overhaul & PDF Download Synchronization
+
+### Problem Addressed
+1. **Header Proportion & Visibility**:
+   - The header on the certificate was undersized (small 48px logo, 24px title, 8px credentials), failing to convey the prestige and authority expected of an official charitable trust recognition document.
+2. **Excessive Vertical Gaps**:
+   - The canvas layout previously used `justify-between` with sparse spacing, leaving large empty voids between the header, recipient spotlight, and footer.
+3. **PDF Download Design Discrepancy**:
+   - In `src/lib/certificatePdf.ts`, the jsPDF drawing routine placed the logo far on the left edge, lacked the golden category badge, lacked the centered presentation layout, used disconnected typography, and placed the footer at `y = 145` with over 35mm of blank gap at the bottom, creating a completely different design from the HTML/React preview.
+
+### Changes Made
+1. **`src/components/certificates/CertificateRenderer.tsx` & `src/components/certificates/BulkCertificatePrint.tsx`**:
+   - **Grand Header**:
+     - Enlarged trust logo to `w-20 h-20` enclosed in an ornate gold medallion with dual rings and subtle drop shadow.
+     - Trust Title enlarged to commanding `text-[30px]` bold deep royal sapphire (`#0C234C`).
+     - Tagline formatted in bold amber `REGISTERED PUBLIC CHARITABLE TRUST • SEVA | VIKASH | SAMARPAN`.
+     - Full credentials row displaying Govt. Reg. No (`IV-120/2022`), PAN (`AAFTN4004N`), and NGO Darpan ID (`UP/2021/0295112`).
+     - Added a majestic ornate dividing rule with gold filigree and diamond emblem (`♦ ❖ ♦`).
+   - **Balanced Vertical Layout**:
+     - Golden Award Category ribbon: `★ CERTIFICATE OF ... ★` in rounded gold pill banner.
+     - Elegant serif italic presentation line: *"This certificate of honour is proudly presented to"*.
+     - Recipient Name: Regal `text-4xl` font with gold flourish bar and diamond center.
+     - Citation paragraph formatted with balanced line height and program badge.
+   - **Comprehensive Footer**:
+     - Left: Structured Metadata Card (Certificate Number, Date of Issue, Emerald Verified Badge).
+     - Center: Verification QR code in gold frame with online scan guidance and verification code.
+     - Right: Official seal enlarged with authentic signature overlap, separator line, signatory name, title, and trust name.
+     - Bottom legal disclaimer line.
+2. **`src/lib/certificatePdf.ts`**:
+   - Re-engineered `drawCertificatePage` to produce an identical match to the web preview:
+     - Centered logo medallion at `x = 139.5, y = 14.5` with gold circular accent.
+     - Centered grand trust name at `y = 38` (22pt bold `#0C234C`).
+     - Centered category tagline, registration details, and diamond dividing rule.
+     - Rounded gold category badge pill (`doc.roundedRect` with Amber fill and Gold border).
+     - Recipient spotlight with decorative gold underline and diamond flourish.
+     - Divided lower section with metadata card on left, verification QR code on center, and overlapping official seal & signature on right.
+     - Full page utilization removing the blank lower third.
+
+### Verification
+- `npx tsc --noEmit` verified with 0 errors.
+- Verified `/api/certificates/NVST-CERT-000001/pdf?download=true` returning Status 200 with 5.3MB high-resolution PDF.
+
+## 2026-09-11 (Update 56)
+
+### Agent
+Google Antigravity
+
+### Task
+Certificate Number Prefix Correction (NVST-CERT)
+
+### Problem Addressed
+1. **Certificate Number Prefix Discrepancy**:
+   - Certificate numbers were generated with the prefix `HRMEWT-CERT-000001` (from "H.R. Memorial Educational and Welfare Trust").
+   - Following the user's instructions to align all trust details on certificates with **Nipania Vikash Seva Trust** (NVST), the certificate numbers still displayed `HRMEWT-CERT-XXXXXX` on certificate canvases, verification QR codes, downloads, and the admin panel table.
+   - Volunteer IDs in `utils.ts` had also drifted to `HRMEWT-V-` while all actual volunteers in the database use `NVS-VOL-000001`.
+
+### Changes Made
+1. **`src/lib/utils.ts`**:
+   - Changed `generateCertificateNumber` format to `NVST-CERT-${String(count + 1).padStart(6, '0')}` (Nipania Vikash Seva Trust Certificate).
+   - Changed `generateVolunteerId` format to `NVS-VOL-${String(count + 1).padStart(6, '0')}` matching the existing volunteer records in the database.
+2. **Database Migration**:
+   - Updated existing database certificates from `HRMEWT-CERT-000001` and `HRMEWT-CERT-000002` to `NVST-CERT-000001` and `NVST-CERT-000002`.
+   - Updated their stored `verificationUrl` fields to `https://nipaniatrust.org/verify/NVST-CERT-000001` and `https://nipaniatrust.org/verify/NVST-CERT-000002`.
+3. **`src/app/api/certificates/route.ts`**:
+   - Updated fallback number generation to `NVST-CERT-${Date.now().toString().slice(-6)}`.
+   - Fixed batch indexing counter `generateCertificateNumber(counter + i)` to prevent skipping the first batch sequence number.
+4. **Resilient Verification & API Lookups**:
+   - **`src/app/verify/[id]/page.tsx`**: Universal verification page now checks `upperLookup`, `altNvstLookup`, and `altHrmewtLookup` so any user scanning old or new QR codes / URLs is verified smoothly.
+   - **`src/app/api/certificates/[id]/pdf/route.ts`** & **`src/app/api/certificates/[id]/route.ts`**: Lookups now support both `NVST-CERT-` and `HRMEWT-CERT-` prefixes seamlessly.
+5. **Placeholders & Seed Data**:
+   - Updated placeholders in `src/app/verify/page.tsx` and `src/app/admin/certificates/page.tsx`.
+   - Updated `prisma/seed.js` and `prisma/schema.prisma` comments to `NVST-CERT-000001`.
+
+### Verification
+- `npx tsc --noEmit` verified with 0 errors.
+- Verified live Prisma records returning `NVST-CERT-000001` and `NVST-CERT-000002`.
+
+## 2026-09-11 (Update 55)
+
+### Agent
+Google Antigravity
+
+### Task
+Certificate Preview Print & PDF Download Fix
+
+### Problem Addressed
+1. **Print Failure in Modal Preview**:
+   - In `/admin/certificates`, opening the certificate preview modal and clicking "Print A4" did not print the certificate properly or printed a blank page.
+   - Root causes:
+     - The preview modal's overlay and scroll container (`fixed inset-0 bg-navy-950/80 backdrop-blur-sm` and `overflow-y-auto max-h-[95vh]`) clipped and masked print output in Chromium/Edge browsers under `@media print`.
+     - In `src/app/globals.css`, `body * { visibility: hidden; }` hid everything by default, while `.certificate-print-sheet` was missing proper modal un-clipping styles.
+     - In `CertificateRenderer.tsx`, `<style jsx global>` had `margin: 0 auto !important;` without `position: fixed !important; left: 0 !important; top: 0 !important;`, conflicting with `globals.css`.
+2. **Download Failure in Preview**:
+   - Clicking "Download PDF" inside the preview modal failed or silently aborted.
+   - Root causes:
+     - `CertificateRenderer.tsx` called `URL.revokeObjectURL(blobUrl)` synchronously on the immediate line after `link.click()`. In Chromium and Edge on Windows, this cancels/aborts the pending download before the browser's download manager can read and persist the file blob.
+     - The fetch request called `/api/certificates/${certificate.id}/pdf` without `?download=true`, which returned `Content-Disposition: inline` instead of `attachment`.
+     - If `certificate.id` was missing or only `certificateNumber` was present, the API returned 404.
+
+### Changes Made
+1. **`src/components/certificates/CertificateRenderer.tsx`**:
+   - Refactored `handleDownloadPdf`:
+     - Resolves identifier using `certificate.id || certificate.certificateNumber`.
+     - Appends `?download=true` to ensure server sends `Content-Disposition: attachment`.
+     - Safely delays `URL.revokeObjectURL(blobUrl)` by 10 seconds via `setTimeout`, guaranteeing the browser download manager finishes saving the file.
+     - Adds fallback to direct `window.open(downloadUrl, '_blank')` if blob fetch fails.
+   - Fixed `@media print` in `<style jsx global>`:
+     - Set `@page { size: 297mm 210mm; margin: 0; }`.
+     - Set `html, body { background: #FEFEFC !important; width: 297mm !important; height: 210mm !important; overflow: visible !important; }`.
+     - Made `.certificate-print-sheet` use `position: fixed !important; left: 0 !important; top: 0 !important; width: 297mm !important; height: 210mm !important; z-index: 99999999 !important; visibility: visible !important;`.
+   - Added `print:overflow-visible print:p-0 print:m-0 print:bg-transparent print:block` to canvas outer wrapper.
+2. **`src/app/globals.css`**:
+   - Added modal container resets under `@media print`:
+     - Target `div[data-lenis-prevent="true"]` and `.admin-modal-scroll` with `overflow: visible !important; position: static !important; background: transparent !important; backdrop-filter: none !important; box-shadow: none !important; border: none !important; max-height: none !important; padding: 0 !important; margin: 0 !important;`.
+3. **`src/app/admin/certificates/page.tsx`**:
+   - Added print-friendly reset classes to the Preview modal backdrop and modal dialog (`print:fixed print:inset-0 print:bg-white print:overflow-visible`).
+   - Added `no-print` to the modal close button.
+   - Added `download=true` and explicit `download` attribute to table row direct PDF download anchor.
+
+### Verification
+- `npx tsc --noEmit` ran and completed with code 0 (zero errors).
+- All user-defined seal and signature sizing and positioning adjustments were strictly preserved.
+
+## 2026-09-11 (Update 54)
+
+### Agent
+Google Antigravity
+
+### Task
+Certificate Stamp & Signature Overlapping Polish, Volunteer Auto-Select & Batch Issuance, and Bulk Certificate Email Dispatch
+
+### Problem Addressed
+1. **Seal & Signature Layout**:
+   - The official seal and president signature were placed side-by-side in certificates and were relatively small.
+   - User requested increasing their size and authentically overlapping the seal and the signature to create a prestigious, tamper-resistant legal look.
+2. **Volunteer Recipient Data Entry Friction**:
+   - When issuing certificates, admins previously had to manually re-type volunteer names, email addresses, and phone numbers every time.
+   - There was no quick way to issue recognition certificates to multiple volunteers at once.
+3. **Bulk Email Certificates**:
+   - There was no option to select multiple certificates and dispatch official branded emails with high-resolution PDF attachments in bulk.
+
+### Changes Made
+1. **Seal & Signature Overlap & Sizing**:
+   - **PDF Generator (`src/lib/certificatePdf.ts`)**:
+     - Increased official seal/stamp dimensions to `32mm × 32mm` (from 22mm).
+     - Increased authorized signature dimensions to `44mm × 19mm` (from 36mm × 15mm).
+     - Positioned the stamp at `signatoryX - 28, footerY - 14` and the signature layered directly on top at `signatoryX - 20, footerY - 8`, creating an authentic ~50% overlap where the ink signature runs across the official trust stamp.
+   - **Interactive Web Preview (`src/components/certificates/CertificateRenderer.tsx`)**:
+     - Increased stamp container to `w-20 h-20` (80px × 80px) with `absolute left-2 -top-3 opacity-90`.
+     - Increased signature container to `w-36 h-14` (144px × 56px) layered at `relative z-10 mix-blend-multiply drop-shadow-xs`.
+2. **Volunteer Auto-Picker & Batch Generation Studio (`src/app/admin/certificates/page.tsx`)**:
+   - Added `GET /api/volunteers` integration inside the certificate studio.
+   - In **Single Recipient Mode**:
+     - Added a "Quick Select from Registered Volunteers" dropdown.
+     - Selecting an approved volunteer automatically populates their legal full name, verified email, phone number, and volunteer ID reference with zero manual typing required.
+     - Included a "Clear (Manual Entry)" button for custom non-volunteer recipients.
+   - In **Batch Issue Mode**:
+     - Added a dedicated "Batch Issue to Volunteers" tab.
+     - Features live volunteer search, "Select All" / "Clear All" controls, and a scrollable volunteer card list with multi-selection checkboxes.
+     - Generates unique official certificates for all selected volunteers in a single click with automated collision-safe certificate numbering (`HRMEWT-CERT-XXXXXX`).
+     - Added "Send Email with PDF Immediately" toggle to automatically email newly generated certificates.
+   - **Backend Batch API (`src/app/api/certificates/route.ts`)**:
+     - Extended `POST /api/certificates` to accept `volunteerIds: string[]` for atomic batch creation.
+3. **Bulk Certificate Email Engine (`src/app/api/certificates/bulk-email/route.ts`)**:
+   - Created dedicated bulk email endpoint accepting `{ ids: string[] }`.
+   - Validates certificates, automatically promotes drafts to `ISSUED`, generates high-resolution A4 PDFs, dispatches emails with attachments via `sendCertificateEmail`, records audit logs, and returns delivery stats (`total`, `sentCount`, `skippedCount`, `failedCount`, and per-recipient status).
+4. **Bulk Email UI in Admin Studio (`src/app/admin/certificates/page.tsx`)**:
+   - Added a "Bulk Send Email" action button with counter badge beside "Bulk Print".
+   - Built an interactive modal showing selected recipients, email validation alerts, real-time dispatch progress, and a delivery report summary.
+
+### Testing & Verification
+- `npx tsc --noEmit`: Exited with code 0 (zero TypeScript errors).
+- Server API test: `POST /api/certificates/bulk-email` tested via curl, validated auth guard and schema.
+- Single & Bulk PDF tests: Both returned HTTP 200 `application/pdf`.
+
+---
+
+## 2026-09-11 (Update 53)
+
+### Agent
+Google Antigravity
+
+### Task
+Certificate Trust Name Correction, Multi-Page Bulk Certificate Print & PDF Engine, and Multi-Page ID Card Sheet Printing
+
+### Problem Addressed
+1. **Trust Name & Details in Certificates**:
+   - Certificates previously rendered placeholder or deed name headers rather than the authentic Trust details configured in `TrustDetail` database record (`NIPANIA VIKASH SEVA TRUST`, `SEVA | VIKASH | SAMARPAN`, `REGISTERED PUBLIC CHARITABLE TRUST`, `PAN: AAFTN4004N`, `NGO Darpan ID: UP/2021/0295112`, Village & Post Nipania, Dist. Dhanbad, Jharkhand - 828201).
+   - Certificates lacked the real President signature image and official Trust seal/stamp image stored in `public/uploads`.
+2. **Certificates Bulk Print & Multi-Page PDF**:
+   - `/admin/certificates` previously only allowed previewing or printing one certificate at a time.
+   - Users needed bulk selection, in-place batch print preview across multiple A4 landscape pages, and a single merged multi-page PDF download streaming all selected certificates.
+3. **ID Cards Multi-Page Print & Sheet Pagination**:
+   - `BulkIdCardPrint.tsx` only had fixed 4-cards-per-page or 8-cards-per-page grids without pagination or single-badge-per-page options.
+   - Users requested multiple page options (1, 2, 4, 6, 8, 9 badges per sheet) with sheet-by-sheet navigation ("Sheet X of Y", Next, Prev) and printing controls.
+4. **Consistency across Verify & Emailers**:
+   - Public verify pages (`/verify/[id]`) and email templates (`src/lib/mailer.ts`) still referenced previous issuer text.
+
+### Changes Made
+1. **Certificate PDF Engine (`src/lib/certificatePdf.ts`)**:
+   - Refactored core rendering into `drawCertificatePage(doc, cert, trust, pageIndex, totalPages)`.
+   - Updated title to `NIPANIA VIKASH SEVA TRUST`, tagline `SEVA | VIKASH | SAMARPAN`, registration line `REGISTERED PUBLIC CHARITABLE TRUST`, and statutory details (`PAN: AAFTN4004N`, `NGO Darpan: UP/2021/0295112`, address).
+   - Embedded real president signature (`pancard_signature_nsdl_...png`) and official seal/stamp (`ChatGPT_Image_...png`) from `public/uploads/`.
+   - Built `generateBulkCertificatePdf(certificates, trust)` using `doc.addPage('a4', 'landscape')` to output a unified multi-page PDF document.
+2. **Certificate Endpoints & APIs**:
+   - `src/app/api/certificates/[id]/pdf/route.ts`: Queries `TrustDetail` and passes live credentials and images to `generateCertificatePdf`.
+   - `src/app/api/certificates/bulk-pdf/route.ts`: New endpoint supporting `GET ?ids=...` and `POST { ids: [...] }` to generate and stream multi-page PDF documents.
+3. **Web Certificate Renderer (`src/components/certificates/CertificateRenderer.tsx`)**:
+   - Updated header lockup to `NIPANIA VIKASH SEVA TRUST` with tagline, fetched `/api/settings` for dynamic credentials, rendered president signature and official stamp images, and added scoped A4 landscape print CSS.
+4. **Certificate Bulk Print Studio (`src/components/certificates/BulkCertificatePrint.tsx`)**:
+   - Built bulk preview modal with:
+     - Certificate search filter and selection checkboxes.
+     - Multi-page view modes: "All Pages (Continuous)" and "Single Page (Paginated)" with Prev/Next controls and page indicators.
+     - Direct browser landscape print with `@page { size: landscape; margin: 0; }` and clean page breaks (`page-break-after: always`).
+     - "Download Multi-Page PDF" action that calls `/api/certificates/bulk-pdf` and saves a single merged file.
+5. **Admin Certificate Studio (`src/app/admin/certificates/page.tsx`)**:
+   - Added row-level checkboxes, table header Select-All / Deselect-All, and a "Bulk Print & Multi-Page PDF" action button with counter badge.
+   - Connected `BulkCertificatePrint` studio modal with selected certificates state.
+6. **Multi-Page ID Card Sheet Printing (`src/components/admin/BulkIdCardPrint.tsx`)**:
+   - Expanded `cardsPerPage` options: `1` (Full Badge/Sheet), `2` (2 Badges/Sheet), `4` (4 Badges/Sheet - 2x2), `6` (6 Badges/Sheet - 2x3), `8` (8 Badges/Sheet - 2x4), `9` (9 Badges/Sheet - 3x3).
+   - Added View Mode toggle: "All Sheets" vs "Single Sheet", with sheet selector buttons (`< Sheet X of Y >`).
+   - Added print action controls: "Print Sheet X Only" vs "Print All Sheets".
+   - Integrated strict `@page { size: portrait; margin: 0; }` and `.sheet-container { page-break-after: always; break-after: page; }` to ensure zero sheet-bleeding or page clipping.
+   - Updated legal footer disclaimer to `Nipania Vikash Seva Trust`.
+7. **ID Card Renderer (`src/components/admin/IdCardRenderer.tsx`)**:
+   - Updated footer notice to `Nipania Vikash Seva Trust`.
+8. **Public Verification & Mailer (`src/app/verify/[id]/page.tsx`, `src/lib/mailer.ts`)**:
+   - Updated trust issuer authority and legal disclaimer in `/verify/[id]` to `Nipania Vikash Seva Trust`.
+   - Updated certificate emailer in `src/lib/mailer.ts` to `Nipania Vikash Seva Trust`.
+
+### Testing & Verification
+- `npx tsc --noEmit`: Exited with code 0 (zero errors).
+- Server API test: Single certificate PDF endpoint `/api/certificates/[id]/pdf` returned HTTP 200 `application/pdf` (5.2MB).
+- Server API test: Bulk certificate PDF endpoint `/api/certificates/bulk-pdf?ids=...` returned HTTP 200 `application/pdf` with multi-page structure.
+- ID Card sheet slicing and pagination logic verified across all per-sheet options (1, 2, 4, 6, 8, 9).
+
+---
+
+## 2026-09-11 (Update 52)
+
+### Agent
+Google Antigravity
+
+### Task
+Master Project Migration — Volunteer-First & Certificate Recognition Architecture
+
+### Problem Addressed
+- The organizational model had a legacy public membership enrollment system with registration fees, which conflicted with the charitable trust governance structure where public participation is volunteer-led and recognition is certificate-driven.
+- The Trust Deed legally names the entity `"H.R. MEMORIAL EDUCATIONAL AND WELFARE TRUST"`, whereas public facing components used `"Nipania Vikash Seva Trust"`. Per guidelines, no artificial relationship was invented; formal cross-reference was documented for human confirmation while legal disclaimers and certificates cite the Deed name strictly.
+- There was no database-backed Certificate model, no automated A4 landscape PDF generation engine, and no unified verification portal to securely verify both Certificates (`HRMEWT-CERT-XXXXXX`) and ID cards (`HRMEWT-V-XXXXXX`).
+
+### Changes Made
+1. **Database Schema & Migrations (`prisma/schema.prisma` & `prisma/seed.js`)**:
+   - Added `Certificate` model with fields `certificateNumber` (unique), `certificateType`, `title`, `recipientName`, `recipientEmail`, `description`, `issueDate`, `status` (DRAFT, ISSUED, REVOKED), `verificationCode`, `verificationUrl`, `signatoryName`, `signatoryTitle`, `revokedAt`, `revocationReason`, and relations to `Volunteer`, `Event`, and `Project`.
+   - Marked `Member` model as deprecated legacy archive (preserved for audit trail with zero data loss).
+   - Updated `IdCard.personType` enum to `VOLUNTEER, STAFF, TRUSTEE`.
+   - Executed `npx prisma db push` (clean sync to PostgreSQL) and updated `prisma/seed.js` to seed valid sample certificates.
+2. **RBAC & Authentication (`src/lib/auth.ts`, `src/app/admin/users/page.tsx`)**:
+   - Removed `MEMBER_MANAGER` role and `members` permission.
+   - Added `certificates` permission to `SUPER_ADMIN`, `ADMIN`, `VOLUNTEER_MANAGER`, and `PROJECT_MANAGER`.
+3. **Public Membership Retirement & Volunteer Promotion**:
+   - `src/components/public/Navbar.tsx`: Replaced "Become a Member" with direct "Volunteer" and "Verify" links.
+   - `src/components/public/Footer.tsx`: Removed `/membership` link; added "Verify ID & Certificate" link.
+   - `src/app/page.tsx`: Removed public membership button & promotional copy.
+   - `src/app/membership/page.tsx`: Replaced page with permanent 308 redirect to `/volunteer`.
+   - `src/app/sitemap.ts`: Replaced `/membership` with `/verify`.
+   - `src/app/legal/volunteer-policy/page.tsx`: Created comprehensive Volunteer Code of Association legally establishing voluntary status, lack of ownership/voting rights, non-discrimination, fund-raising prohibition, and revocation rights.
+4. **Certificate Management Engine (`src/lib/certificatePdf.ts`, `src/components/certificates/CertificateRenderer.tsx`)**:
+   - Built high-resolution A4 landscape PDF generator with navy/gold double ornamental border, Trust Deed legal header, recipient details, citation, embedded live QR code, issue date, and signatory endorsement.
+   - Built interactive CertificateRenderer component with live QR, A4 print styles, and download trigger.
+5. **Certificate Backoffice Studio & APIs**:
+   - Created `src/app/api/certificates/route.ts` (list & create drafts with atomic candidate loop).
+   - Created `src/app/api/certificates/[id]/route.ts` (fetch, issue, revoke with mandatory reason, delete draft).
+   - Created `src/app/api/certificates/[id]/pdf/route.ts` (stream binary PDF).
+   - Created `src/app/api/certificates/[id]/email/route.ts` (dispatch certificate with PDF attachment).
+   - Created `src/app/admin/certificates/page.tsx` studio with metrics, filter tabs, live preview modal, revoke modal, and actions.
+6. **Universal Database Verification Portal (`src/app/verify/page.tsx`, `src/app/verify/[id]/page.tsx`)**:
+   - Live query for Certificates (`HRMEWT-CERT-XXXXXX`) and ID cards (`HRMEWT-V-XXXXXX`).
+   - Handles `ISSUED`, `REVOKED` (with revocation date and reason), `DRAFT`, `ACTIVE`, and `NOT FOUND`.
+   - Implements strict privacy protection (masks recipient email, phone, and address).
+7. **Volunteer System & ID Cards**:
+   - Updated `generateVolunteerId` to format `HRMEWT-V-XXXXXX` and `generateCertificateNumber` to `HRMEWT-CERT-XXXXXX` in `src/lib/utils.ts`.
+   - Updated `src/app/api/volunteers/route.ts` with collision-safe generation loop and included certificates relation.
+   - Added Recognized Service Certificates drawer section to `src/app/admin/volunteers/page.tsx`.
+   - Updated `src/components/admin/IdCardRenderer.tsx` with Trust Deed legal notice and removed MEMBER theme.
+8. **Admin Sidebar, Dashboard & Payment Gateway**:
+   - Replaced "Members" with "Certificates" studio link in `src/components/admin/AdminSidebar.tsx`.
+   - Updated `src/app/admin/page.tsx` KPI cards and quick actions from Members to Certificates.
+   - Removed Section 4 (Membership Fee Controls) from `src/app/admin/payment-gateway/page.tsx`.
+   - Retired `src/app/api/payment/verify-membership/route.ts` with 410 Gone.
+
+### Testing & Verification
+- `npx tsc --noEmit`: Exited with code 0 (zero TypeScript errors).
+- Prisma db push & seed: Exited with code 0.
+- Verified live certificate count (`2`) and volunteer count (`4`) in database.
+
+---
+
 ## 2026-09-10 (Update 51)
 
 ### Agent

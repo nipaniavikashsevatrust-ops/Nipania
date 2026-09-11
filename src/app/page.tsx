@@ -120,7 +120,7 @@ export default async function HomePage() {
               </h2>
 
               <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-normal">
-                Whether you wish to contribute your skills as an on-ground volunteer, become a regular trust member, or support our ongoing emergency relief drives through donations, your participation brings hope and dignity.
+                Whether you wish to contribute your skills as an on-ground volunteer, support grassroots community drives, or empower families through transparent donations, your participation brings hope and dignity.
               </p>
 
               <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
@@ -130,13 +130,6 @@ export default async function HomePage() {
                 >
                   <Users className="w-4 h-4" />
                   <span>Register as Volunteer</span>
-                </Link>
-
-                <Link
-                  href="/membership"
-                  className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3.5 rounded-full text-xs sm:text-sm font-bold border-2 border-slate-300 hover:border-amber-500 text-slate-800 hover:text-amber-800 bg-white hover:bg-amber-50/50 transition-all active:scale-95 shadow-xs"
-                >
-                  <span>Become a Trust Member</span>
                 </Link>
 
                 <Link

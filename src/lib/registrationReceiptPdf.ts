@@ -77,7 +77,7 @@ export async function generateRegistrationReceiptPdf(data: RegistrationReceiptDa
     presidentTitle: data.signatoryTitle || 'President / Managing Trustee',
     phone: '+91 94311 23456',
     email: 'info@nipaniatrust.org',
-    address: 'Nipania, Hunterganj, Chatra, Jharkhand - 825403',
+    address: 'Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201',
   };
 
   let dbTrust: any = null;

@@ -352,5 +352,78 @@ button, a, input, select, textarea {
   .no-print {
     display: none !important;
   }
+
+  /* Official A4 Landscape Certificate Print */
+  div[data-lenis-prevent="true"],
+  .admin-modal-scroll {
+    overflow: visible !important;
+    position: static !important;
+    background: transparent !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    max-height: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  .certificate-print-sheet,
+  .certificate-print-sheet *,
+  .bulk-cert-a4-sheet,
+  .bulk-cert-a4-sheet * {
+    visibility: visible !important;
+  }
+
+  .bulk-cert-a4-sheet {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    min-width: 297mm !important;
+    min-height: 210mm !important;
+    max-width: 297mm !important;
+    max-height: 210mm !important;
+    margin: 0 auto !important;
+    padding: 6mm 10mm !important;
+    box-sizing: border-box !important;
+    border: 8px solid #0C234C !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #FEFEFC !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
+
+  .certificate-print-sheet {
+    position: fixed !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 297mm !important;
+    height: 210mm !important;
+    min-width: 297mm !important;
+    min-height: 210mm !important;
+    max-width: 297mm !important;
+    max-height: 210mm !important;
+    margin: 0 !important;
+    padding: 8mm 12mm !important;
+    box-sizing: border-box !important;
+    border: 8px solid #0C234C !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+    background: #FEFEFC !important;
+    z-index: 99999999 !important;
+    page-break-inside: avoid !important;
+    break-inside: avoid !important;
+    page-break-after: always !important;
+    break-after: page !important;
+    -webkit-print-color-adjust: exact !important;
+    print-color-adjust: exact !important;
+  }
 }
 

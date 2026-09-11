@@ -13,6 +13,11 @@ export async function GET(
   try {
     const volunteer = await prisma.volunteer.findUnique({
       where: { id: params.id },
+      include: {
+        certificates: {
+          orderBy: { issueDate: 'desc' },
+        },
+      },
     });
 
     if (!volunteer) {

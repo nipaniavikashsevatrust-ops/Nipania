@@ -31,6 +31,11 @@ export async function GET(req: NextRequest) {
 
     const volunteers = await prisma.volunteer.findMany({
       where,
+      include: {
+        certificates: {
+          orderBy: { issueDate: 'desc' },
+        },
+      },
       orderBy: { createdAt: 'desc' },
     });
 
@@ -71,8 +76,21 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Full name, mobile number, and email are required.' }, { status: 400 });
     }
 
-    const count = await prisma.volunteer.count();
-    const volunteerId = generateVolunteerId(count);
+    let volunteerId = '';
+    let counter = await prisma.volunteer.count();
+    let attempts = 0;
+    while (!volunteerId && attempts < 10) {
+      const candidateId = generateVolunteerId(counter + attempts);
+      const existing = await prisma.volunteer.findUnique({ where: { volunteerId: candidateId } });
+      if (!existing) {
+        volunteerId = candidateId;
+      } else {
+        attempts++;
+      }
+    }
+    if (!volunteerId) {
+      volunteerId = `HRMEWT-V-${Date.now().toString().slice(-6)}`;
+    }
 
     const volunteer = await prisma.volunteer.create({
       data: {

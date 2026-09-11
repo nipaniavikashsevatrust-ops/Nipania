@@ -52,7 +52,7 @@ export default function IdCardRenderer({ card }: { card: IdCardData }) {
     title: card.signatoryTitle || 'President / Managing Trustee',
     signatureUrl: card.signatureUrl || null,
     stampUrl: card.stampUrl || null,
-    trustAddress: 'Nipania, Hunterganj, Chatra, Jharkhand - 825403',
+    trustAddress: 'Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201',
     trustPhone: '+91 94311 23456',
     trustEmail: 'info@nipaniatrust.org',
     regNumber: 'IV-120/2022',
@@ -188,13 +188,7 @@ export default function IdCardRenderer({ card }: { card: IdCardData }) {
           bannerBg: 'bg-gradient-to-r from-emerald-700 via-emerald-600 to-emerald-700 text-white',
           bannerTag: 'SEVA VOLUNTEER CORPS',
         };
-      case 'MEMBER':
-        return {
-          badgeBg: 'bg-gold-600 text-white border-gold-500',
-          bannerBg: 'bg-gradient-to-r from-amber-700 via-gold-600 to-amber-700 text-white',
-          bannerTag: 'OFFICIAL TRUST MEMBER',
-        };
-      default: // STAFF
+      default: // STAFF / OTHER
         return {
           badgeBg: 'bg-navy-900 text-gold-400 border-navy-800',
           bannerBg: 'bg-gradient-to-r from-navy-950 via-navy-900 to-navy-950 text-gold-300',
@@ -504,8 +498,8 @@ export default function IdCardRenderer({ card }: { card: IdCardData }) {
             <p className="text-[7.5px] text-slate-600 leading-normal">
               {presidentDetails.trustAddress}
             </p>
-            <p className="text-[6.5px] text-slate-400 uppercase tracking-tight leading-normal">
-              Official Credential • Property of Trust • Return if found
+            <p className="text-[6.5px] text-slate-500 uppercase tracking-tight leading-normal">
+              Official Credential • Nipania Vikash Seva Trust • Does not confer trusteeship, ownership or voting rights • Property of Trust
             </p>
           </div>
 

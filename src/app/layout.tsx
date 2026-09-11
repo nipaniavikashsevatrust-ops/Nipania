@@ -83,12 +83,14 @@ const jsonLd = {
       nonprofitStatus: 'Nonprofit501c3',
       foundingLocation: {
         '@type': 'Place',
-        name: 'Balrampur, Uttar Pradesh, India',
+        name: 'Dhanbad, Jharkhand, India',
       },
       address: {
         '@type': 'PostalAddress',
-        addressLocality: 'Balrampur',
-        addressRegion: 'Uttar Pradesh',
+        streetAddress: 'Nipania, P.O. Pargha, P.S. Baliapur',
+        addressLocality: 'Dhanbad',
+        addressRegion: 'Jharkhand',
+        postalCode: '828201',
         addressCountry: 'IN',
       },
       contactPoint: [

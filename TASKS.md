@@ -10,7 +10,7 @@
 
 ## 🔴 IN PROGRESS
 
-*(No tasks currently in progress)*
+*(No active tasks currently in progress)*
 
 ---
 
@@ -28,11 +28,173 @@
 
 ## 🔵 BLOCKED
 
-*(No currently blocked tasks)*
+### Task: Legal Entity Naming Formal Clarification
+- **Owner**: Human Confirmation Required
+- **Status**: BLOCKED
+- **Priority**: HIGH
+- **Started**: 2026-09-11
+- **Last Updated**: 2026-09-11
+- **Notes**: Discrepancy between registered Deed name ("H.R. MEMORIAL EDUCATIONAL AND WELFARE TRUST") and public operating name ("Nipania Vikash Seva Trust"). Per strict guidelines, no artificial relationship or DBA was invented. All legal texts, disclaimers, and certificates cite the Deed name while public branding remains intact. Human confirmation needed for official cross-reference resolution.
 
 ---
 
 ## 🟢 COMPLETED
+
+### Task: Professional CSR Inquiries Admin Section & Management Suite
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-11
+- **Completed**: 2026-09-11
+- **Notes**:
+  1. Built executive-grade CSR Inquiries admin dashboard at `/admin/csr`.
+  2. Implemented pipeline management with 5 stages (`NEW`, `IN_REVIEW`, `PROPOSAL_SENT`, `MOA_SIGNED`, `CLOSED`), internal follow-up notes editor, 1-click email proposal launcher, WhatsApp direct chat, and CSV data export.
+  3. Added backend endpoints `/api/csr` and `/api/csr/[id]` with role-based auth, structured CSR field parser, and audit logging.
+  4. Integrated `CSR Inquiries` navigation into `AdminSidebar.tsx` under `PROGRAMS & COMPLIANCE`.
+  5. Verified clean build with `npx tsc --noEmit`.
+
+### Task: Complete CSR Page Redesign from Scratch
+- **Owner**: Kilo Code
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-11
+- **Completed**: 2026-09-11
+- **Notes**:
+  1. **Complete Page Rebuild**: Rebuilt entire CSR page from scratch (734 lines → 899 lines) to match website's modern design language, clean aesthetics, and user experience patterns.
+  2. **Hero Section Redesign**: Clean gradient background (slate-50 → white → warm-50), grid layout with left content + right image, trust credentials cards, quick stats (50,000+ Lives, 120+ Villages, 100% Compliance), and prominent dual CTAs.
+  3. **Partnership Benefits Section**: New 4-column grid showcasing 100% Tax Compliance, Complete Documentation, Measurable Impact, and Corporate Volunteering with hover effects and icon animations.
+  4. **Interactive Focus Areas**: Redesigned 6 Schedule VII domains with full-width images, gradient icon badges, clickable cards with selection state, impact metrics, and "Select This Area" buttons that auto-populate the form.
+  5. **CSR Process Timeline**: New 4-step visual process (01-04 numbered badges) showing Initial Consultation → Proposal & Site Visit → MoA & Implementation → Reporting & Impact with connector lines.
+  6. **Modern Enquiry Form**: Clean white card with 2px borders, better spacing, enhanced focus states (ring-4 with amber glow), simplified layout, and success state with celebration UI.
+  7. **Enhanced FAQ Section**: Expanded to 6 questions with cleaner accordion design, better typography, and hover states.
+  8. **Design Consistency**: Aligned color palette (amber-600/orange-600 gradients, navy-950 text, slate backgrounds), border radius (rounded-2xl/3xl), shadow system, and spacing with rest of website.
+  9. **Image Integration**: Added real hero image, focus area images for each domain, and floating certification badge.
+  10. **Removed Dark Navy Sections**: Eliminated heavy dark backgrounds in favor of light, clean, modern white/slate gradients matching homepage aesthetic.
+  11. Verified compilation with `npx tsc --noEmit` (0 errors) and maintained full responsive behavior across all breakpoints.
+
+### Task: Comprehensive Trust Registered Address Standardization Across All Sections
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-11
+- **Completed**: 2026-09-11
+- **Notes**:
+  1. Standardized Trust address to: `NIPANIA, P.O. PARGHA, P.S. BALIAPUR, DISTRICT DHANBAD, JHARKHAND – 828201` across all templates, models, generators, UI pages, and live database.
+  2. Updated database `TrustDetail` record (`registeredAddress`, `correspondenceAddress`, `district: Dhanbad`, `state: Jharkhand`, `pinCode: 828201`, `branchName: Dhanbad`).
+  3. Updated single & bulk certificates (`CertificateRenderer.tsx`, `BulkCertificatePrint.tsx`, `certificatePdf.ts`, certificate API routes).
+  4. Updated ID cards and receipts (`IdCardRenderer.tsx`, `BulkIdCardPrint.tsx`, `idCardPdf.ts`, `registrationReceiptPdf.ts`, `donationReceiptPdf.ts`, `Section80GCertificate.tsx`, donation admin & print pages).
+  5. Updated public pages and structured data (`Footer.tsx`, `contact/page.tsx`, `csr/page.tsx`, `about/page.tsx`, `admin/settings/page.tsx`, `layout.tsx`, `seed.js`, `mailer.ts`, `DirectDonationSection.tsx`, `donate/page.tsx`).
+  6. Verified with `npx tsc --noEmit` (0 errors).
+
+### Task: Navbar Enhancement (Get Involved Dropdown: Volunteer & CSR, Remove Verify) & CSR Enquiry Page
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-11
+- **Completed**: 2026-09-11
+- **Notes**:
+  1. Updated `Navbar.tsx` with a refined "Get Involved" dropdown containing "Volunteer" (`/volunteer`) and "CSR Partnerships" (`/csr`).
+  2. Removed "Verify" from the main primary navigation bar (keeping `/verify` route active for certificates and ID cards, and linked in the footer).
+  3. Created dedicated `/csr` Corporate Social Responsibility page with Schedule VII domains, 80G tax assurance, corporate pillars, FAQ accordion, and interactive intake form.
+  4. Built `/api/csr` route handling corporate enquiries, logging to `AuditLog`, and saving to `ContactMessage`.
+  5. Updated `Footer.tsx` and `sitemap.ts` to include CSR routes.
+  6. Verified via `npx tsc --noEmit` (0 errors) and live test submission.
+
+### Task: Bulk Certificate Print Display & Print Output Resolution
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-11
+- **Completed**: 2026-09-11
+- **Notes**:
+  1. Resolved empty/missing certificate preview: Added resilient `effectiveSelectedIds` fallback in `BulkCertificatePrint.tsx` so certificates never disappear when opening the Bulk Print Studio even if `selectedIds` is initially empty, while tracking deliberate user deselects.
+  2. Fixed browser print rendering: Added `print:static print:overflow-visible print:block print:p-0 print:m-0` overrides on modal wrappers (`[data-lenis-prevent="true"]`, middle studio area, and `.bulk-cert-container`) and whitelisted `.bulk-cert-a4-sheet` in `globals.css` and `<style jsx global>`.
+  3. Single mode auto-toggle: Configured `handlePrint` to automatically switch view mode to `'ALL'` before calling `window.print()`, ensuring all selected certificates are rendered in the DOM for multi-page printing.
+  4. Verified with `npx tsc --noEmit` (0 errors).
+
+### Task: Certificate Design Overhaul & PDF Download Layout Synchronization
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-11
+- **Completed**: 2026-09-11
+- **Notes**:
+  1. Overhauled header: Prominent medallion trust logo, grand trust title (30px/22pt bold deep navy #0C234C), bold category tagline (REGISTERED PUBLIC CHARITABLE TRUST • SEVA | VIKASH | SAMARPAN in Amber), full statutory credentials line (Govt. Reg. No, PAN, NGO Darpan ID, Address), and a majestic diamond dividing rule (♦ ❖ ♦).
+  2. Eliminated awkward vertical gaps: Replaced sparse spacing with a balanced, dignified vertical rhythm: golden award category ribbon (★ CERTIFICATE OF ... ★), serif italic presentation line, large commanding recipient name with flourish bar, comfortable citation line height, and a full 3-column verification & signature footer.
+  3. Synchronized PDF Generator (`src/lib/certificatePdf.ts`): Re-engineered jsPDF layout to identically match the web preview in coordinates, centered header, badge pill, recipient flourish, metadata card, centered verification QR code, and enlarged overlapping stamp/signature.
+  4. Updated both single (`CertificateRenderer.tsx`) and bulk (`BulkCertificatePrint.tsx`) views.
+  5. Verified with `npx tsc --noEmit` (0 errors) and live PDF API endpoint test (Status 200, 5.3MB attachment).
+
+### Task: Certificate Number Prefix Correction (NVST-CERT)
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-11
+- **Completed**: 2026-09-11
+- **Notes**:
+  1. Updated `generateCertificateNumber` in `src/lib/utils.ts` to use `NVST-CERT-${String(count + 1).padStart(6, '0')}` matching the trust name Nipania Vikash Seva Trust (replacing `HRMEWT-CERT-`).
+  2. Updated `generateVolunteerId` in `src/lib/utils.ts` to `NVS-VOL-${String(count + 1).padStart(6, '0')}` matching the existing volunteer numbering format in DB.
+  3. Migrated existing database certificates from `HRMEWT-CERT-000001` and `HRMEWT-CERT-000002` to `NVST-CERT-000001` and `NVST-CERT-000002`, updating both `certificateNumber` and `verificationUrl`.
+  4. Updated route fallback prefix and fixed batch index offset in `src/app/api/certificates/route.ts`.
+  5. Enhanced universal verification lookup in `/verify/[id]` and API routes (`[id]/pdf` and `[id]`) to support all prefixes (`NVST-CERT-`, `HRMEWT-CERT-`, and `NVS-CERT-`) for backwards compatibility.
+  6. Verified compilation with `npx tsc --noEmit` (0 errors).
+
+### Task: Certificate Preview Print & PDF Download Fix
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: CRITICAL
+- **Started**: 2026-09-11
+- **Completed**: 2026-09-11
+- **Notes**:
+  1. Resolved preview certificate printing issue: modal container backdrop and scroll wrappers (`fixed inset-0`, `backdrop-blur-sm`, `overflow-y-auto`) were interfering with `@media print` and clipping content. Added print resets to modal containers in `globals.css` and `admin/certificates/page.tsx`, and unified `@media print` rule for `.certificate-print-sheet` (fixed 297mm x 210mm A4 landscape, visibility visible, exact color adjust).
+  2. Fixed certificate PDF download failure: eliminated race condition where `URL.revokeObjectURL(blobUrl)` was called synchronously right after `link.click()`, causing Chromium/Edge to abort download before saving. Added delayed revocation timer and fallback to direct endpoint download with `Content-Disposition: attachment; filename="${certNumber}_Certificate.pdf"`.
+  3. Added `download=true` support to both table direct-download links and preview modal download handler.
+  4. Verified with `npx tsc --noEmit` passing with 0 errors.
+
+### Task: Certificate Stamp & Signature Overlapping, Volunteer Auto-Select & Batch Issuance, and Bulk Email Dispatch
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-11
+- **Completed**: 2026-09-11
+- **Notes**:
+  1. Enlarged stamp (32x32mm in PDF, 80x80px on web) and signature (44x19mm in PDF, 144x56px on web), and placed them with authentic ~50% overlap where the ink signature runs across the official trust stamp.
+  2. Integrated Volunteer auto-picker in Single Certificate mode: selecting an approved volunteer auto-populates legal name, email, phone, and volunteer ID reference.
+  3. Added Batch Volunteer Certificate Issuance mode: select multiple volunteers via search and checkboxes, and generate official certificates for all of them in 1 click.
+  4. Built `/api/certificates/bulk-email` endpoint and an interactive Bulk Email Studio Modal in `/admin/certificates` with counter badge, validation warnings, real-time dispatch progress, and delivery reports.
+  5. Tested with `npx tsc --noEmit` (0 errors) and live API endpoint verification.
+
+### Task: Certificate Trust Details Correction, Multi-Page Bulk Print/PDF & ID Card Multi-Page Options
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-11
+- **Completed**: 2026-09-11
+- **Notes**:
+  1. Corrected Trust Name to `NIPANIA VIKASH SEVA TRUST`, tagline `SEVA | VIKASH | SAMARPAN`, status `REGISTERED PUBLIC CHARITABLE TRUST`, `PAN: AAFTN4004N`, and `NGO Darpan: UP/2021/0295112` across certificate PDF generator, web preview, verification portal, and certificate email templates.
+  2. Embedded authentic President signature image (`pancard_signature_nsdl_...png`) and Trust seal/stamp image (`ChatGPT_Image_...png`) on all issued certificates.
+  3. Built multi-page bulk certificate print studio (`BulkCertificatePrint.tsx`) with row-level selection, select-all, single-page / all-pages preview modes with pagination controls, direct A4 landscape printing, and a multi-page PDF generation endpoint (`/api/certificates/bulk-pdf`).
+  4. Expanded ID Card bulk printing options (`BulkIdCardPrint.tsx`) with cards-per-sheet options: 1 (single badge/sheet), 2, 4, 6, 8, 9 badges per sheet, sheet view modes (All Sheets vs Single Sheet with `< Sheet X of Y >` pagination), and print controls ("Print Sheet X Only" vs "Print All Sheets").
+  5. Verified with `npx tsc --noEmit` (0 errors) and live API PDF generation.
+
+### Task: Master Project Migration — Volunteer-First & Certificate Architecture
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: CRITICAL
+- **Started**: 2026-09-11
+- **Completed**: 2026-09-11
+- **Notes**:
+  1. Complete organizational migration to Volunteer-First + Certificate Recognition architecture.
+  2. Public membership system fully retired: removed membership CTAs, forms, fee controls, sitemap entry; converted `/membership` to 308 permanent redirect to `/volunteer`.
+  3. Added `Certificate` model to Prisma schema (`certificateNumber` format `HRMEWT-CERT-XXXXXX`, `recipientName`, `title`, `description`, `issueDate`, `status`, `verificationCode`, `verificationUrl`, `signatoryName`, `revokedAt`, `revocationReason`, relations to `Volunteer`, `Event`, `Project`). Retained `Member` table as historical read-only archive with zero data loss. Pushed schema with `npx prisma db push`.
+  4. Built A4 landscape PDF generator engine (`src/lib/certificatePdf.ts`) using jsPDF with Trust Deed header, gold/navy double ornamental border, dynamic QR verification code, and signatory blocks.
+  5. Built interactive web CertificateRenderer component with live QR, A4 print styles, and download triggers.
+  6. Implemented universal database-backed verification portal at `/verify/[id]` handling Certificate numbers (`HRMEWT-CERT-XXXXXX`) and ID cards (`HRMEWT-V-XXXXXX`), with privacy shielding and verification status badges (ISSUED, REVOKED, DRAFT, ACTIVE).
+  7. Built complete Admin Certificate Studio (`/admin/certificates`) with metrics, filtering, search, draft creation, live visual preview modal, issue action, revocation with mandatory recorded reason, email dispatch with PDF attachment, and PDF download stream.
+  8. Realined Volunteer system: updated Volunteer ID format to `HRMEWT-V-XXXXXX` with atomic collision-safe allocation, ID Card renderer with Deed legal notice, and added Recognized Service Certificates drawer section to `/admin/volunteers`.
+  9. Realined Admin Navigation & Dashboard: replaced Members with Certificates studio in `AdminSidebar.tsx` and `src/app/admin/page.tsx` KPI cards.
+  10. Realined Payment Gateway: removed membership fee controls while preserving all donation processors.
+  11. Verified with `npx tsc --noEmit` (0 errors).
 
 ### Task: Generate Official Social Share Preview Image (OG / Twitter Image)
 - **Owner**: Google Antigravity

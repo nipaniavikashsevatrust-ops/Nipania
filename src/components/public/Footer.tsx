@@ -102,13 +102,13 @@ export default function Footer() {
                 </Link>
               </li>
               <li>
-                <Link href="/membership" className="hover:text-gold-400 transition-colors flex items-center gap-1.5">
-                  <ArrowRight className="w-3 h-3 text-gold-400" /> Become a Member
+                <Link href="/csr" className="hover:text-gold-400 transition-colors flex items-center gap-1.5 font-semibold text-amber-300">
+                  <ArrowRight className="w-3 h-3 text-gold-400" /> CSR Partnerships &amp; Grants
                 </Link>
               </li>
               <li>
                 <Link href="/verify" className="hover:text-gold-400 transition-colors flex items-center gap-1.5">
-                  <ShieldCheck className="w-3 h-3 text-gold-400" /> Verify ID Card
+                  <ShieldCheck className="w-3 h-3 text-gold-400" /> Verify ID &amp; Certificate
                 </Link>
               </li>
               <li>
@@ -132,7 +132,7 @@ export default function Footer() {
             <div className="space-y-3 text-xs text-slate-300 leading-relaxed">
               <div className="flex items-start gap-2.5">
                 <MapPin className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />
-                <span className="break-words">Nipania, Hunterganj, Chatra, Jharkhand - 825403</span>
+                <span className="break-words">Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201</span>
               </div>
               <div className="flex items-start gap-2.5">
                 <Mail className="w-4 h-4 text-gold-400 shrink-0 mt-0.5" />

@@ -13,12 +13,11 @@ export interface UserSession {
 
 export const ROLE_PERMISSIONS: Record<string, string[]> = {
   SUPER_ADMIN: ['*'],
-  ADMIN: ['donations', 'compliance', 'volunteers', 'members', 'projects', 'events', 'gallery', 'content', 'documents', 'messages', 'settings', 'id_cards'],
+  ADMIN: ['donations', 'compliance', 'volunteers', 'certificates', 'projects', 'events', 'gallery', 'content', 'documents', 'messages', 'settings', 'id_cards'],
   FINANCE_MANAGER: ['donations', 'compliance', 'donors', 'reports'],
-  VOLUNTEER_MANAGER: ['volunteers', 'id_cards', 'events'],
-  MEMBER_MANAGER: ['members', 'id_cards'],
+  VOLUNTEER_MANAGER: ['volunteers', 'id_cards', 'certificates', 'events'],
   CONTENT_MANAGER: ['content', 'projects', 'events', 'gallery', 'documents', 'news'],
-  PROJECT_MANAGER: ['projects', 'events', 'reports'],
+  PROJECT_MANAGER: ['projects', 'events', 'certificates', 'reports'],
   VIEWER: ['view_only'],
 };
 

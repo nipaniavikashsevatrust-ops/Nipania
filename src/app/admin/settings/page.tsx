@@ -96,11 +96,11 @@ export default function AdminSettingsPage() {
     reg80gNo: '',
     csrNo: '',
     fcraNo: '',
-    registeredAddress: 'Village Nipania, Post Office Road, Jharkhand, India',
-    correspondenceAddress: '',
-    district: 'Jharkhand',
+    registeredAddress: 'Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201',
+    correspondenceAddress: 'Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201',
+    district: 'Dhanbad',
     state: 'Jharkhand',
-    pinCode: '854301',
+    pinCode: '828201',
     email: 'info@nipaniatrust.org',
     phone: '+91 98765 43210',
     altPhone: '',
@@ -823,7 +823,7 @@ export default function AdminSettingsPage() {
                 </span>
                 <h4 className="text-sm font-bold text-navy-950 uppercase">{form.name || 'Nipania Vikash Seva Trust'}</h4>
                 <p className="text-[11px] text-slate-500">
-                  {form.registeredAddress || 'Balrampur, Uttar Pradesh, India'}
+                  {form.registeredAddress || 'Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201'}
                 </p>
               </div>
             </div>

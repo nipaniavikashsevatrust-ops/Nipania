@@ -11,119 +11,119 @@
 - **Language**: TypeScript throughout (strict typing enabled in `tsconfig.json`).
 - **Rendering Model**: Server Components by default with client components (`"use client"`) for interactive interfaces (modals, forms, charts, PDF generation).
 - **Styling**: Tailwind CSS with custom colors, CSS variables in `globals.css`, and utility merging (`clsx`, `tailwind-merge`).
-- **ORM & Data Layer**: Prisma ORM with SQLite database engine (`prisma/schema.prisma`).
+- **ORM & Data Layer**: Prisma ORM with PostgreSQL database engine (`prisma/schema.prisma`).
+- **Organizational Architecture**:
+  - `DONOR` -> Financial Contribution -> Receipt / Section 80G Tax Exemption
+  - `VOLUNTEER` -> Public Application -> Admin Review/Approval -> Volunteer ID (`HRMEWT-V-XXXXXX`) -> QR Verification -> Service -> Certificates
+  - `CERTIFICATE` -> Recognition of Service / Merit / Appreciation -> A4 Landscape PDF -> QR Verification (`HRMEWT-CERT-XXXXXX`)
+  - `TRUSTEE` -> Trust Governance & Oversight
+  - `STAFF` -> Operational Administration
+  - **PUBLIC MEMBERSHIP**: Retired. No enrollment, forms, or tier fees. `/membership` permanently redirects (308) to `/volunteer`.
+
+## Legal Entity Naming Status
+- **Trust Deed Name**: `"H.R. MEMORIAL EDUCATIONAL AND WELFARE TRUST"`
+- **Operating / Public Brand Name**: `"Nipania Vikash Seva Trust"`
+- **Status**: `Organizational naming relationship requires human confirmation.` No artificial DBA or merger was invented. All statutory legal texts, certificates, and ID card disclaimers cite the exact Deed name, while public domain branding remains configurable.
 
 ## Technology Stack
 - **Framework**: Next.js 14.2.11 (App Router)
 - **Runtime / UI**: React 18.3.1, React DOM 18.3.1
 - **Language**: TypeScript 5.6.2
 - **Styling**: Tailwind CSS 3.4.11, PostCSS 8.4.45, Autoprefixer 10.4.20
-- **Theme**: Prestigious Royal Sapphire & Golden Amber NGO Trust Palette — A vibrant, attractive combination of luminous warm white/pearl reading canvas (`#FAFAF9` / `#F8FAFC`), paired with deep royal sapphire navy (`#0C234C` / `#0F3370`, distinctly blue and free of flat black), sacred saffron/gold gradients (`#F59E0B`/`#EA580C`), deep teal/emerald jewel tones (`#065F46`/`#093548`), and grassroots emerald live status indicators (`#10B981`).
+- **Theme**: Prestigious Royal Sapphire & Golden Amber NGO Trust Palette — A vibrant, attractive combination of luminous warm white/pearl reading canvas (`#FAFAF9` / `#F8FAFC`), paired with deep royal sapphire navy (`#0C234C` / `#0F3370`), sacred saffron/gold gradients (`#F59E0B`/`#EA580C`), deep teal/emerald jewel tones (`#065F46`/`#093548`), and grassroots emerald live status indicators (`#10B981`).
 - **Database ORM**: Prisma 5.19.1 (`@prisma/client`)
-- **Database Engine**: SQLite (`prisma/dev.db`)
+- **Database Engine**: PostgreSQL (Prisma Accelerate remote pool)
 - **Authentication & Security**: `jsonwebtoken` (9.0.2), `bcryptjs` (2.4.3)
 - **Email Delivery**: `nodemailer` (9.1.1)
-- **ID Card & Document Export**: `qrcode` (1.5.4), `jspdf` (2.5.1), `html2canvas` (1.4.1)
+- **Document & Certificate Export**: `qrcode` (1.5.4), `jspdf` (2.5.1), `html2canvas` (1.4.1)
 - **Data Visualization**: `recharts` (2.12.7)
 - **Icons**: `lucide-react` (0.441.0)
 - **Utilities**: `date-fns` (3.6.0), `clsx` (2.1.1), `tailwind-merge` (2.5.2)
 
 ## Frontend
 - **Public Routes (`src/app/`)**:
-  - `/` (Home page: Hero, Mission/Vision, Impact Stats, Featured Projects, Areas of Work, Crisis Response, Ways to Help, Campaigns, Newsletter, Partners)
+  - `/` (Home page: Hero, Mission/Vision, Impact Stats, Featured Projects, Crisis Response, Campaigns, Partners)
   - `/about` (Trust background, objectives, and leadership)
   - `/board-members` (Executive leadership, Advisory panel, and Trustees)
   - `/campaigns` & `/campaigns/[slug]` (Active and completed NGO campaigns and drives)
-  - `/sponsor` (Dedicated SikhAid-inspired sponsorship directory for critical causes)
-  - `/gallery` (Categorized media gallery with image/video views, connected directly to database records)
-  - `/donate` (Donation checkout with Razorpay Subscriptions / e-Mandate architecture, UPI Autopay, Cards SI, Netbanking e-NACH, cause designation, and Section 80G tax exemption)
-  - `/volunteer` (Volunteer application form and onboarding)
-  - `/membership` (Membership tiers, application, and benefits)
-  - `/verify` & `/verify/[id]` (Public ID card and certificate verification via QR code)
+  - `/sponsor` (Dedicated sponsorship directory for critical causes)
+  - `/gallery` (Categorized media gallery with image/video views)
+  - `/donate` (Donation checkout with Razorpay Subscriptions / e-Mandate architecture, UPI Autopay, Cards SI, Section 80G tax exemption)
+  - `/volunteer` (Primary public participation portal: application form, orientation, volunteer charter)
+  - `/csr` (Corporate Social Responsibility partnership portal: Schedule VII focus areas, 100% compliance metrics, interactive enquiry form)
+  - `/membership` (Permanent 308 redirect to `/volunteer`)
+  - `/verify` & `/verify/[id]` (Universal verification portal: validates both Certificates `HRMEWT-CERT-XXXXXX` and ID cards `HRMEWT-V-XXXXXX` against live DB)
   - `/receipt/[id]` (Public donor Section 80G tax receipt viewer, direct print, and PDF download)
   - `/contact` (Contact form, office locations, and grievance details)
   - `/legal/*` (Terms, Privacy Policy, Volunteer Policy, Donation Refund Policy)
 - **Admin Portal (`src/app/admin/`)**:
-  - `/admin` (Analytics dashboard with key metrics, donation trends, volunteer stats)
+  - `/admin` (Analytics dashboard with live donations, active volunteers, issued certificates, and audit logs)
   - `/admin/login` (Admin authentication interface)
-  - `/admin/donations` (Donation records, full Edit and Delete management, offline receipt issuance, printable Section 80G A4 PDF certificates)
-  - `/admin/compliance/80g` (Statutory Section 80G tax exemption, Form 10BD annual return preparation/filing, and Form 10BE certificate distribution hub)
-  - `/admin/volunteers` (Volunteer applications, approval workflow, status)
-  - `/admin/members` (Membership records, tier management, renewal tracking)
-  - `/admin/id-cards` (ID card generator, badge printing, QR code binding)
-  - `/admin/projects` (CRUD for community campaigns, targets, raised amounts, and social drives)
-  - `/admin/sponsors` (CRUD for verified sponsorship causes, meal drives, dignity kits, education, and healthcare tiers)
-  - `/admin/gallery` (CRUD for on-ground photo and video media gallery with live categories, featured toggle, and file uploads)
+  - `/admin/donations` (Donation records, offline receipt issuance, Section 80G certificates)
+  - `/admin/compliance/80g` (Section 80G, Form 10BD annual return filing, and Form 10BE distribution)
+  - `/admin/csr` (Corporate Social Responsibility partnership pipeline: status stages, notes log, 1-click email/WhatsApp connect, CSV export)
+  - `/admin/volunteers` (Volunteer applications, approval workflow, status, and recognized certificates drawer)
+  - `/admin/certificates` (Dedicated Certificate Studio: metrics, draft creation, live visual preview modal, issue, revoke with mandatory reason, email dispatch with PDF attachment, PDF binary streaming)
+  - `/admin/id-cards` (ID card generator, badge printing, QR code binding for Volunteers, Staff, Trustees)
+  - `/admin/projects` (CRUD for community campaigns and social drives)
+  - `/admin/sponsors` (CRUD for verified sponsorship causes)
+  - `/admin/gallery` (CRUD for on-ground photo and video media gallery)
   - `/admin/board-members` (Board member and trustee directory management)
   - `/admin/content` (Dynamic CMS block editing for landing page copy)
   - `/admin/messages` (Inbound contact form messages and inquiry tracker)
   - `/admin/users` (Admin and staff user management with RBAC roles)
   - `/admin/settings` (Trust details, PAN, Darpan, Bank accounts, UPI IDs, SMTP config)
-  - `/admin/payment-gateway` (Dedicated payment gateway studio: Razorpay, Cashfree, PhonePe, Paytm, Direct UPI QR & fee controls)
+  - `/admin/payment-gateway` (Payment gateway studio: Razorpay, Cashfree, PhonePe, Paytm, Direct UPI QR for donations)
   - `/admin/audit-logs` (Security and operational audit trail logs)
 
 ## Backend
 - **API Route Handlers (`src/app/api/`)**:
-  - `/api/auth/*` (Login, logout, session verification)
-  - `/api/donations/*` (Donation creation, `/api/donations/[id]/receipt` PDF stream, `/api/donations/[id]/10be` secure PDF, list, filter)
-  - `/api/compliance/*` (80G compliance stats, Form 10BD validation, Form 10BD CSV streaming export, Form 10BD filing batches, Form 10BE upload, single/bulk Form 10BE email delivery)
-  - `/api/volunteers/*` (Registration submission, approval/rejection, listing)
-  - `/api/members/*` (Application submission, status update, listing)
+  - `/api/auth/*` (Login, logout, session verification, forgot-password, reset-password)
+  - `/api/donations/*` (Donation creation, receipt PDF stream, Form 10BE PDF, listing)
+  - `/api/compliance/*` (80G stats, Form 10BD validation/export/filing, Form 10BE distribution)
+  - `/api/volunteers/*` (Registration submission, atomic candidate generation `HRMEWT-V-XXXXXX`, approvals, relations)
+  - `/api/certificates/*` (`GET` listing, `POST` creation with collision-safe number `HRMEWT-CERT-XXXXXX`, `GET` / `PATCH` / `DELETE` for `[id]`, `[id]/pdf` binary streaming, `[id]/email` dispatch)
   - `/api/id-cards/*` (Issue ID card, QR data generation, public verification)
-  - `/api/auth/*` (Login, session validation, logout, forgot-password, reset-password)
-  - `/api/donations/*` (Public donations, list, receipt, verification, stats)
-  - `/api/compliance/*` (Statutory Section 80G, Form 10BD annual returns, Form 10BE certificate distribution)
-  - `/api/volunteers/*` (Registration and management)
-  - `/api/members/*` (Registration, category fees in INR ₹, membership approvals)
-  - `/api/id-cards/*` (Credential generation and public verification)
   - `/api/projects/*` (Initiatives and campaigns)
   - `/api/events/*` (Community programs and registrations)
-  - `/api/documents/*` (Public transparency and regulatory uploads)
+  - `/api/documents/*` (Governance and regulatory uploads)
   - `/api/news/*` (Articles and media press)
   - `/api/contact/*` (Inquiries and grievance handling)
   - `/api/newsletter/*` (Newsletter subscription management)
   - `/api/settings/*` (Trust configuration, bank details, organization info)
-  - `/api/payment/*` (Payment gateway settings, key validation, orders, public fees in INR ₹)
+  - `/api/payment/*` (Payment gateway settings, key validation, order creation)
   - `/api/smtp/*` (SMTP email configuration and test email dispatcher)
   - `/api/stats/*` (Impact metrics and dashboard statistics)
   - `/api/users/*` (Staff and admin user CRUD)
   - `/api/audit-logs/*` (Querying security and operational audit logs)
-  - `/api/gallery/*` (Unified gallery endpoint with category filtering and Prisma sync)
+  - `/api/gallery/*` (Unified gallery endpoint with category filtering)
   - `/api/upload/*` (File and asset upload handler)
 
 ## Database
-- **Engine**: SQLite via Prisma ORM (`prisma/schema.prisma`, file at `prisma/dev.db`)
+- **Engine**: PostgreSQL via Prisma ORM (`prisma/schema.prisma`)
 - **Key Models**:
-  - `User`: Administrative staff and officers with roles, password hashes, and password reset tokens (`resetToken`, `resetTokenExpiry`)
-  - `TrustDetail`: Singleton table for trust registration, PAN, 12A/80G/CSR/FCRA numbers, bank accounts, UPI ID, SMTP config, Razorpay gateway settings (Test/Live), and membership fee controls (INR ₹)
-  - `ImpactStat`: Key organizational performance indicators (e.g. 50,000+ lives touched)
-  - `Donation`: Financial contributions, donor details, PAN, 80G eligibility, Indian financial year, Form 10BD filing batch status, Form 10BE certificate number & PDF storage, email tracking, and cryptographic secure access tokens
-  - `TenBDFiling`: Annual Form 10BD statutory submission batches with financial year, filing status, acknowledgement number, filing date, and audit notes
-  - `Volunteer`: Volunteer applications, skills, availability, categories, ID card status
-  - `Member`: General, Life, Executive, and Patron membership registry with fee amount, payment status (PAID/PENDING/FAILED), UTR transaction ID, and validity dates
-  - `IdCard`: Unified identification card registry (Volunteer, Member, Staff, Trustee) with QR verification
-  - `Project` & `ProjectUpdate`: NGO projects with target amounts, raised funds, beneficiary counts, and milestones
-  - `Event` & `EventRegistration`: Community events, registrations, guest capacity
-  - `GalleryItem`: Media showcase (photos/videos) across categories
-  - `Document`: Governance and transparency documents (12A, 80G, Annual Reports)
-  - `NewsArticle`: Press releases, news updates, and articles
-  - `ContactMessage`: Grievance and contact submissions with status and admin notes
-  - `NewsletterSubscriber`: Email subscription list
-  - `AuditLog`: Action logs (User, Module, Action, Timestamp, IP)
-  - `ContentBlock`: Key-value CMS blocks for customizable page copy
-  - `BoardMember`: Trustees and leadership directory with tenure and designations
+  - `User`: Administrative staff and officers with roles and password hashes
+  - `TrustDetail`: Singleton table for trust registration, PAN, 12A/80G/CSR/FCRA numbers, bank accounts, UPI ID, SMTP config, payment gateway settings
+  - `Certificate`: Full lifecycle certificate model (`certificateNumber` format `HRMEWT-CERT-XXXXXX`, `certificateType`, `title`, `recipientName`, `recipientEmail`, `description`, `issueDate`, `status` DRAFT/ISSUED/REVOKED, `verificationCode`, `verificationUrl`, `signatoryName`, `signatoryTitle`, `revokedAt`, `revocationReason`, relations to `Volunteer`, `Event`, `Project`)
+  - `Volunteer`: Volunteer records, skills, availability, categories, `volunteerId` format `HRMEWT-V-XXXXXX`, ID card, relation to `Certificate[]`
+  - `Member`: Deprecated legacy archive table (retained read-only for audit integrity; zero active public interaction)
+  - `IdCard`: Unified identification card registry (`VOLUNTEER`, `STAFF`, `TRUSTEE`) with QR verification
+  - `Donation`: Financial contributions, donor details, PAN, 80G eligibility, Indian financial year, Form 10BD filing batch status, Form 10BE certificate number & PDF storage
+  - `TenBDFiling`: Annual Form 10BD statutory submission batches
+  - `Project` & `ProjectUpdate`: Community initiatives and drives
+  - `Event` & `EventRegistration`: Community events and registrations
+  - `BoardMember`: Trustees and leadership directory
+  - `AuditLog`: Security and governance activity trail
 
-## Authentication
+## Authentication & RBAC
 - **Mechanism**: JWT tokens signed with `JWT_SECRET` stored in HTTP-only cookie `auth_token` or sent via `Authorization: Bearer <token>` header.
-- **Password Hashing**: `bcryptjs` for secure password hashing and verification.
 - **Roles & Permissions (RBAC)**:
   - `SUPER_ADMIN`: Full access (`*`)
-  - `ADMIN`: Core management access (donations, compliance, volunteers, members, projects, events, gallery, content, documents, messages, settings, id_cards)
+  - `ADMIN`: Core management access (donations, compliance, volunteers, certificates, projects, events, gallery, content, documents, messages, settings, id_cards)
   - `FINANCE_MANAGER`: Donations, compliance, donors, financial reports
-  - `VOLUNTEER_MANAGER`: Volunteers, volunteer ID cards, events
-  - `MEMBER_MANAGER`: Members, member ID cards
+  - `VOLUNTEER_MANAGER`: Volunteers, volunteer ID cards, certificates, events
   - `CONTENT_MANAGER`: Content blocks, projects, events, gallery, documents, news
-  - `PROJECT_MANAGER`: Projects, events, reports
+  - `PROJECT_MANAGER`: Projects, events, certificates, reports
   - `VIEWER`: Read-only access (`view_only`)
 
 ## APIs

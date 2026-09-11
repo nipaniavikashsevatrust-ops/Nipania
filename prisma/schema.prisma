@@ -224,10 +224,12 @@ model Volunteer {
   rejectionReason   String?
   adminRemarks      String?
   idCardIssued      Boolean  @default(false)
+  certificates      Certificate[]
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 }
 
+// DEPRECATED: Retained strictly as a read-only historical archive. Public membership system has been removed.
 model Member {
   id              String    @id @default(uuid())
   memberId        String    @unique // NVS-MEM-000001
@@ -260,8 +262,8 @@ model Member {
 
 model IdCard {
   id          String   @id @default(uuid())
-  cardNumber  String   @unique // NVS-VOL-000001 / NVS-MEM-000001 / NVS-STF-000001
-  personType  String   // VOLUNTEER, MEMBER, STAFF, TRUSTEE
+  cardNumber  String   @unique // HRMEWT-V-000001 / NVS-VOL-000001 / NVS-STF-000001
+  personType  String   // VOLUNTEER, STAFF, TRUSTEE (MEMBER is deprecated)
   personId    String
   fullName    String
   role        String
@@ -292,6 +294,7 @@ model Project {
   endDate            String?
   isFeatured         Boolean         @default(false)
   updates            ProjectUpdate[]
+  certificates       Certificate[]
   createdAt          DateTime        @default(now())
   updatedAt          DateTime        @updatedAt
 }
@@ -323,6 +326,7 @@ model Event {
   status               String              @default("UPCOMING") // UPCOMING, ONGOING, COMPLETED, CANCELLED
   isFeatured           Boolean             @default(false)
   registrations        EventRegistration[]
+  certificates         Certificate[]
   createdAt            DateTime            @default(now())
   updatedAt            DateTime            @updatedAt
 }
@@ -449,3 +453,37 @@ model SponsorshipTier {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 }
+
+model Certificate {
+  id                String     @id @default(uuid())
+  certificateNumber String     @unique // e.g. NVST-CERT-000001
+  certificateType   String     // VOLUNTEER_SERVICE, VOLUNTEER_APPRECIATION, EVENT_PARTICIPATION, TRAINING_WORKSHOP, PROJECT_PARTICIPATION, SPECIAL_CONTRIBUTION, INTERNSHIP
+  title             String     // e.g. "Certificate of Volunteer Service"
+  recipientName     String
+  recipientEmail    String?
+  recipientPhone    String?
+  volunteerId       String?
+  volunteer         Volunteer? @relation(fields: [volunteerId], references: [id], onDelete: SetNull)
+  eventId           String?
+  event             Event?     @relation(fields: [eventId], references: [id], onDelete: SetNull)
+  projectId         String?
+  project           Project?   @relation(fields: [projectId], references: [id], onDelete: SetNull)
+  description       String?    // Citation / approved wording
+  issueDate         DateTime   @default(now())
+  validFrom         DateTime?
+  validUntil        DateTime?
+  status            String     @default("DRAFT") // DRAFT, PENDING_APPROVAL, ISSUED, REVOKED
+  issuedBy          String     @default("Board of Trustees") // Admin / Officer designation or name
+  approvedBy        String?
+  verificationCode  String     @unique // Unique secure token or code for QR
+  verificationUrl   String?
+  pdfUrl            String?
+  signatoryName     String?    @default("Managing Trustee")
+  signatoryTitle    String?    @default("President / Managing Trustee")
+  revokedAt         DateTime?
+  revocationReason  String?
+  revokedBy         String?
+  createdAt         DateTime   @default(now())
+  updatedAt         DateTime   @updatedAt
+}
+

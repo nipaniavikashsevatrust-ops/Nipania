@@ -20,6 +20,7 @@ import {
   Save,
   Upload,
   Sparkles,
+  Award,
 } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import IdCardRenderer, { IdCardData } from '@/components/admin/IdCardRenderer';
@@ -488,6 +489,54 @@ export default function AdminVolunteersPage() {
                   <p className="text-slate-600">{selectedVolunteer.skills}</p>
                 </div>
               )}
+
+              {/* Volunteer Certificates Section */}
+              <div className="mt-5 p-4 rounded-2xl bg-slate-50 border border-slate-200">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <Award className="w-4 h-4 text-gold-600" />
+                    <span className="font-bold text-navy-950 text-xs">Recognized Service Certificates</span>
+                    <span className="px-2 py-0.5 rounded-full text-[10px] font-bold bg-white border border-slate-200 text-slate-700">
+                      {selectedVolunteer.certificates?.length || 0}
+                    </span>
+                  </div>
+                  <a
+                    href={`/admin/certificates?create=true&volunteerId=${selectedVolunteer.id}&name=${encodeURIComponent(selectedVolunteer.fullName)}&email=${encodeURIComponent(selectedVolunteer.email)}`}
+                    className="inline-flex items-center gap-1 text-[11px] font-bold text-teal-700 hover:text-teal-800 bg-teal-50 hover:bg-teal-100 border border-teal-200 px-2.5 py-1 rounded-lg transition-colors"
+                  >
+                    <span>+ Issue Certificate</span>
+                  </a>
+                </div>
+
+                {selectedVolunteer.certificates && selectedVolunteer.certificates.length > 0 ? (
+                  <div className="space-y-2">
+                    {selectedVolunteer.certificates.map((cert: any) => (
+                      <div key={cert.id} className="flex items-center justify-between p-2.5 rounded-xl bg-white border border-slate-200 text-xs">
+                        <div>
+                          <div className="font-bold text-navy-950">{cert.title || cert.certificateType}</div>
+                          <div className="text-[10px] text-slate-500 font-mono">{cert.certificateNumber} • {formatDate(cert.issueDate)}</div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className={`px-2 py-0.5 rounded-md text-[9px] font-bold uppercase ${
+                            cert.status === 'ISSUED' ? 'bg-emerald-100 text-emerald-800' : cert.status === 'REVOKED' ? 'bg-rose-100 text-rose-800' : 'bg-slate-100 text-slate-700'
+                          }`}>
+                            {cert.status}
+                          </span>
+                          <a
+                            href={`/verify/${cert.certificateNumber}`}
+                            target="_blank"
+                            className="text-navy-900 hover:text-gold-600 font-bold text-[10px] underline"
+                          >
+                            Verify
+                          </a>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="text-[11px] text-slate-500 italic">No certificates issued to this volunteer yet.</p>
+                )}
+              </div>
 
               {/* Actions Bar */}
               <div className="pt-4 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 mt-6">

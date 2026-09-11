@@ -178,7 +178,6 @@ export default function AdminUsersPage() {
                   <option value="SUPER_ADMIN">SUPER_ADMIN</option>
                   <option value="FINANCE_MANAGER">FINANCE_MANAGER</option>
                   <option value="VOLUNTEER_MANAGER">VOLUNTEER_MANAGER</option>
-                  <option value="MEMBER_MANAGER">MEMBER_MANAGER</option>
                   <option value="CONTENT_MANAGER">CONTENT_MANAGER</option>
                   <option value="PROJECT_MANAGER">PROJECT_MANAGER</option>
                   <option value="VIEWER">VIEWER</option>

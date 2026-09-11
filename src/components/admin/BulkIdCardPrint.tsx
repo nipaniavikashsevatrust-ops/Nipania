@@ -16,7 +16,9 @@ import {
   CheckCircle2,
   Phone,
   Mail,
-  QrCode as QrIcon
+  QrCode as QrIcon,
+  ChevronLeft,
+  ChevronRight,
 } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 import { IdCardData } from './IdCardRenderer';
@@ -29,7 +31,9 @@ interface BulkIdCardPrintProps {
 
 export default function BulkIdCardPrint({ cards, isOpen, onClose }: BulkIdCardPrintProps) {
   const [selectedCardIds, setSelectedCardIds] = useState<string[]>([]);
-  const [cardsPerPage, setCardsPerPage] = useState<number>(9); // 9 (3x3) or 6 (2x3)
+  const [cardsPerPage, setCardsPerPage] = useState<number>(9); // 1, 2, 4, 6, 8, 9
+  const [sheetViewMode, setSheetViewMode] = useState<'ALL' | 'SINGLE'>('ALL');
+  const [activeSheetIndex, setActiveSheetIndex] = useState<number>(0);
   const [showCropMarks, setShowCropMarks] = useState<boolean>(true);
   const [isGeneratingPdf, setIsGeneratingPdf] = useState<boolean>(false);
   const [qrMap, setQrMap] = useState<Record<string, string>>({});
@@ -43,7 +47,7 @@ export default function BulkIdCardPrint({ cards, isOpen, onClose }: BulkIdCardPr
     presidentStamp: null as string | null,
     trustPhone: '+91 94311 23456',
     trustEmail: 'info@nipaniatrust.org',
-    trustAddress: 'Nipania, Hunterganj, Chatra, Jharkhand - 825403',
+    trustAddress: 'Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201',
   });
 
   const defaultPhoto = 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80';
@@ -219,6 +223,36 @@ export default function BulkIdCardPrint({ cards, isOpen, onClose }: BulkIdCardPr
   return (
     <div data-lenis-prevent="true" className="fixed inset-0 z-50 bg-navy-950/85 backdrop-blur-md flex flex-col overflow-hidden">
       
+      {/* Print Stylesheet for Multi-Page Portrait ID Card Sheets */}
+      <style jsx global>{`
+        @media print {
+          @page {
+            size: portrait;
+            margin: 0;
+          }
+          body {
+            background: #FFFFFF !important;
+          }
+          .no-print {
+            display: none !important;
+          }
+          .a4-print-page {
+            width: 210mm !important;
+            height: 297mm !important;
+            min-height: 297mm !important;
+            max-height: 297mm !important;
+            margin: 0 auto !important;
+            box-shadow: none !important;
+            border: none !important;
+            page-break-inside: avoid !important;
+            page-break-after: always !important;
+            break-after: page !important;
+            -webkit-print-color-adjust: exact !important;
+            print-color-adjust: exact !important;
+          }
+        }
+      `}</style>
+
       {/* ======================================================== */}
       {/* TOP CONTROLS TOOLBAR (NO-PRINT)                          */}
       {/* ======================================================== */}
@@ -264,23 +298,84 @@ export default function BulkIdCardPrint({ cards, isOpen, onClose }: BulkIdCardPr
           </button>
 
           {/* Cards per sheet selector */}
-          <div className="flex items-center gap-1.5 bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-semibold">
+          <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-semibold">
             <span className="text-slate-500 text-[11px] px-1.5">Cards / Sheet:</span>
-            {[9, 6].map((num) => (
+            {[
+              { count: 1, label: '1' },
+              { count: 2, label: '2' },
+              { count: 4, label: '4' },
+              { count: 6, label: '6' },
+              { count: 8, label: '8' },
+              { count: 9, label: '9' },
+            ].map(({ count, label }) => (
               <button
-                key={num}
+                key={count}
                 type="button"
-                onClick={() => setCardsPerPage(num)}
-                className={`px-2.5 py-1 rounded text-xs transition-all ${
-                  cardsPerPage === num
+                onClick={() => {
+                  setCardsPerPage(count);
+                  setActiveSheetIndex(0);
+                }}
+                className={`px-2 py-1 rounded text-xs transition-all cursor-pointer ${
+                  cardsPerPage === count
                     ? 'bg-navy-900 text-white shadow-xs font-bold'
                     : 'text-slate-600 hover:text-navy-900'
                 }`}
               >
-                {num} {num === 9 ? '(3×3)' : '(2×3)'}
+                {label}
               </button>
             ))}
           </div>
+
+          {/* Sheet View Mode (All Sheets vs Single Sheet) */}
+          <div className="flex items-center bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs font-semibold">
+            <button
+              type="button"
+              onClick={() => setSheetViewMode('ALL')}
+              className={`px-2.5 py-1 rounded transition-all cursor-pointer ${
+                sheetViewMode === 'ALL'
+                  ? 'bg-navy-900 text-white shadow-xs font-bold'
+                  : 'text-slate-600 hover:text-navy-900'
+              }`}
+            >
+              All Sheets ({totalPages})
+            </button>
+            <button
+              type="button"
+              onClick={() => setSheetViewMode('SINGLE')}
+              className={`px-2.5 py-1 rounded transition-all cursor-pointer ${
+                sheetViewMode === 'SINGLE'
+                  ? 'bg-navy-900 text-white shadow-xs font-bold'
+                  : 'text-slate-600 hover:text-navy-900'
+              }`}
+            >
+              Single Sheet
+            </button>
+          </div>
+
+          {/* Single Sheet Pagination */}
+          {sheetViewMode === 'SINGLE' && totalPages > 1 && (
+            <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200 text-xs">
+              <button
+                type="button"
+                onClick={() => setActiveSheetIndex((prev) => Math.max(0, prev - 1))}
+                disabled={activeSheetIndex === 0}
+                className="p-1 rounded hover:bg-white text-slate-700 disabled:opacity-30 cursor-pointer"
+              >
+                <ChevronLeft className="w-3.5 h-3.5" />
+              </button>
+              <span className="px-1.5 font-mono font-bold text-navy-950 text-[11px]">
+                {activeSheetIndex + 1} / {totalPages}
+              </span>
+              <button
+                type="button"
+                onClick={() => setActiveSheetIndex((prev) => Math.min(totalPages - 1, prev + 1))}
+                disabled={activeSheetIndex >= totalPages - 1}
+                className="p-1 rounded hover:bg-white text-slate-700 disabled:opacity-30 cursor-pointer"
+              >
+                <ChevronRight className="w-3.5 h-3.5" />
+              </button>
+            </div>
+          )}
 
           {/* Crop Marks Toggle */}
           <button
@@ -301,10 +396,10 @@ export default function BulkIdCardPrint({ cards, isOpen, onClose }: BulkIdCardPr
             type="button"
             onClick={handlePrint}
             disabled={activeCards.length === 0}
-            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold bg-navy-950 hover:bg-navy-900 text-white shadow-md transition-all active:scale-98 disabled:opacity-50"
+            className="inline-flex items-center gap-1.5 px-4 py-1.5 rounded-xl text-xs font-bold bg-navy-950 hover:bg-navy-900 text-white shadow-md transition-all active:scale-98 disabled:opacity-50 cursor-pointer"
           >
             <Printer className="w-3.5 h-3.5 text-gold-400" />
-            <span>Print A4 Sheets</span>
+            <span>Print {sheetViewMode === 'SINGLE' ? `Sheet ${activeSheetIndex + 1}` : 'A4 Sheets'}</span>
           </button>
 
           {/* Download A4 Multi-Page PDF */}
@@ -403,7 +498,10 @@ export default function BulkIdCardPrint({ cards, isOpen, onClose }: BulkIdCardPr
               </button>
             </div>
           ) : (
-            paginatedCards.map((pageCards, pageIndex) => (
+            (sheetViewMode === 'SINGLE'
+              ? (paginatedCards[activeSheetIndex] ? [{ pageCards: paginatedCards[activeSheetIndex], pageIndex: activeSheetIndex }] : [])
+              : paginatedCards.map((pageCards, pageIndex) => ({ pageCards, pageIndex }))
+            ).map(({ pageCards, pageIndex }) => (
               <div
                 key={pageIndex}
                 id={`a4-sheet-page-${pageIndex}`}
@@ -426,8 +524,18 @@ export default function BulkIdCardPrint({ cards, isOpen, onClose }: BulkIdCardPr
 
                 {/* Grid Container for CR80 Cards (54mm × 85.6mm each) */}
                 <div
-                  className={`grid gap-x-3 gap-y-2 justify-center items-start ${
-                    cardsPerPage === 9 ? 'grid-cols-3' : 'grid-cols-2'
+                  className={`grid justify-center items-center ${
+                    cardsPerPage === 9
+                      ? 'grid-cols-3 gap-x-3 gap-y-2 items-start'
+                      : cardsPerPage === 8
+                        ? 'grid-cols-2 gap-x-6 gap-y-2 items-start'
+                        : cardsPerPage === 6
+                          ? 'grid-cols-2 gap-x-6 gap-y-4 items-start'
+                          : cardsPerPage === 4
+                            ? 'grid-cols-2 gap-x-10 gap-y-8 my-auto'
+                            : cardsPerPage === 2
+                              ? 'grid-cols-2 gap-x-12 my-auto'
+                              : 'grid-cols-1 my-auto'
                   }`}
                   style={{
                     height: 'calc(297mm - 24mm)',
@@ -701,7 +809,7 @@ export default function BulkIdCardPrint({ cards, isOpen, onClose }: BulkIdCardPr
                               {trustDetails.trustAddress}
                             </p>
                             <p className="text-[6.5px] text-slate-400 uppercase tracking-tight leading-normal">
-                              Official Credential • Property of Trust • Return if found
+                              Official Credential • Nipania Vikash Seva Trust • Does not confer trusteeship, ownership or voting rights • Property of Trust
                             </p>
                           </div>
 

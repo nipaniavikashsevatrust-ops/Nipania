@@ -43,10 +43,10 @@ export default function VerifySearchPage() {
                 </span>
               </div>
               <h1 className="text-2xl sm:text-3xl font-extrabold text-navy-950 font-heading">
-                Verify Identity Card
+                Verify ID or Certificate
               </h1>
               <p className="text-xs sm:text-sm text-slate-500 max-w-md mx-auto">
-                Enter the official Volunteer, Member, or Staff ID number to verify authenticity in real-time.
+                Enter the official Volunteer ID, Staff ID, or Certificate Number to verify authenticity in real-time.
               </p>
             </div>
 
@@ -63,7 +63,7 @@ export default function VerifySearchPage() {
                 <input
                   type="text"
                   required
-                  placeholder="e.g. NVS-VOL-000001 or NVS-MEM-000001"
+                  placeholder="e.g. NVST-CERT-000001 or NVS-VOL-000001"
                   value={idInput}
                   onChange={(e) => setIdInput(e.target.value)}
                   className="w-full pl-12 pr-4 py-3.5 rounded-2xl border border-slate-300 text-sm font-mono uppercase font-bold text-navy-950 placeholder:font-sans placeholder:font-normal focus:outline-none focus:ring-2 focus:ring-gold-500 shadow-sm"

@@ -307,3 +307,56 @@ The NGO platform previously provided instantaneous digital Section 80G donation 
 - Donors can reliably access both their immediate 80G receipts and their year-end Form 10BE certificates.
 - The system is architecturally prepared for future Income Tax direct API e-filing integrations without requiring schema refactoring.
 
+---
+
+## ADR-010: Volunteer-First Participation and Certificate Architecture
+
+Date: 2026-09-11  
+Agent: Google Antigravity  
+Status: ACCEPTED  
+
+### Context
+1. **Organizational Disconnect**: The platform previously featured a public membership system offering paid enrollment tiers (General, Life, Executive, Patron) with registration fee controls. In Indian charitable trust governance, public membership with fee charging creates legal ambiguities regarding trust ownership, governance, and charitable status.
+2. **True NGO Model**: The organization's actual operational model is:
+   - **Donors** contribute funds and receive Section 80G tax receipts and Form 10BE certificates.
+   - **Volunteers** contribute service and time (without fees) and receive Volunteer IDs (`HRMEWT-V-XXXXXX`), orientation, and formal **Certificates of Recognition** (`HRMEWT-CERT-XXXXXX`).
+   - **Trustees** oversee governance.
+   - **Staff** manage daily operations.
+3. **Legal Deed vs. Operating Name**: The registered Trust Deed specifies the legal name `"H.R. MEMORIAL EDUCATIONAL AND WELFARE TRUST"`, whereas public digital assets use `"Nipania Vikash Seva Trust"`. Per strict coordination principles, no artificial relationship was invented; formal cross-reference was recorded as `Organizational naming relationship requires human confirmation.` All legal documents, certificates, and ID card disclaimers cite the exact Deed name.
+
+### Decision
+1. **Retire Public Membership Entirely**:
+   - Removed all public membership CTAs, forms, fee controls, and sitemap entries.
+   - Configured a permanent 308 redirect from `/membership` to `/volunteer`.
+   - Preserved historical `Member` database records as read-only archives with zero data deletion.
+   - Retired `MEMBER_MANAGER` role and transferred permissions to `VOLUNTEER_MANAGER` and `PROJECT_MANAGER`.
+2. **Database-Backed Certificate Model (`Certificate`)**:
+   - Added `Certificate` model in Prisma with unique `certificateNumber` (`HRMEWT-CERT-XXXXXX`), `certificateType`, `recipientName`, `recipientEmail`, `description`, `issueDate`, `status` (`DRAFT`, `ISSUED`, `REVOKED`), `verificationCode`, `verificationUrl`, `signatoryName`, `signatoryTitle`, `revokedAt`, and `revocationReason`.
+   - Associated certificates with `Volunteer`, `Event`, and `Project` records.
+3. **High-Resolution A4 Landscape PDF Engine (`src/lib/certificatePdf.ts`)**:
+   - Programmatically renders A4 landscape certificates (297mm x 210mm) using `jspdf`.
+   - Incorporates deep navy and gold double ornamental borders, Trust Deed legal header, recipient citation, dynamic QR verification code, issue date, and authorized signatory blocks.
+4. **Universal Verification Portal (`/verify` & `/verify/[id]`)**:
+   - Single unified verification entrypoint for both ID Cards (`HRMEWT-V-XXXXXX`) and Certificates (`HRMEWT-CERT-XXXXXX`).
+   - Server-side database lookup checks validity in real time.
+   - Distinct visual handling for `ISSUED`, `REVOKED` (prominently displaying revocation date and mandatory reason), `DRAFT`, `ACTIVE`, and `NOT FOUND` states.
+   - Strict privacy shielding prevents exposure of phone numbers, full emails, or personal addresses.
+5. **Certificate Admin Studio (`/admin/certificates`)**:
+   - Comprehensive studio enabling draft creation, live visual preview modal, issue action, revocation modal with mandatory recorded reason, single/bulk email dispatch with attached PDF, and binary streaming download.
+6. **Volunteer System & ID Cards**:
+   - Standardized Volunteer ID format to `HRMEWT-V-XXXXXX` with atomic collision-safe generation loop.
+   - Added Recognized Service Certificates drawer section in `/admin/volunteers` for quick credential issuance.
+   - Updated ID Card templates with official Trust Deed legal notice and removed member badge themes.
+
+### Reason
+- Aligns the digital platform with the charitable trust's true legal and operational governance structure.
+- Protects the trust's charitable integrity by eliminating paid public membership claims.
+- Establishes a verifiable, tamper-evident certificate registry that motivates volunteers, donors, and partners.
+- Preserves audit trails and avoids any destructive database operations.
+
+### Consequences
+- Volunteers are now the central participatory engine of the trust.
+- Certificates issued to volunteers, sponsors, and partners are backed by immutable database records and public QR verification.
+- Admin dashboard and sidebar reflect operational reality (Donations, Volunteers, Certificates, Compliance).
+
+

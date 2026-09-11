@@ -379,10 +379,10 @@ export default function AdminPaymentGatewayPage() {
           </div>
           <h1 className="text-2xl font-extrabold text-navy-950 font-heading flex items-center gap-2.5">
             <CreditCard className="w-6 h-6 text-gold-600" />
-            <span>Payment Gateway & Membership Charges</span>
+            <span>Payment Gateway & Donation Settings</span>
           </h1>
           <p className="text-xs text-slate-500">
-            Configure Indian payment processors (Razorpay, Cashfree, PhonePe, Paytm, Direct UPI QR) and manage membership fee structures in INR (₹).
+            Configure Indian payment processors (Razorpay, Cashfree, PhonePe, Paytm, Direct UPI QR) and bank settlement accounts for donations in INR (₹).
           </p>
         </div>
 
@@ -412,7 +412,7 @@ export default function AdminPaymentGatewayPage() {
         <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-900 flex items-center gap-3 animate-in fade-in-50">
           <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
           <div className="text-xs font-bold">
-            Payment Gateway configuration and membership charges saved successfully in INR (₹)!
+            Payment Gateway configuration saved successfully in INR (₹)!
           </div>
         </div>
       )}
@@ -1180,136 +1180,6 @@ export default function AdminPaymentGatewayPage() {
             </div>
           </div>
         )}
-      </div>
-
-      {/* 4. MEMBERSHIP FEE CONTROL (ADMIN POWER OVER TIER CHARGES IN INR ₹) */}
-      <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-card space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100">
-          <div>
-            <h3 className="text-base font-bold text-navy-950 font-heading flex items-center gap-2">
-              <IndianRupee className="w-5 h-5 text-gold-600" />
-              <span>4. Membership Tier Registration Charges (INR ₹)</span>
-            </h3>
-            <p className="text-xs text-slate-500">
-              Control the registration fees for each membership category. Changing these values immediately updates the public registration form.
-            </p>
-          </div>
-
-          <div className="flex items-center gap-2.5">
-            <span className="text-xs font-semibold text-slate-600">Require Membership Fee:</span>
-            <button
-              type="button"
-              onClick={() => setForm({ ...form, membershipFeeEnabled: !form.membershipFeeEnabled })}
-              className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out ${
-                form.membershipFeeEnabled ? 'bg-gold-500' : 'bg-slate-300'
-              }`}
-            >
-              <span
-                className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                  form.membershipFeeEnabled ? 'translate-x-5' : 'translate-x-0'
-                }`}
-              />
-            </button>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* General Member */}
-          <div className="p-4 rounded-2xl bg-white border-2 border-slate-200 hover:border-gold-400 transition-all shadow-xs space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-navy-950">General Member</span>
-              <span className="text-[10px] bg-purple-100 text-purple-700 px-2 py-0.5 rounded-full font-bold">Annual</span>
-            </div>
-            <div>
-              <label className="text-[11px] text-slate-500 block mb-1">Registration Charge (INR)</label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">₹</span>
-                <input
-                  type="number"
-                  min="0"
-                  step="50"
-                  disabled={!form.membershipFeeEnabled}
-                  value={form.generalMemberFee}
-                  onChange={(e) => setForm({ ...form, generalMemberFee: parseFloat(e.target.value) || 0 })}
-                  className="w-full pl-7 pr-3 py-2 rounded-xl border border-slate-300 text-sm font-bold text-navy-950 focus:ring-2 focus:ring-gold-500 disabled:bg-slate-100 disabled:opacity-60"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Life Member */}
-          <div className="p-4 rounded-2xl bg-white border-2 border-slate-200 hover:border-gold-400 transition-all shadow-xs space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-navy-950">Life Member</span>
-              <span className="text-[10px] bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full font-bold">Lifetime</span>
-            </div>
-            <div>
-              <label className="text-[11px] text-slate-500 block mb-1">Registration Charge (INR)</label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">₹</span>
-                <input
-                  type="number"
-                  min="0"
-                  step="100"
-                  disabled={!form.membershipFeeEnabled}
-                  value={form.lifeMemberFee}
-                  onChange={(e) => setForm({ ...form, lifeMemberFee: parseFloat(e.target.value) || 0 })}
-                  className="w-full pl-7 pr-3 py-2 rounded-xl border border-slate-300 text-sm font-bold text-navy-950 focus:ring-2 focus:ring-gold-500 disabled:bg-slate-100 disabled:opacity-60"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Executive Member */}
-          <div className="p-4 rounded-2xl bg-white border-2 border-slate-200 hover:border-gold-400 transition-all shadow-xs space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-navy-950">Executive Member</span>
-              <span className="text-[10px] bg-blue-100 text-blue-700 px-2 py-0.5 rounded-full font-bold">Active Term</span>
-            </div>
-            <div>
-              <label className="text-[11px] text-slate-500 block mb-1">Registration Charge (INR)</label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">₹</span>
-                <input
-                  type="number"
-                  min="0"
-                  step="100"
-                  disabled={!form.membershipFeeEnabled}
-                  value={form.executiveMemberFee}
-                  onChange={(e) => setForm({ ...form, executiveMemberFee: parseFloat(e.target.value) || 0 })}
-                  className="w-full pl-7 pr-3 py-2 rounded-xl border border-slate-300 text-sm font-bold text-navy-950 focus:ring-2 focus:ring-gold-500 disabled:bg-slate-100 disabled:opacity-60"
-                />
-              </div>
-            </div>
-          </div>
-
-          {/* Patron Member */}
-          <div className="p-4 rounded-2xl bg-white border-2 border-slate-200 hover:border-gold-400 transition-all shadow-xs space-y-2">
-            <div className="flex items-center justify-between">
-              <span className="text-xs font-bold text-navy-950">Patron Member</span>
-              <span className="text-[10px] bg-amber-100 text-amber-800 px-2 py-0.5 rounded-full font-bold">Honorary</span>
-            </div>
-            <div>
-              <label className="text-[11px] text-slate-500 block mb-1">Registration Charge (INR)</label>
-              <div className="relative">
-                <span className="absolute left-3 top-1/2 -translate-y-1/2 font-bold text-slate-400">₹</span>
-                <input
-                  type="number"
-                  min="0"
-                  step="500"
-                  disabled={!form.membershipFeeEnabled}
-                  value={form.patronMemberFee}
-                  onChange={(e) => setForm({ ...form, patronMemberFee: parseFloat(e.target.value) || 0 })}
-                  className="w-full pl-7 pr-3 py-2 rounded-xl border border-slate-300 text-sm font-bold text-navy-950 focus:ring-2 focus:ring-gold-500 disabled:bg-slate-100 disabled:opacity-60"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <p className="text-[11px] text-slate-500 italic">
-          * Note: Volunteer registrations remain strictly exempt from any charges (₹0 Free) in accordance with the Trust charter.
-        </p>
       </div>
 
       {/* Floating / Sticky Save Bar */}

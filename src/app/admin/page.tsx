@@ -4,7 +4,7 @@ import prisma from '@/lib/prisma';
 import { 
   Heart, 
   Users, 
-  UserPlus, 
+  Award, 
   FolderKanban, 
   Calendar, 
   CreditCard, 
@@ -26,8 +26,8 @@ async function getAdminMetrics() {
       donationsSum,
       volunteersCount,
       pendingVolunteers,
-      membersCount,
-      pendingMembers,
+      issuedCertificates,
+      draftCertificates,
       projectsCount,
       eventsCount,
       recentDonations,
@@ -41,8 +41,8 @@ async function getAdminMetrics() {
       }),
       prisma.volunteer.count({ where: { status: 'APPROVED' } }),
       prisma.volunteer.count({ where: { status: 'PENDING' } }),
-      prisma.member.count({ where: { status: 'ACTIVE' } }),
-      prisma.member.count({ where: { status: 'PENDING' } }),
+      prisma.certificate.count({ where: { status: 'ISSUED' } }),
+      prisma.certificate.count({ where: { status: 'DRAFT' } }),
       prisma.project.count({ where: { status: 'ACTIVE' } }),
       prisma.event.count({ where: { status: 'UPCOMING' } }),
       prisma.donation.findMany({
@@ -65,8 +65,8 @@ async function getAdminMetrics() {
       totalDonationsCount: donationsCount,
       activeVolunteers: volunteersCount,
       pendingVolunteers,
-      activeMembers: membersCount,
-      pendingMembers,
+      issuedCertificates,
+      draftCertificates,
       activeProjects: projectsCount,
       upcomingEvents: eventsCount,
       recentDonations,
@@ -80,8 +80,8 @@ async function getAdminMetrics() {
       totalDonationsCount: 0,
       activeVolunteers: 0,
       pendingVolunteers: 0,
-      activeMembers: 0,
-      pendingMembers: 0,
+      issuedCertificates: 0,
+      draftCertificates: 0,
       activeProjects: 0,
       upcomingEvents: 0,
       recentDonations: [],
@@ -113,6 +113,13 @@ export default async function AdminDashboardPage() {
         </div>
 
         <div className="flex items-center gap-3 shrink-0 relative z-10">
+          <Link
+            href="/admin/certificates"
+            className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-400/40 transition-all backdrop-blur-sm"
+          >
+            <Award className="w-4 h-4" />
+            <span>Certificate Studio</span>
+          </Link>
           <Link
             href="/admin/id-cards"
             className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-bold bg-gradient-to-r from-gold-500 via-gold-400 to-gold-500 hover:from-gold-400 hover:to-gold-300 text-slate-950 font-black shadow-gold transition-all active:scale-95"
@@ -164,19 +171,19 @@ export default async function AdminDashboardPage() {
           </div>
         </div>
 
-        {/* Members */}
+        {/* Certificates */}
         <div className="bg-white p-6 rounded-2xl border border-slate-200 shadow-card flex items-center justify-between">
           <div className="space-y-1">
-            <span className="text-xs text-slate-500 font-medium">Active Members</span>
+            <span className="text-xs text-slate-500 font-medium">Issued Certificates</span>
             <h3 className="text-2xl font-extrabold text-navy-950">
-              {metrics.activeMembers}
+              {metrics.issuedCertificates}
             </h3>
-            <span className="text-[11px] text-slate-500">
-              {metrics.pendingMembers} Pending Enrolments
+            <span className="text-[11px] text-amber-600 font-semibold">
+              {metrics.draftCertificates} Drafts Pending Issue
             </span>
           </div>
-          <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center">
-            <UserPlus className="w-6 h-6" />
+          <div className="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center">
+            <Award className="w-6 h-6" />
           </div>
         </div>
 
@@ -322,7 +329,7 @@ export default async function AdminDashboardPage() {
         </div>
 
         <div className="divide-y divide-slate-100 text-xs">
-          {metrics.recentLogs.map((log) => (
+          {metrics.recentLogs.map((log: any) => (
             <div key={log.id} className="py-2.5 flex items-center justify-between gap-4">
               <div className="flex items-center gap-3">
                 <span className="px-2 py-0.5 rounded text-[10px] font-mono font-bold bg-slate-100 text-slate-700">

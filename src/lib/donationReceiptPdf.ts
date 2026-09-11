@@ -129,7 +129,7 @@ export async function generateDonationReceiptPdf(data: DonationReceiptPdfData): 
   const reg80gNo = trust?.reg80gNo || 'AAFTN4004NF20214';
   const reg12aNo = trust?.reg12aNo || 'AAFTN4004NE20203';
   const darpanId = trust?.darpanId || 'UP/2021/0295112';
-  const trustAddress = trust?.registeredAddress || 'Village & Post Nipania, Dist. Balrampur, Uttar Pradesh - 271201, India';
+  const trustAddress = trust?.registeredAddress || 'Nipania, P.O. Pargha, P.S. Baliapur, District Dhanbad, Jharkhand – 828201';
   const trustEmail = trust?.email || 'info@nipaniatrust.org';
   const trustPhone = trust?.phone || '+91 98765 43210';
   const website = trust?.website || 'https://nipaniatrust.org';

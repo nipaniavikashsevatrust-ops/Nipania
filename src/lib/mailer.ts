@@ -309,7 +309,7 @@ export async function sendRegistrationReceiptEmail({
           </div>
 
           <div style="background-color: #0B192C; padding: 14px 26px; text-align: center; color: #94a3b8; font-size: 11px; border-top: 1px solid #1e293b;">
-            Nipania Vikash Seva Trust • Hunterganj, Chatra, Jharkhand - 825403 • Helpline: +91 94311 23456
+            Nipania Vikash Seva Trust • Baliapur, Dhanbad, Jharkhand - 828201 • Helpline: +91 94311 23456
           </div>
         </div>
       `,
@@ -550,7 +550,7 @@ export async function sendCorrectionNoticeEmail({
           </div>
 
           <div style="background-color: #0B192C; padding: 16px 26px; text-align: center; color: #94a3b8; font-size: 11px; border-top: 1px solid #1e293b;">
-            Nipania Vikash Seva Trust • Official Helpdesk • Hunterganj, Chatra, Jharkhand
+            Nipania Vikash Seva Trust • Official Helpdesk • Baliapur, Dhanbad, Jharkhand - 828201
           </div>
         </div>
       `,
@@ -1021,7 +1021,7 @@ export async function sendTenBEEmail({
           </div>
 
           <div style="background-color: #0B192C; padding: 16px 24px; text-align: center; color: #94a3b8; font-size: 11px; border-top: 1px solid #1e293b;">
-            Nipania Vikash Seva Trust • Official Public Charitable Trust • Balrampur, Uttar Pradesh
+            Nipania Vikash Seva Trust • Official Public Charitable Trust • Baliapur, Dhanbad, Jharkhand - 828201
           </div>
         </div>
       `,
@@ -1041,5 +1041,163 @@ export async function sendTenBEEmail({
     };
   }
 }
+
+/**
+ * Dispatch Official Recognition Certificate Email to Recipient with PDF Attachment
+ */
+export async function sendCertificateEmail({
+  recipientEmail,
+  recipientName,
+  certificateNumber,
+  certificateType,
+  title,
+  issueDate,
+  verificationUrl,
+  pdfBuffer,
+}: {
+  recipientEmail: string;
+  recipientName: string;
+  certificateNumber: string;
+  certificateType: string;
+  title?: string;
+  issueDate: Date | string;
+  verificationUrl: string;
+  pdfBuffer?: Buffer;
+}): Promise<{ success: boolean; message: string; error?: string }> {
+  try {
+    const config = await getActiveSmtpConfig();
+    if (!config) {
+      console.warn('No active SMTP config found. Simulated certificate email dispatch.');
+      return {
+        success: true,
+        message: `Simulated: Official Certificate email queued for ${recipientEmail}.`,
+      };
+    }
+
+    const transporter = createTransporter(config);
+    const formattedDate = new Date(issueDate).toLocaleDateString('en-IN', {
+      day: 'numeric',
+      month: 'short',
+      year: 'numeric',
+    });
+
+    const certTitle = title || `Certificate of ${certificateType.replace(/_/g, ' ')}`;
+
+    const attachments = pdfBuffer
+      ? [
+          {
+            filename: `${certificateNumber}_Certificate.pdf`,
+            content: pdfBuffer,
+            contentType: 'application/pdf',
+          },
+        ]
+      : [];
+
+    const info = await transporter.sendMail({
+      from: `"${config.senderName}" <${config.senderEmail}>`,
+      to: recipientEmail,
+      subject: `Your Certificate from Nipania Vikash Seva Trust (${certificateNumber})`,
+      attachments,
+      html: `
+        <div style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; max-width: 640px; margin: 0 auto; background-color: #ffffff; border: 2px solid #0C234C; border-radius: 20px; overflow: hidden; box-shadow: 0 8px 24px rgba(12, 35, 76, 0.12);">
+          <div style="background-color: #0C234C; padding: 28px 24px; text-align: center; color: #ffffff;">
+            <h2 style="margin: 0 0 4px; font-size: 19px; color: #F59E0B; text-transform: uppercase; letter-spacing: 1.2px;">
+              NIPANIA VIKASH SEVA TRUST
+            </h2>
+            <p style="margin: 0; font-size: 11px; color: #cbd5e1; font-weight: bold;">
+              SEVA • VIKASH • SAMARPAN
+            </p>
+            <p style="margin: 6px 0 0; font-size: 10px; color: #94a3b8;">
+              Registered Public Charitable Trust • Official Certificate of Recognition
+            </p>
+          </div>
+          
+          <div style="padding: 32px 28px; color: #334155; line-height: 1.6;">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-bottom: 2px solid #e2e8f0; margin-bottom: 20px; padding-bottom: 12px;">
+              <tr>
+                <td align="left" valign="top">
+                  <span style="font-size: 11px; font-weight: bold; color: #b45309; text-transform: uppercase; letter-spacing: 0.5px;">Official Document</span>
+                  <h3 style="color: #0C234C; margin: 4px 0 0; font-size: 18px; line-height: 1.3;">${certTitle} 📜</h3>
+                </td>
+                <td align="right" valign="top" style="width: 130px;">
+                  <div style="background-color: #ecfdf5; color: #065f46; border: 1px solid #a7f3d0; font-size: 10.5px; font-weight: bold; padding: 4px 10px; border-radius: 20px; text-align: center; white-space: nowrap;">
+                    OFFICIAL &amp; ISSUED
+                  </div>
+                </td>
+              </tr>
+            </table>
+
+            <p style="font-size: 14px; margin: 0 0 16px;">
+              Dear <strong>${recipientName}</strong>,
+            </p>
+            <p style="font-size: 14px; line-height: 1.6; margin: 0 0 18px;">
+              Your <strong>${certTitle}</strong> has been officially issued by <strong>Nipania Vikash Seva Trust</strong> in recognition of your valuable service, participation, and contribution towards the activities and objectives of the Trust.
+            </p>
+            
+            <div style="background-color: #f8fafc; border: 1px solid #cbd5e1; border-radius: 14px; padding: 18px; margin: 22px 0;">
+              <table width="100%" cellpadding="0" cellspacing="0" border="0" style="font-size: 13px; border-collapse: collapse;">
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 8px 0; color: #64748b; width: 40%; font-weight: bold;">Certificate Number:</td>
+                  <td style="padding: 8px 0; color: #0C234C; font-weight: bold; font-family: monospace; font-size: 14px;">${certificateNumber}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 8px 0; color: #64748b; font-weight: bold;">Recipient Name:</td>
+                  <td style="padding: 8px 0; color: #0C234C; font-weight: bold;">${recipientName}</td>
+                </tr>
+                <tr style="border-bottom: 1px solid #e2e8f0;">
+                  <td style="padding: 8px 0; color: #64748b; font-weight: bold;">Category:</td>
+                  <td style="padding: 8px 0; color: #334155;">${certTitle}</td>
+                </tr>
+                <tr>
+                  <td style="padding: 8px 0; color: #64748b; font-weight: bold;">Date of Issue:</td>
+                  <td style="padding: 8px 0; color: #047857; font-weight: bold;">${formattedDate}</td>
+                </tr>
+              </table>
+            </div>
+
+            ${pdfBuffer ? `
+            <div style="background-color: #eff6ff; border: 1px solid #bfdbfe; border-radius: 12px; padding: 16px; margin: 20px 0; text-align: center;">
+              <p style="margin: 0; color: #1e40af; font-weight: bold; font-size: 13px;">
+                📎 Attached: ${certificateNumber}_Certificate.pdf
+              </p>
+              <p style="margin: 4px 0 0; color: #1d4ed8; font-size: 11.5px;">
+                Your official printable high-resolution A4 certificate has been attached to this email.
+              </p>
+            </div>
+            ` : ''}
+
+            <div style="text-align: center; margin: 26px 0;">
+              <a href="${verificationUrl}" style="background-color: #0C234C; color: #F59E0B; text-decoration: none; padding: 13px 28px; border-radius: 50px; font-size: 13px; font-weight: bold; display: inline-block; box-shadow: 0 4px 12px rgba(12, 35, 76, 0.2);">
+                Verify Authenticity Online →
+              </a>
+            </div>
+
+            <p style="font-size: 11.5px; color: #64748b; margin-top: 24px; line-height: 1.5;">
+              Notice: This certificate represents honorary recognition by the Trust. It does not confer trusteeship, ownership, office-bearer status, or voting rights.
+            </p>
+          </div>
+
+          <div style="background-color: #0C234C; padding: 16px 24px; text-align: center; color: #94a3b8; font-size: 11px; border-top: 1px solid #1e293b;">
+            Nipania Vikash Seva Trust • Official Registry • Helpline: +91 9876543210
+          </div>
+        </div>
+      `,
+      text: `Dear ${recipientName},\n\nYour ${certTitle} has been officially issued by Nipania Vikash Seva Trust.\n\nCertificate Number: ${certificateNumber}\nIssue Date: ${formattedDate}\nVerification: ${verificationUrl}\n\nYour official certificate PDF is attached to this email.`,
+    });
+
+    return {
+      success: true,
+      message: `Certificate successfully delivered to ${recipientEmail}. (ID: ${info.messageId})`,
+    };
+  } catch (error: any) {
+    console.error('Error dispatching certificate email:', error);
+    return {
+      success: false,
+      message: `Failed to deliver certificate email: ${error.message || 'SMTP Error'}`,
+      error: error.message || 'Failed to dispatch email',
+    };
+  }
+}
+
 
 

@@ -22,20 +22,46 @@ import {
   MessageCircle,
   Menu,
   X,
+  Building2,
+  HeartHandshake,
 } from 'lucide-react';
 
-const MAIN_NAV_ITEMS = [
+interface SubNavItem {
+  name: string;
+  href: string;
+  icon: any;
+  desc?: string;
+  description?: string;
+}
+
+interface NavItem {
+  name: string;
+  href: string;
+  icon: any;
+  submenu?: SubNavItem[];
+}
+
+const MAIN_NAV_ITEMS: NavItem[] = [
   { name: 'Home', href: '/', icon: Home },
   { name: 'About Us', href: '/about', icon: Info },
   { name: 'Campaigns', href: '/campaigns', icon: FolderKanban },
-  { name: 'Our Work', href: '/work', icon: FileCheck },
   {
     name: 'Get Involved',
-    href: '#',
+    href: '/volunteer',
     icon: Users,
     submenu: [
-      { name: 'Become a Volunteer', href: '/volunteer', desc: 'Join on-ground community welfare drives', icon: Users },
-      { name: 'Become a Member', href: '/membership', desc: 'Official trust membership & governance', icon: UserPlus },
+      {
+        name: 'Volunteer',
+        href: '/volunteer',
+        icon: HeartHandshake,
+        desc: 'Join as a volunteer & create grassroots impact',
+      },
+      {
+        name: 'CSR Partnerships',
+        href: '/csr',
+        icon: Building2,
+        desc: 'Schedule VII CSR projects & Section 80G tax benefits',
+      },
     ],
   },
   { name: 'Contact', href: '/contact', icon: Phone },
@@ -138,7 +164,8 @@ export default function Navbar() {
                     >
                       <button
                         type="button"
-                        className={`px-3 py-2 text-xs 2xl:text-sm font-bold rounded-full transition-all flex items-center gap-1.5 whitespace-nowrap ${
+                        onClick={() => setDropdownOpen((prev) => !prev)}
+                        className={`px-3 py-2 text-xs 2xl:text-sm font-bold rounded-full transition-all flex items-center gap-1.5 whitespace-nowrap cursor-pointer ${
                           isSubActive
                             ? 'text-amber-800 bg-amber-50 border border-amber-300 shadow-2xs'
                             : 'text-slate-700 hover:text-amber-700 hover:bg-slate-100/80'
@@ -149,8 +176,8 @@ export default function Navbar() {
                       </button>
 
                       {dropdownOpen && (
-                        <div className="absolute top-full left-0 w-72 pt-2 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-150">
-                          <div className="bg-white border border-slate-200 rounded-2xl shadow-xl p-2 space-y-1">
+                        <div className="absolute top-full left-0 w-80 pt-2 shadow-2xl z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+                          <div className="bg-white border border-slate-200 rounded-2xl shadow-xl p-2.5 space-y-1">
                             {item.submenu.map((sub) => {
                               const SubIcon = sub.icon;
                               const isCurrent = pathname === sub.href;
@@ -158,18 +185,19 @@ export default function Navbar() {
                                 <Link
                                   key={sub.name}
                                   href={sub.href}
+                                  onClick={() => setDropdownOpen(false)}
                                   className={`flex items-start gap-3 p-2.5 rounded-xl transition-all ${
                                     isCurrent
-                                      ? 'bg-amber-50 text-amber-800 font-bold border border-amber-200/80'
-                                      : 'text-slate-700 hover:bg-slate-50 hover:text-amber-700'
+                                      ? 'bg-amber-50 text-amber-900 font-bold border border-amber-200/80'
+                                      : 'text-slate-700 hover:bg-slate-50 hover:text-amber-800'
                                   }`}
                                 >
-                                  <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center shrink-0 border border-amber-100 text-amber-600">
+                                  <div className="w-8 h-8 rounded-lg bg-amber-50 flex items-center justify-center shrink-0 border border-amber-200/80 text-amber-700 mt-0.5">
                                     <SubIcon className="w-4 h-4" />
                                   </div>
-                                  <div className="text-left">
-                                    <span className="block text-xs font-bold leading-tight">{sub.name}</span>
-                                    <span className="text-[10px] text-slate-500 block mt-0.5 leading-snug">{sub.desc}</span>
+                                  <div className="text-left min-w-0">
+                                    <span className="block text-xs font-bold leading-tight text-navy-950">{sub.name}</span>
+                                    <span className="text-[10.5px] text-slate-500 block mt-0.5 leading-snug">{sub.desc}</span>
                                   </div>
                                 </Link>
                               );
@@ -428,12 +456,12 @@ export default function Navbar() {
                 <span className="truncate">WhatsApp Help</span>
               </a>
               <Link
-                href="/verify"
+                href="/csr"
                 onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-slate-100 text-slate-800 border border-slate-200 active:scale-95 transition-all truncate"
+                className="flex items-center justify-center gap-1.5 py-2.5 px-3 rounded-xl bg-amber-50 text-amber-900 border border-amber-200 active:scale-95 transition-all truncate"
               >
-                <ShieldCheck className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-                <span className="truncate">Verify ID Card</span>
+                <Building2 className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                <span className="truncate">CSR Desk</span>
               </Link>
             </div>
 
