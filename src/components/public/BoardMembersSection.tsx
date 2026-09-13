@@ -7,10 +7,10 @@ import { ShieldCheck, Award, Heart, User, CheckCircle2, Quote } from 'lucide-rea
 
 const BOARD_LEADERS = [
   {
-    name: 'President & Managing Trustee',
-    designation: 'Managing Trustee',
+    name: 'Raj Kumar Mahato',
+    designation: 'President & Managing Trustee',
     category: 'Executive Leadership',
-    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80',
+    image: '/uploads/1789276540887-cropped-image.jpg',
     quote: '"Selfless service to the underserved is the highest form of social responsibility and spiritual dedication."',
     roleDetails: 'Steering trust governance, statutory compliance, and strategic grassroots development programs.',
     tenure: 'Founding Trustee',
@@ -26,7 +26,7 @@ const BOARD_LEADERS = [
   },
   {
     name: 'Treasurer & Compliance Trustee',
-    designation: 'Treasurer',
+    designation: 'Treasurer & Financial Controller',
     category: 'Finance & Governance',
     image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80',
     quote: '"Every single rupee donated is held in sacred trust and directed transparently for verified social impact."',
@@ -50,10 +50,14 @@ export default function BoardMembersSection() {
   React.useEffect(() => {
     async function loadMembers() {
       try {
-        const res = await fetch('/api/board-members');
+        const res = await fetch('/api/board-members', { 
+          cache: 'no-store',
+          headers: { 'Cache-Control': 'no-cache' },
+        });
         const data = await res.json();
-        if (data.boardMembers && data.boardMembers.length > 0) {
-          setBoardList(data.boardMembers);
+        const membersList = data.boardMembers || (Array.isArray(data) ? data : null);
+        if (membersList && membersList.length > 0) {
+          setBoardList(membersList);
         }
       } catch (e) {
         // Fallback to initial list
@@ -66,20 +70,21 @@ export default function BoardMembersSection() {
     <section className="py-20 bg-warm-50 border-t border-slate-200/80">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 space-y-3">
-          <div className="title-ornament mb-2">
-            <span className="text-xs uppercase tracking-widest text-gold-600 font-bold">
-              Leadership & Governance
-            </span>
-          </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-navy-950 font-heading">
-            Board of Trustees & Leadership
-          </h2>
-          <p className="text-sm text-slate-600 leading-relaxed">
-            The governing council of Nipania Vikash Seva Trust, committed to ethical administration, transparent fund management, and grassroots social development.
-          </p>
+      {/* Section Header */}
+      <div className="text-center max-w-3xl mx-auto mb-16 space-y-4">
+        <div className="title-ornament mb-2">
+          <span className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 border-2 border-amber-300 text-amber-900 text-xs font-bold uppercase tracking-wider shadow-sm">
+            <ShieldCheck className="w-4 h-4" />
+            Leadership & Governance
+          </span>
         </div>
+        <h2 className="text-3xl sm:text-5xl font-black text-navy-950 font-heading tracking-tight">
+          Board of Trustees & Leadership
+        </h2>
+        <p className="text-base text-slate-600 leading-relaxed">
+          The governing council of Nipania Vikash Seva Trust, committed to ethical administration, transparent fund management, and grassroots social development.
+        </p>
+      </div>
 
         {/* Board Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -92,18 +97,19 @@ export default function BoardMembersSection() {
               <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-gold-400 via-gold-500 to-gold-400 opacity-80 group-hover:opacity-100 transition-opacity" />
 
               <div className="space-y-4">
-                {/* Photo Frame */}
-                <div className="relative w-24 h-24 mx-auto mt-2">
-                  <div className="w-full h-full rounded-2xl overflow-hidden border-2 border-gold-400/80 shadow-md bg-navy-950 flex items-center justify-center relative">
+                {/* Photo Frame - Significantly Enlarged Size */}
+                <div className="relative w-40 h-40 sm:w-44 sm:h-44 mx-auto mt-1">
+                  <div className="w-full h-full rounded-3xl overflow-hidden border-2 border-gold-400 shadow-lg bg-navy-950 flex items-center justify-center relative ring-4 ring-gold-400/20">
                     <Image
-                      src={leader.image}
+                      src={leader.image || '/uploads/1789276540887-cropped-image.jpg'}
                       alt={leader.name}
                       fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-500"
+                      unoptimized={true}
+                      className="object-cover object-top group-hover:scale-105 transition-transform duration-500"
                     />
                   </div>
-                  <div className="absolute -bottom-2 -right-1 p-1 rounded-full bg-navy-900 border border-gold-400 text-gold-400 shadow-xs">
-                    <ShieldCheck className="w-3.5 h-3.5" />
+                  <div className="absolute -bottom-1.5 -right-1.5 p-2 rounded-full bg-navy-900 border-2 border-gold-400 text-gold-400 shadow-md">
+                    <ShieldCheck className="w-4 h-4" />
                   </div>
                 </div>
 

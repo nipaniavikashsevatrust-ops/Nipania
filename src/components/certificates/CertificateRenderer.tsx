@@ -12,7 +12,8 @@ import {
   XCircle,
   Calendar,
   QrCode as QrIcon,
-  Loader2
+  Loader2,
+  Mail
 } from 'lucide-react';
 import { formatDate } from '@/lib/utils';
 
@@ -67,10 +68,12 @@ export default function CertificateRenderer({
   certificate,
   showActions = true,
   customSettings,
+  onEmail,
 }: {
   certificate: CertificateData;
   showActions?: boolean;
   customSettings?: Partial<CertificateTrustSettings>;
+  onEmail?: (cert: CertificateData) => void;
 }) {
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
   const [isGeneratingPdf, setIsGeneratingPdf] = useState(false);
@@ -257,6 +260,17 @@ export default function CertificateRenderer({
               )}
               <span>Download PDF</span>
             </button>
+            {onEmail && certificate.recipientEmail && certificate.status === 'ISSUED' && (
+              <button
+                onClick={() => onEmail(certificate)}
+                type="button"
+                className="inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-xl text-xs font-bold text-white bg-blue-700 hover:bg-blue-800 shadow-xs transition-all cursor-pointer"
+                title={`Email certificate PDF to ${certificate.recipientEmail}`}
+              >
+                <Mail className="w-3.5 h-3.5" />
+                <span>Email Certificate</span>
+              </button>
+            )}
           </div>
         </div>
       )}

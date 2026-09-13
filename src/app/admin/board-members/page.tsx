@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState, useRef } from 'react';
 import Image from 'next/image';
+import dynamic from 'next/dynamic';
 import { 
   Users, 
   Plus, 
@@ -18,8 +19,13 @@ import {
   Sparkles,
   ArrowUpDown,
   UserCheck,
-  Building
+  Building,
+  Crop
 } from 'lucide-react';
+
+const ImageCropModal = dynamic(() => import('@/components/admin/ImageCropModal'), {
+  ssr: false,
+});
 
 interface BoardMember {
   id: string;
@@ -55,6 +61,10 @@ export default function AdminBoardMembersPage() {
   const [submitting, setSubmitting] = useState(false);
   const [uploadingImage, setUploadingImage] = useState(false);
   const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  
+  // Image crop states
+  const [cropModalOpen, setCropModalOpen] = useState(false);
+  const [imageToCrop, setImageToCrop] = useState<string>('');
 
   // Form State
   const [formData, setFormData] = useState({
@@ -132,11 +142,28 @@ export default function AdminBoardMembersPage() {
       return;
     }
 
+    // Read file and open crop modal
+    const reader = new FileReader();
+    reader.onload = () => {
+      setImageToCrop(reader.result as string);
+      setCropModalOpen(true);
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleCropComplete = async (croppedImageUrl: string) => {
+    setCropModalOpen(false);
     setUploadingImage(true);
-    const bodyData = new FormData();
-    bodyData.append('file', file);
 
     try {
+      // Convert base64 to blob
+      const response = await fetch(croppedImageUrl);
+      const blob = await response.blob();
+      
+      // Upload to server
+      const bodyData = new FormData();
+      bodyData.append('file', blob, 'cropped-image.jpg');
+
       const res = await fetch('/api/upload', {
         method: 'POST',
         body: bodyData,
@@ -144,23 +171,34 @@ export default function AdminBoardMembersPage() {
       const data = await res.json();
 
       if (res.ok && data.url) {
-        setFormData((prev) => ({ ...prev, image: data.url }));
-        setFeedback({ type: 'success', message: 'Photo uploaded successfully!' });
+        const newImageUrl = data.url;
+        setFormData((prev) => ({ ...prev, image: newImageUrl }));
+
+        // Auto-save photo immediately to database if editing existing member
+        if (editingMember) {
+          try {
+            await fetch(`/api/board-members/${editingMember.id}`, {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ image: newImageUrl }),
+            });
+            fetchMembers();
+            setFeedback({ type: 'success', message: 'Photo cropped and saved directly to profile!' });
+          } catch (patchErr) {
+            setFeedback({ type: 'success', message: 'Photo cropped! Click "Update Board Member" to save.' });
+          }
+        } else {
+          setFeedback({ type: 'success', message: 'Photo cropped! Click "Add Board Member" to save.' });
+        }
       } else {
-        // Fallback to FileReader base64
-        const reader = new FileReader();
-        reader.onload = () => {
-          setFormData((prev) => ({ ...prev, image: reader.result as string }));
-        };
-        reader.readAsDataURL(file);
+        // Fallback to base64
+        setFormData((prev) => ({ ...prev, image: croppedImageUrl }));
+        setFeedback({ type: 'success', message: 'Photo cropped! Click "Update Board Member" to save.' });
       }
     } catch (err) {
-      // Fallback to FileReader base64 on error
-      const reader = new FileReader();
-      reader.onload = () => {
-        setFormData((prev) => ({ ...prev, image: reader.result as string }));
-      };
-      reader.readAsDataURL(file);
+      // Fallback to base64
+      setFormData((prev) => ({ ...prev, image: croppedImageUrl }));
+      setFeedback({ type: 'success', message: 'Photo cropped! Click "Update Board Member" to save.' });
     } finally {
       setUploadingImage(false);
     }
@@ -375,6 +413,7 @@ export default function AdminBoardMembersPage() {
                           src={member.image}
                           alt={member.name}
                           fill
+                          unoptimized={true}
                           className="object-cover"
                         />
                       ) : (
@@ -470,9 +509,9 @@ export default function AdminBoardMembersPage() {
             {/* Modal Form */}
             <form onSubmit={handleSubmit} className="p-6 space-y-4 min-h-0 flex-1 overflow-y-auto admin-modal-scroll">
               
-              {/* Photo Upload Section */}
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-center gap-4">
-                <div className="relative w-24 h-24 rounded-2xl overflow-hidden border-2 border-gold-400 bg-navy-950 shrink-0 shadow-md flex items-center justify-center">
+              {/* Photo Upload Section with Crop */}
+              <div className="p-4 rounded-2xl bg-gradient-to-br from-slate-50 to-warm-50 border-2 border-slate-200 flex flex-col sm:flex-row items-center gap-4">
+                <div className="relative w-28 h-28 rounded-2xl overflow-hidden border-3 border-gold-400 bg-navy-950 shrink-0 shadow-lg flex items-center justify-center">
                   {formData.image ? (
                     <Image
                       src={formData.image}
@@ -481,17 +520,25 @@ export default function AdminBoardMembersPage() {
                       className="object-cover"
                     />
                   ) : (
-                    <Users className="w-10 h-10 text-gold-400/70" />
+                    <Users className="w-12 h-12 text-gold-400/70" />
+                  )}
+                  {formData.image && (
+                    <div className="absolute inset-0 bg-navy-950/0 group-hover:bg-navy-950/50 transition-all flex items-center justify-center opacity-0 group-hover:opacity-100">
+                      <Crop className="w-6 h-6 text-gold-400" />
+                    </div>
                   )}
                 </div>
 
-                <div className="space-y-2 text-center sm:text-left flex-1">
-                  <h4 className="text-xs font-bold text-navy-950">Official Trustee Photograph</h4>
-                  <p className="text-[11px] text-slate-500">
-                    Upload a high-resolution portrait photograph. (JPG, PNG, WebP up to 5MB)
+                <div className="space-y-2.5 text-center sm:text-left flex-1">
+                  <div className="flex items-center gap-2 justify-center sm:justify-start">
+                    <ShieldCheck className="w-4 h-4 text-gold-600" />
+                    <h4 className="text-xs font-bold text-navy-950">Official Trustee Portrait</h4>
+                  </div>
+                  <p className="text-[11px] text-slate-600 leading-relaxed">
+                    Upload a professional portrait photograph with automatic crop & resize tool. Supports JPG, PNG, WebP (max 5MB).
                   </p>
                   
-                  <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start">
+                  <div className="flex flex-wrap items-center gap-2 justify-center sm:justify-start pt-1">
                     <input
                       type="file"
                       ref={fileInputRef}
@@ -503,23 +550,23 @@ export default function AdminBoardMembersPage() {
                       type="button"
                       disabled={uploadingImage}
                       onClick={() => fileInputRef.current?.click()}
-                      className="px-4 py-1.5 rounded-lg text-xs font-bold bg-navy-900 text-white hover:bg-navy-800 transition-all flex items-center gap-1.5"
+                      className="px-4 py-2 rounded-xl text-xs font-bold bg-gradient-to-r from-navy-900 to-navy-800 text-white hover:from-navy-800 hover:to-navy-700 transition-all flex items-center gap-2 shadow-md"
                     >
                       {uploadingImage ? (
-                        <RefreshCw className="w-3.5 h-3.5 animate-spin text-gold-400" />
+                        <RefreshCw className="w-4 h-4 animate-spin text-gold-400" />
                       ) : (
-                        <Upload className="w-3.5 h-3.5 text-gold-400" />
+                        <Upload className="w-4 h-4 text-gold-400" />
                       )}
-                      <span>{uploadingImage ? 'Uploading...' : 'Choose File / Photo'}</span>
+                      <span>{uploadingImage ? 'Processing...' : 'Upload & Crop Photo'}</span>
                     </button>
 
                     {formData.image && (
                       <button
                         type="button"
                         onClick={() => setFormData({ ...formData, image: '' })}
-                        className="text-xs text-rose-600 hover:underline px-2 py-1"
+                        className="px-3 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 rounded-xl transition-colors"
                       >
-                        Remove Photo
+                        Remove
                       </button>
                     )}
                   </div>
@@ -663,6 +710,20 @@ export default function AdminBoardMembersPage() {
 
           </div>
         </div>
+      )}
+
+      {/* Image Crop Modal */}
+      {cropModalOpen && imageToCrop && (
+        <ImageCropModal
+          imageSrc={imageToCrop}
+          onCropComplete={handleCropComplete}
+          onCancel={() => {
+            setCropModalOpen(false);
+            setImageToCrop('');
+          }}
+          aspectRatio={1}
+          cropShape="rect"
+        />
       )}
 
     </div>

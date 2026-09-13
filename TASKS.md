@@ -40,6 +40,47 @@
 
 ## 🟢 COMPLETED
 
+### Task: Fix Certificate PDF Vector Ornaments, Symbol Encoding & Text Overlap Alignment Issues
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-13
+- **Completed**: 2026-09-13
+- **Notes**:
+  1. Implemented native vector drawing functions (`drawVectorDiamond` and `drawVectorStar`) in `certificatePdf.ts`.
+  2. Eliminated Unicode font encoding glitches (`&f 'V &f`, `& CERTIFICATE OF ... &`, rogue `'V`).
+  3. Repositioned bottom legal disclaimer to `191.5mm`, completely resolving the gold border overlap.
+  4. Widened description text wrap width to `235mm`, fixing orphan word wrapping.
+  5. Symmetrically centered header lockup and balanced all three footer columns.
+  6. Verified visual PDF output and passed `npx tsc --noEmit` with 0 errors.
+
+### Task: Fix Cropped Trustee Photo Display Across Public Board of Trustees & Leadership Section
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-13
+- **Completed**: 2026-09-13
+- **Notes**:
+  1. Updated Raj Kumar Mahato's database record to `/uploads/1789276540887-cropped-image.jpg`.
+  2. Fixed blank Next.js image proxy issue by setting `unoptimized={true}` on `<Image>` in `BoardMembersSection.tsx`, `/board-members/page.tsx`, and admin board members list.
+  3. Added `force-dynamic`, `revalidate = 0`, and `Cache-Control: no-store` to `/api/board-members`, `/api/board-members/public`, and `/board-members/page.tsx`.
+  4. Updated `BoardMembersSection.tsx` fallback and client fetch to prevent stale caching.
+  5. Enhanced `handleCropComplete` in `admin/board-members/page.tsx` to automatically PATCH the database upon crop completion when editing existing members.
+  6. Verified compilation cleanly with `npx tsc --noEmit` (0 errors).
+
+### Task: Board Trustees Image Enlargement, Certificate PDF Email Synchronization & SweetAlert Email Loader
+- **Owner**: Google Antigravity
+- **Status**: COMPLETED
+- **Priority**: HIGH
+- **Started**: 2026-09-13
+- **Completed**: 2026-09-13
+- **Notes**:
+  1. Enlarged trustee photo frames to `w-40 h-40 sm:w-44 sm:h-44` with `rounded-3xl` and `ring-4 ring-gold-400/20` in `BoardMembersSection.tsx`, and expanded portrait header height to `h-[390px] sm:h-[450px] lg:h-[480px]` on `/board-members`.
+  2. Synchronized Certificate PDF generator `src/lib/certificatePdf.ts` to match `CertificateRenderer.tsx` preview 1:1 (horizontal medallion header, central watermark, matching fonts, aligned 3-column footer with stamp/signature overlap and 'Authorized Signatory', full A4 landscape proportions).
+  3. Ensured email dispatch routes (`[id]/email` and `bulk-email`) retrieve active TrustDetail settings with robust fallback values and pass complete trust configuration into `generateCertificatePdf`.
+  4. Installed `sweetalert2`, styled royal sapphire & gold theme in `globals.css` with top-level z-index, and integrated interactive SweetAlert confirmation, real-time loading spinner, and success/error modals across single email dispatch, preview modal, and bulk email studio.
+  5. Verified compilation cleanly with `npx tsc --noEmit` (0 errors) and validated PDF generation.
+
 ### Task: Professional CSR Inquiries Admin Section & Management Suite
 - **Owner**: Google Antigravity
 - **Status**: COMPLETED

@@ -46,6 +46,7 @@ export async function POST(req: NextRequest) {
       name: trust?.name || 'Nipania Vikash Seva Trust',
       tagline: trust?.tagline || 'SEVA • VIKASH • SAMARPAN',
       address: trust?.registeredAddress || 'NIPANIA, P.O. PARGHA, P.S. BALIAPUR, DISTRICT DHANBAD, JHARKHAND – 828201',
+      registrationNumber: trust?.registrationNo || 'IV-120/2022',
       pan: trust?.pan || 'AAFTN4004N',
       darpanId: trust?.darpanId || 'UP/2021/0295112',
       presidentName: trust?.presidentName || 'Raj Kumar Mahato',

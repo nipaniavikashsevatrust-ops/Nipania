@@ -3,6 +3,9 @@ import prisma from '@/lib/prisma';
 import { getSessionFromRequest, hasPermission } from '@/lib/auth';
 import { logAuditAction } from '@/lib/audit';
 
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
+
 export async function GET(req: NextRequest) {
   try {
     const members = await prisma.boardMember.findMany({
@@ -10,7 +13,16 @@ export async function GET(req: NextRequest) {
       orderBy: { order: 'asc' },
     });
 
-    return NextResponse.json({ boardMembers: members });
+    return NextResponse.json(
+      { boardMembers: members },
+      {
+        headers: {
+          'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0',
+        },
+      }
+    );
   } catch (error) {
     console.error('Error fetching board members:', error);
     return NextResponse.json({ error: 'Failed to fetch board members' }, { status: 500 });

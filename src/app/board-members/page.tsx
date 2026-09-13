@@ -7,7 +7,8 @@ import Footer from '@/components/public/Footer';
 import prisma from '@/lib/prisma';
 import { Users, ShieldCheck, Quote, Sparkles } from 'lucide-react';
 
-export const revalidate = 60;
+export const dynamic = 'force-dynamic';
+export const revalidate = 0;
 
 export default async function BoardMembersPage() {
   const members = await prisma.boardMember.findMany({
@@ -21,37 +22,62 @@ export default async function BoardMembersPage() {
       <Navbar />
 
       <main className="flex-1">
-        {/* Header Hero */}
-        <section className="bg-gradient-to-b from-amber-50/70 via-warm-50/80 to-white text-slate-800 py-16 sm:py-24 relative overflow-hidden border-b border-slate-200/70">
-          <div className="absolute top-0 right-1/4 w-96 h-96 bg-amber-200/20 rounded-full blur-3xl pointer-events-none" />
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            <div className="title-ornament mb-3">
-              <span className="text-xs uppercase tracking-widest text-amber-700 bg-amber-100/80 border border-amber-300/60 px-3 py-1 rounded-full font-bold">
-                Governance & Leadership
-              </span>
+        {/* Header Hero - Enhanced Design */}
+        <section className="relative bg-gradient-to-br from-slate-50 via-white to-warm-50 py-20 sm:py-28 overflow-hidden border-b border-slate-100">
+          {/* Subtle background pattern */}
+          <div className="absolute inset-0 opacity-[0.03]">
+            <div className="absolute inset-0 bg-[linear-gradient(to_right,#0f172a_1px,transparent_1px),linear-gradient(to_bottom,#0f172a_1px,transparent_1px)] bg-[size:4rem_4rem]" />
+          </div>
+          <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-gradient-to-br from-amber-200/20 to-orange-200/10 rounded-full blur-3xl pointer-events-none" />
+          
+          <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-100 to-orange-100 border-2 border-amber-300 text-amber-900 text-sm font-bold uppercase tracking-wider mb-6 shadow-md">
+              <ShieldCheck className="w-4 h-4" />
+              Governance & Leadership
             </div>
-            <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold tracking-tight font-heading text-slate-900 mt-3">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl font-black tracking-tight font-heading text-navy-950 leading-[1.1]">
               Board of Trustees
+              <span className="block mt-2 bg-gradient-to-r from-amber-600 via-orange-600 to-amber-700 bg-clip-text text-transparent">
+                & Leadership Council
+              </span>
             </h1>
-            <p className="mt-4 text-base sm:text-lg text-slate-600 max-w-3xl mx-auto leading-relaxed">
+            <p className="mt-6 text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed">
               Meet the distinguished governing council and leadership guiding Nipania Vikash Seva Trust towards its mission of Seva, Vikash, and Samarpan.
             </p>
+            
+            {/* Quick Stats */}
+            <div className="flex flex-wrap items-center justify-center gap-8 mt-10">
+              <div>
+                <div className="text-3xl font-black text-navy-950">{members.length}</div>
+                <div className="text-sm text-slate-600">Board Members</div>
+              </div>
+              <div className="w-px h-12 bg-slate-200" />
+              <div>
+                <div className="text-3xl font-black text-navy-950">100%</div>
+                <div className="text-sm text-slate-600">Transparent</div>
+              </div>
+              <div className="w-px h-12 bg-slate-200" />
+              <div>
+                <div className="text-3xl font-black text-navy-950">24/7</div>
+                <div className="text-sm text-slate-600">Governance</div>
+              </div>
+            </div>
           </div>
         </section>
 
-        {/* Board Members Section */}
-        <section className="py-20 bg-warm-50">
+        {/* Board Members Section - Enhanced Grid */}
+        <section className="py-20 sm:py-24 bg-gradient-to-b from-white via-warm-50/30 to-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             {members.length === 0 ? (
-              <div className="text-center py-20 bg-white rounded-3xl p-12 border border-slate-200">
+              <div className="text-center py-20 bg-white rounded-3xl p-12 border-2 border-slate-200 shadow-xl">
                 <Users className="w-16 h-16 text-slate-300 mx-auto mb-4" />
                 <h3 className="text-xl font-bold text-navy-950 mb-2">Board Directory Updating</h3>
-                <p className="text-xs text-slate-600 max-w-md mx-auto">
+                <p className="text-sm text-slate-600 max-w-md mx-auto">
                   Our trustee and leadership directory is currently being synchronized.
                 </p>
               </div>
             ) : (
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10">
                 {members.map((member) => {
                   const defaultPhoto = 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=600&q=80';
                   const displayImage = member.image || defaultPhoto;
@@ -59,73 +85,74 @@ export default async function BoardMembersPage() {
                   return (
                     <div
                       key={member.id}
-                      className="group bg-white rounded-3xl border border-slate-200/80 overflow-hidden shadow-card hover:shadow-2xl transition-all duration-500 flex flex-col justify-between hover:-translate-y-1.5"
+                      className="group bg-white rounded-3xl border-2 border-slate-200 overflow-hidden shadow-xl hover:shadow-2xl hover:shadow-amber-500/10 transition-all duration-500 flex flex-col justify-between hover:-translate-y-2 hover:border-amber-400"
                     >
                       <div>
-                        {/* High-Impact Portrait Photography Header */}
-                        <div className="relative h-72 sm:h-80 w-full bg-navy-950 overflow-hidden">
-                          {/* Background Glow */}
-                          <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-950/20 to-transparent z-10" />
+                        {/* High-Impact Portrait Photography Header - Significantly Increased Height */}
+                        <div className="relative h-[420px] sm:h-[480px] lg:h-[520px] w-full bg-gradient-to-br from-navy-950 to-navy-900 overflow-hidden">
+                          {/* Enhanced Background Glow */}
+                          <div className="absolute inset-0 bg-gradient-to-t from-navy-950 via-navy-900/40 to-transparent z-10" />
                           
                           <Image
                             src={displayImage}
                             alt={member.name}
                             fill
-                            className="object-cover object-top group-hover:scale-105 transition-transform duration-700 filter brightness-95 group-hover:brightness-100"
+                            unoptimized={true}
+                            className="object-cover object-top group-hover:scale-110 transition-transform duration-1000 filter brightness-90 group-hover:brightness-100"
                           />
                           
-                          {/* Official Trust Badge / Category Ribbon */}
-                          <div className="absolute top-4 left-4 z-20">
-                            <span className="inline-flex items-center gap-1.5 bg-navy-950/90 backdrop-blur-md text-gold-400 border border-gold-400/50 text-[10px] font-extrabold uppercase px-3.5 py-1.5 rounded-full shadow-lg">
-                              <Sparkles className="w-3 h-3 text-gold-400" />
+                          {/* Official Trust Badge / Category Ribbon - Enhanced */}
+                          <div className="absolute top-5 left-5 z-20">
+                            <span className="inline-flex items-center gap-2 bg-gradient-to-r from-navy-950/95 to-navy-900/95 backdrop-blur-md text-gold-300 border-2 border-gold-400/60 text-xs font-extrabold uppercase px-4 py-2 rounded-full shadow-2xl">
+                              <Sparkles className="w-4 h-4 text-gold-400 drop-shadow-glow" />
                               <span>{member.category}</span>
                             </span>
                           </div>
 
-                          {/* Tenure / Role Pill */}
+                          {/* Tenure / Role Pill - Enhanced */}
                           {member.tenure && (
-                            <div className="absolute top-4 right-4 z-20">
-                              <span className="bg-white/90 backdrop-blur-md text-navy-950 text-[10px] font-bold px-3 py-1 rounded-full shadow-md">
+                            <div className="absolute top-5 right-5 z-20">
+                              <span className="bg-white/95 backdrop-blur-md text-navy-950 text-xs font-bold px-4 py-2 rounded-full shadow-xl border border-amber-200">
                                 {member.tenure}
                               </span>
                             </div>
                           )}
 
-                          {/* Name Overlay inside gradient for striking visual hierarchy */}
-                          <div className="absolute bottom-4 left-5 right-5 z-20 space-y-0.5 text-left">
-                            <span className="text-[10px] font-bold text-gold-400 uppercase tracking-widest block font-heading">
+                          {/* Name Overlay inside gradient - Enhanced Typography */}
+                          <div className="absolute bottom-6 left-6 right-6 z-20 space-y-1.5 text-left">
+                            <span className="text-xs font-extrabold text-gold-300 uppercase tracking-[0.15em] block font-heading drop-shadow-md">
                               {member.designation}
                             </span>
-                            <h3 className="text-xl sm:text-2xl font-extrabold text-white font-heading leading-tight drop-shadow-md">
+                            <h3 className="text-2xl sm:text-3xl font-black text-white font-heading leading-tight drop-shadow-2xl">
                               {member.name}
                             </h3>
                           </div>
                         </div>
 
-                        {/* Content & Bio Section */}
-                        <div className="p-6 space-y-4">
+                        {/* Content & Bio Section - Enhanced */}
+                        <div className="p-7 space-y-5">
                           {member.quote && (
-                            <div className="relative bg-gradient-to-br from-warm-50 to-amber-50/40 p-4 rounded-2xl border border-gold-200/50 text-xs text-slate-700 italic leading-relaxed shadow-xs">
-                              <Quote className="w-4 h-4 text-gold-500 shrink-0 mb-1 opacity-80" />
-                              <p className="font-serif">"{member.quote}"</p>
+                            <div className="relative bg-gradient-to-br from-warm-50 via-amber-50/40 to-orange-50/20 p-5 rounded-2xl border-2 border-amber-200/70 text-sm text-slate-700 italic leading-relaxed shadow-md">
+                              <Quote className="w-5 h-5 text-amber-500 shrink-0 mb-2 opacity-70" />
+                              <p className="font-serif relative z-10">"{member.quote}"</p>
                             </div>
                           )}
 
                           {member.roleDetails && (
-                            <p className="text-xs text-slate-600 leading-relaxed font-normal">
+                            <p className="text-sm text-slate-600 leading-relaxed">
                               {member.roleDetails}
                             </p>
                           )}
                         </div>
                       </div>
 
-                      {/* Footer Badge */}
-                      <div className="px-6 py-3.5 bg-slate-50/80 border-t border-slate-100 flex items-center justify-between text-[11px] text-slate-500">
-                        <span className="flex items-center gap-1.5 font-medium text-slate-600">
-                          <ShieldCheck className="w-3.5 h-3.5 text-gold-600" />
+                      {/* Footer Badge - Enhanced */}
+                      <div className="px-7 py-4 bg-gradient-to-br from-slate-50 to-warm-50 border-t-2 border-slate-100 flex items-center justify-between text-xs">
+                        <span className="flex items-center gap-2 font-medium text-slate-600">
+                          <ShieldCheck className="w-4 h-4 text-amber-600" />
                           <span>Trust Board Council</span>
                         </span>
-                        <span className="font-bold text-navy-950 bg-white px-2.5 py-0.5 rounded-full border border-slate-200 shadow-2xs">
+                        <span className="font-bold text-navy-950 bg-white px-3 py-1.5 rounded-full border border-slate-200 shadow-sm">
                           Nipania Trust
                         </span>
                       </div>
@@ -135,37 +162,39 @@ export default async function BoardMembersPage() {
               </div>
             )}
 
-            {/* Trust Governance Banner */}
-            <div className="mt-16 bg-gradient-to-r from-[#0c2340] via-[#0f2e54] to-[#0c2340] text-white rounded-3xl p-8 sm:p-12 text-center border-2 border-gold-400/40 shadow-2xl relative overflow-hidden">
-              <div className="absolute -right-16 -top-16 w-56 h-56 bg-gold-400/15 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -left-16 -bottom-16 w-56 h-56 bg-emerald-400/15 rounded-full blur-3xl pointer-events-none" />
+            {/* Trust Governance Banner - Enhanced */}
+            <div className="mt-20 bg-gradient-to-br from-navy-950 via-navy-900 to-navy-950 text-white rounded-3xl p-10 sm:p-14 text-center border-3 border-gold-400/50 shadow-2xl relative overflow-hidden">
+              <div className="absolute -right-20 -top-20 w-64 h-64 bg-gradient-to-br from-gold-400/20 to-amber-400/10 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -left-20 -bottom-20 w-64 h-64 bg-gradient-to-tl from-emerald-400/15 to-teal-400/10 rounded-full blur-3xl pointer-events-none" />
 
-              <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-gold-400/20 text-gold-300 text-xs font-bold mb-6 border border-gold-400/40">
-                <ShieldCheck className="w-4 h-4 text-gold-400" />
-                <span>ETHICAL GOVERNANCE & STATUTORY INTEGRITY</span>
-              </div>
-              
-              <h2 className="text-2xl sm:text-3xl font-extrabold mb-3 font-heading text-white">
-                Governed with Transparency and Compassion
-              </h2>
-              
-              <p className="text-blue-100/90 max-w-3xl mx-auto mb-8 leading-relaxed text-sm">
-                Our board operates under the registered Trust Deed with audited utilization and compliance as a Public Charitable Trust.
-              </p>
+              <div className="relative z-10">
+                <div className="inline-flex items-center gap-2.5 px-5 py-2 rounded-full bg-gradient-to-r from-gold-400/25 to-amber-400/20 text-gold-200 text-sm font-bold mb-8 border-2 border-gold-400/50 shadow-lg">
+                  <ShieldCheck className="w-5 h-5 text-gold-300" />
+                  <span>ETHICAL GOVERNANCE & STATUTORY INTEGRITY</span>
+                </div>
+                
+                <h2 className="text-3xl sm:text-4xl font-black mb-4 font-heading text-white drop-shadow-lg">
+                  Governed with Transparency and Compassion
+                </h2>
+                
+                <p className="text-blue-100/90 max-w-3xl mx-auto mb-10 leading-relaxed text-base">
+                  Our board operates under the registered Trust Deed with audited utilization and compliance as a Public Charitable Trust.
+                </p>
 
-              <div className="flex flex-wrap justify-center gap-4 relative z-10">
-                <Link
-                  href="/about"
-                  className="px-6 py-3 rounded-full text-xs font-bold bg-gradient-to-r from-gold-500 to-amber-500 text-slate-950 font-black hover:brightness-110 transition-all shadow-md active:scale-95"
-                >
-                  Explore Trust Mission
-                </Link>
-                <Link
-                  href="/contact"
-                  className="px-6 py-3 rounded-full text-xs font-bold border border-white/20 bg-white/10 text-white hover:bg-white/20 transition-colors shadow-xs backdrop-blur-sm"
-                >
-                  Contact Trust Office
-                </Link>
+                <div className="flex flex-wrap justify-center gap-4 relative z-10">
+                  <Link
+                    href="/about"
+                    className="px-8 py-3.5 rounded-full text-sm font-bold bg-gradient-to-r from-gold-500 to-amber-500 text-navy-950 font-black hover:from-gold-400 hover:to-amber-400 transition-all shadow-xl shadow-gold-500/30 active:scale-95"
+                  >
+                    Explore Trust Mission
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className="px-8 py-3.5 rounded-full text-sm font-bold border-2 border-white/30 bg-white/10 text-white hover:bg-white/20 transition-colors shadow-lg backdrop-blur-sm"
+                  >
+                    Contact Trust Office
+                  </Link>
+                </div>
               </div>
             </div>
           </div>

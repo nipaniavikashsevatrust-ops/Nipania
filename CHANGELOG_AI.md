@@ -3,6 +3,150 @@
 > **Instructions for AI Agents:**
 > Record all non-trivial changes here. Follow the exact section structure so both human developers and subsequent AI agents (Kilo Code / Google Antigravity) can follow the audit trail.
 
+## 2026-09-13 (Update 65)
+
+### Agent
+Google Antigravity
+
+### Task
+Fix Certificate PDF Vector Ornaments, Symbol Encoding & Text Overlap Alignment Issues
+
+### Problem Addressed
+- In the generated Certificate PDF, standard jsPDF PostScript fonts (WinAnsiEncoding) could not render Unicode symbols (`♦ ❖ ♦`, `★`, `❖`, `•`), resulting in garbled text artifacts (`&f 'V &f`, `& CERTIFICATE OF ... &`, rogue `'V` under the recipient name).
+- The bottom legal disclaimer line (`Official recognition document issued under...`) was placed at `pageHeight - 12.5 = 197.5mm`, directly intersecting and overlapping the inner gold border line (`196.4mm` - `198mm`).
+- The description/citation text was wrapped too narrowly (`215mm`), causing orphan single words ("Trust.") on the final line.
+- The bottom left metadata card and status pill had unbalanced padding and alignment.
+- The header lockup (logo + text) was shifted off-center horizontally.
+
+### Changes Made
+1. **Pure Vector Ornaments (`src/lib/certificatePdf.ts`)**:
+   - Implemented `drawVectorDiamond(doc, cx, cy, w, h, r, g, b)` for sharp vector diamond shapes.
+   - Implemented `drawVectorStar(doc, cx, cy, outerR, innerR, r, g, b)` for crisp 5-pointed gold stars.
+   - Replaced Unicode divider ribbon with vector gold diamond trio flanked by gold rules.
+   - Replaced Unicode stars in the Category Pill badge with vector gold stars.
+   - Replaced Unicode flourish under recipient name with a sharp vector diamond and tapered lines.
+   - Replaced non-ASCII bullets with clean standard ` | ` separators.
+2. **Eliminated Border Overlap & Improved Alignment**:
+   - Repositioned bottom legal disclaimer to `191.5mm`, providing a safe `5mm` margin above the inner gold border.
+   - Expanded description wrap width to `235mm` with `lineHeightFactor: 1.45`, eliminating orphan words.
+   - Re-proportioned the left metadata card (height `48mm`) with symmetrical status badge pill (`66mm x 7.5mm`).
+   - Symmetrically calculated the header lockup (`totalLockupW = logoW + gap + maxTextW`) so the entire trust header is centered on the page.
+   - Perfectly harmonized the baselines of all three footer columns.
+
+### Verification
+- Generated real PDF (`NVST-CERT-000003`) from database via `/api/certificates/{id}/pdf`.
+- Visually inspected rendered PDF page: confirmed zero garbage characters, crisp vector stars and diamonds, perfectly centered header, clean paragraph wrapping, and no border overlapping.
+- Verified TypeScript compilation: `npx tsc --noEmit` exited with code 0.
+
+---
+
+## 2026-09-13 (Update 64)
+
+### Agent
+Google Antigravity
+
+### Task
+Fix Cropped Trustee Photo Display Across Public Board of Trustees & Leadership Section
+
+### Problem Addressed
+- User cropped and uploaded a professional portrait image for the Managing Trustee (`Raj Kumar Mahato`) in the admin panel (`public/uploads/1789276540887-cropped-image.jpg`).
+- The image was not rendering in the public "Board of Trustees & Leadership" sections (homepage, about page, and `/board-members` directory).
+- Root causes:
+  1. Next.js image optimization endpoint (`/_next/image`) was failing and returning `Content-Length: 0` for files stored in `public/uploads/`, causing blank frames unless `unoptimized={true}` was provided.
+  2. The Prisma database record for Raj Kumar Mahato still retained the prior uncropped PNG path.
+  3. Route handlers `/api/board-members` and `/api/board-members/public` lacked `dynamic = 'force-dynamic'` and `Cache-Control: 'no-store'`, allowing Next.js and client browsers to serve stale cached responses.
+  4. In `src/app/admin/board-members/page.tsx`, the crop modal previously displayed a success alert upon file upload without automatically committing the new URL to the database if the user closed the modal before clicking "Update Board Member".
+
+### Changes Made
+1. **Database Synchronization**:
+   - Updated `prisma.boardMember` record for President & Managing Trustee Raj Kumar Mahato (`id: ac3cb934-742f-49c7-85f1-841855ab02ed`) to reference `/uploads/1789276540887-cropped-image.jpg`.
+2. **Direct Image Serving (`unoptimized={true}`)**:
+   - Added `unoptimized={true}` to `<Image>` elements in:
+     - `src/components/public/BoardMembersSection.tsx`
+     - `src/app/board-members/page.tsx`
+     - `src/app/admin/board-members/page.tsx`
+   - Bypasses empty Next.js `_next/image` proxy and directly serves the 114KB cropped JPEG with instant loading.
+3. **Cache Invalidation & Dynamic Routes**:
+   - `src/app/api/board-members/route.ts`: Added `export const dynamic = 'force-dynamic';`, `export const revalidate = 0;`, and HTTP `Cache-Control: no-store` response headers.
+   - `src/app/api/board-members/public/route.ts`: Added `export const dynamic = 'force-dynamic';`, `export const revalidate = 0;`, and HTTP `Cache-Control: no-store` response headers.
+   - `src/app/board-members/page.tsx`: Added `export const dynamic = 'force-dynamic';` and `export const revalidate = 0;`.
+   - `src/components/public/BoardMembersSection.tsx`: Added `{ cache: 'no-store' }` to `fetch('/api/board-members')`, updated default initial state to Raj Kumar Mahato with the cropped image, and added defensive response parser handling both `{ boardMembers: [...] }` and `[...]`.
+4. **Admin Panel Auto-Save on Crop**:
+   - `src/app/admin/board-members/page.tsx`: In `handleCropComplete`, added automatic PATCH persistence to `/api/board-members/${editingMember.id}` when editing an existing member, guaranteeing that cropping a photo immediately saves to the database without requiring manual secondary confirmation.
+
+### Verification
+- Ran `npx tsc --noEmit` — 0 TypeScript compilation errors.
+- Verified `curl http://localhost:3000/uploads/1789276540887-cropped-image.jpg` returns `200 OK` (114,623 bytes).
+- Verified `curl http://localhost:3000/api/board-members` returns the updated cropped image URL.
+- Verified `/board-members` and `/` HTML pages include the cropped image.
+
+---
+
+## 2026-09-13 (Update 63)
+
+### Agent
+Google Antigravity
+
+### Task
+Board Trustees Image Enlargement, Certificate PDF Email Synchronization & SweetAlert Email Loader
+
+### Problem Addressed
+- User requested:
+  1. "incress the size of the board trustees image"
+  2. "and the certificate pdf send in the email not same as the preview one so fix it also"
+  3. "and while sending the mailadd loader and sweet alert"
+
+### Changes Made
+1. **Board Trustees Image Size Enlargement**:
+   - `src/components/public/BoardMembersSection.tsx`:
+     - Significantly enlarged photo frame from `w-24 h-24` / `w-32 h-32` to `w-40 h-40 sm:w-44 sm:h-44`.
+     - Upgraded to `rounded-3xl` with `ring-4 ring-gold-400/20`, 2px gold border, and elevated shadow for prestigious presentation across homepage and about page.
+   - `src/app/board-members/page.tsx`:
+     - Enlarged portrait photography header from `h-80 sm:h-96` to `h-[390px] sm:h-[450px] lg:h-[480px]`.
+     - Preserved `object-cover object-top` ensuring facial clarity and executive posture across all responsive breakpoints.
+
+2. **Certificate PDF & Email Synchronization**:
+   - `src/lib/certificatePdf.ts`:
+     - Re-architected `drawCertificatePage` to achieve an exact 1:1 visual match with web preview `CertificateRenderer.tsx`.
+     - Replaced stacked header with compact horizontal lockup (circular medallion logo on left with gold double rings, trust title, tagline, credentials, and registered address on right).
+     - Added subtle background watermark logo (opacity ~0.035).
+     - Standardized inner gold border + second inner faint accent border with corner brackets.
+     - Centered golden category pill badge (`★ CERTIFICATE OF ... ★`) with amber background.
+     - Dignified Times italic presentation line and large Times bold recipient name with ornamental flourish `❖`.
+     - Replaced raw signatory name with official `AUTHORIZED SIGNATORY` label over president title and trust name, perfectly matching the preview.
+     - Realined overlapping president stamp (`w-24 h-24`) and signature (`w-44 h-16`) across the signatory line.
+     - Properly scaled and balanced all elements across the 210mm A4 landscape page height, eliminating awkward vertical void.
+   - `src/app/api/certificates/[id]/email/route.ts`:
+     - Replaced brittle `findUnique({ where: { id: 'trust-settings' } })` with `prisma.trustDetail.findFirst()`.
+     - Added robust fallback values (`registrationNumber: trustSettings?.registrationNo || 'IV-120/2022'`).
+     - Ensured complete `trustConfig` is passed into `generateCertificatePdf`.
+   - `src/app/api/certificates/bulk-email/route.ts`:
+     - Added `registrationNumber: trust?.registrationNo || 'IV-120/2022'` to `trustConfig`.
+   - `src/components/certificates/CertificateRenderer.tsx`:
+     - Added `onEmail` prop and integrated an "Email Certificate" action button directly inside the Certificate Preview modal toolbar.
+
+3. **SweetAlert2 Integration & Email Dispatch Loader**:
+   - Installed `sweetalert2`.
+   - `src/app/globals.css`:
+     - Imported `sweetalert2/dist/sweetalert2.min.css`.
+     - Added custom royal sapphire navy & amber gold theme styling for SweetAlert popups, buttons, and high z-index (`z-[9999999]`) ensuring alerts appear on top of all modal dialogs.
+   - `src/app/admin/certificates/page.tsx`:
+     - Upgraded `handleEmailCertificate`:
+       - Replaced browser `confirm()` with interactive SweetAlert confirmation modal showing recipient name, email, certificate number, and category.
+       - Integrated SweetAlert loading modal with spinning loader while generating the high-resolution A4 PDF and dispatching via SMTP.
+       - Replaced browser `alert()` with SweetAlert success and error modals.
+     - Upgraded `handleTriggerBulkEmail`:
+       - Added SweetAlert confirmation with recipient count.
+       - Added SweetAlert loading spinner during bulk PDF generation and delivery.
+       - Added rich SweetAlert summary report displaying Delivered, Skipped, and Failed counts.
+     - Connected `onEmail={handleEmailCertificate}` to `<CertificateRenderer />` inside the preview modal so admins can send email with SweetAlert directly from preview.
+
+### Verification
+- Ran `npx tsc --noEmit` passing with 0 errors.
+- Generated and verified test A4 certificate PDF (Status 200, 5.3MB buffer).
+
+---
+
 ## 2026-09-11 (Update 62)
 
 ### Agent

@@ -33,6 +33,7 @@ import {
 import { formatDate } from '@/lib/utils';
 import CertificateRenderer, { CertificateData } from '@/components/certificates/CertificateRenderer';
 import BulkCertificatePrint from '@/components/certificates/BulkCertificatePrint';
+import Swal from 'sweetalert2';
 
 const CERTIFICATE_TYPES = [
   { value: 'VOLUNTEER_SERVICE', label: 'Certificate of Volunteer Service', defaultCitation: 'In recognition of outstanding dedication, exemplary field service, and valuable voluntary contributions towards the welfare initiatives of the Trust.' },
@@ -243,8 +244,47 @@ export default function AdminCertificatesPage() {
 
   const handleTriggerBulkEmail = async () => {
     if (selectedCertIds.length === 0) return;
+
+    const count = selectedCertIds.length;
+    const confirmRes = await Swal.fire({
+      title: 'Send Bulk Certificate Emails?',
+      html: `
+        <div class="text-left text-xs space-y-2 mt-2">
+          <p class="text-slate-600">You are about to dispatch official certificate emails with A4 PDF attachments to <b>${count} recipient${count > 1 ? 's' : ''}</b>.</p>
+          <p class="text-slate-500">Recipients without a valid email address will be automatically skipped.</p>
+        </div>
+      `,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: `Yes, Send ${count} Certificate${count > 1 ? 's' : ''}`,
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#0C234C',
+      cancelButtonColor: '#94A3B8',
+      reverseButtons: true,
+    });
+
+    if (!confirmRes.isConfirmed) return;
+
     setBulkEmailLoading(true);
     setBulkEmailResults(null);
+
+    Swal.fire({
+      title: 'Dispatching Bulk Certificate Emails...',
+      html: `
+        <div class="py-2 text-xs text-slate-600 space-y-2">
+          <p>Generating personalized A4 PDF certificates and delivering via SMTP...</p>
+          <div class="p-2.5 bg-blue-50/80 rounded-xl border border-blue-200 text-blue-900 font-semibold font-mono">
+            Processing ${count} certificate${count > 1 ? 's' : ''}...
+          </div>
+        </div>
+      `,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
 
     try {
       const res = await fetch('/api/certificates/bulk-email', {
@@ -261,11 +301,49 @@ export default function AdminCertificatesPage() {
           text: `Bulk email completed: ${data.sentCount} sent, ${data.skippedCount} skipped, ${data.failedCount} failed.`,
         });
         fetchCertificates();
+
+        await Swal.fire({
+          icon: 'success',
+          title: 'Bulk Email Completed!',
+          html: `
+            <div class="space-y-3 text-xs mt-2">
+              <div class="grid grid-cols-3 gap-2 text-center">
+                <div class="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl">
+                  <div class="text-[10px] text-emerald-800 uppercase font-bold">Delivered</div>
+                  <div class="text-xl font-black text-emerald-700 font-mono">${data.sentCount}</div>
+                </div>
+                <div class="p-2.5 bg-amber-50 border border-amber-200 rounded-xl">
+                  <div class="text-[10px] text-amber-800 uppercase font-bold">Skipped</div>
+                  <div class="text-xl font-black text-amber-700 font-mono">${data.skippedCount}</div>
+                </div>
+                <div class="p-2.5 bg-rose-50 border border-rose-200 rounded-xl">
+                  <div class="text-[10px] text-rose-800 uppercase font-bold">Failed</div>
+                  <div class="text-xl font-black text-rose-700 font-mono">${data.failedCount}</div>
+                </div>
+              </div>
+            </div>
+          `,
+          confirmButtonColor: '#0C234C',
+        });
       } else {
-        setStatusMsg({ type: 'error', text: data.error || 'Failed to dispatch bulk certificate emails' });
+        const errorMsg = data.error || 'Failed to dispatch bulk certificate emails';
+        setStatusMsg({ type: 'error', text: errorMsg });
+        await Swal.fire({
+          icon: 'error',
+          title: 'Bulk Dispatch Failed',
+          text: errorMsg,
+          confirmButtonColor: '#0C234C',
+        });
       }
     } catch (err: any) {
-      setStatusMsg({ type: 'error', text: err.message || 'Error occurred while sending bulk emails' });
+      const errorMsg = err.message || 'Error occurred while sending bulk emails';
+      setStatusMsg({ type: 'error', text: errorMsg });
+      await Swal.fire({
+        icon: 'error',
+        title: 'Dispatch Error',
+        text: errorMsg,
+        confirmButtonColor: '#0C234C',
+      });
     } finally {
       setBulkEmailLoading(false);
     }
@@ -363,28 +441,103 @@ export default function AdminCertificatesPage() {
 
   const handleEmailCertificate = async (cert: CertificateData) => {
     if (!cert.recipientEmail) {
-      alert('Recipient does not have an email address recorded.');
+      await Swal.fire({
+        icon: 'warning',
+        title: 'Recipient Email Missing',
+        text: `No email address is registered for ${cert.recipientName}. Cannot dispatch certificate.`,
+        confirmButtonColor: '#0C234C',
+      });
       return;
     }
 
-    if (!confirm(`Send official certificate email with PDF attachment to ${cert.recipientEmail}?`)) {
+    const confirmRes = await Swal.fire({
+      title: 'Send Certificate via Email?',
+      html: `
+        <div class="text-left text-xs space-y-2.5 mt-2">
+          <p class="text-slate-600">Dispatch the official verified certificate PDF to the recipient's registered inbox?</p>
+          <div class="p-3.5 bg-slate-50 border border-slate-200 rounded-2xl space-y-1.5 font-medium">
+            <div class="flex justify-between"><span class="text-slate-500">Recipient:</span> <span class="font-bold text-navy-950">${cert.recipientName}</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Email Address:</span> <span class="font-bold text-blue-700 font-mono">${cert.recipientEmail}</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Certificate No:</span> <span class="font-bold text-navy-950 font-mono">${cert.certificateNumber}</span></div>
+            <div class="flex justify-between"><span class="text-slate-500">Category:</span> <span class="text-amber-800 font-semibold">${cert.title}</span></div>
+          </div>
+        </div>
+      `,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, Send Certificate',
+      cancelButtonText: 'Cancel',
+      confirmButtonColor: '#0C234C',
+      cancelButtonColor: '#94A3B8',
+      reverseButtons: true,
+    });
+
+    if (!confirmRes.isConfirmed) {
       return;
     }
 
     setActionLoading(true);
     setStatusMsg(null);
+
+    // Show SweetAlert Loading Modal with Spinner
+    Swal.fire({
+      title: 'Sending Certificate Email...',
+      html: `
+        <div class="py-2 text-xs text-slate-600 space-y-2">
+          <p>Generating high-resolution official A4 PDF certificate...</p>
+          <div class="p-2.5 bg-blue-50/80 rounded-xl border border-blue-200 text-blue-900 font-semibold font-mono">
+            Dispatching to ${cert.recipientEmail}
+          </div>
+        </div>
+      `,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+      showConfirmButton: false,
+      didOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     try {
       const res = await fetch(`/api/certificates/${cert.id}/email`, {
         method: 'POST',
       });
       const data = await res.json();
+
       if (res.ok) {
         setStatusMsg({ type: 'success', text: `Certificate PDF successfully emailed to ${cert.recipientEmail}!` });
+        await Swal.fire({
+          icon: 'success',
+          title: 'Certificate Email Delivered!',
+          html: `
+            <div class="text-xs text-slate-600 space-y-2">
+              <p>The official certificate PDF (<b>${cert.certificateNumber}</b>) has been successfully emailed to:</p>
+              <div class="p-2.5 bg-emerald-50 border border-emerald-200 rounded-xl text-emerald-800 font-bold font-mono">
+                ${cert.recipientEmail}
+              </div>
+            </div>
+          `,
+          confirmButtonColor: '#0C234C',
+        });
       } else {
-        setStatusMsg({ type: 'error', text: data.error || 'Failed to email certificate.' });
+        const errorMsg = data.error || 'Failed to email certificate.';
+        setStatusMsg({ type: 'error', text: errorMsg });
+        await Swal.fire({
+          icon: 'error',
+          title: 'Email Delivery Failed',
+          text: errorMsg,
+          confirmButtonColor: '#0C234C',
+        });
       }
     } catch (err: any) {
-      setStatusMsg({ type: 'error', text: err.message || 'Failed to dispatch email' });
+      const errorMsg = err.message || 'Failed to dispatch email';
+      setStatusMsg({ type: 'error', text: errorMsg });
+      await Swal.fire({
+        icon: 'error',
+        title: 'Dispatch Error',
+        text: errorMsg,
+        confirmButtonColor: '#0C234C',
+      });
     } finally {
       setActionLoading(false);
     }
@@ -725,7 +878,7 @@ export default function AdminCertificatesPage() {
               <X className="w-5 h-5" />
             </button>
 
-            <CertificateRenderer certificate={previewCert} showActions={true} />
+            <CertificateRenderer certificate={previewCert} showActions={true} onEmail={handleEmailCertificate} />
           </div>
         </div>
       )}

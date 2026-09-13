@@ -46,25 +46,44 @@ export async function POST(
       );
     }
 
-    // Generate A4 PDF buffer
+    // Fetch trust settings for PDF generation
+    const trustSettings = await prisma.trustDetail.findFirst();
+
+    const trustConfig = {
+      name: trustSettings?.name || 'NIPANIA VIKASH SEVA TRUST',
+      tagline: trustSettings?.tagline || 'SEVA | VIKASH | SAMARPAN',
+      pan: trustSettings?.pan || 'AAFTN4004N',
+      darpanId: trustSettings?.darpanId || 'UP/2021/0295112',
+      registrationNumber: trustSettings?.registrationNo || 'IV-120/2022',
+      address: trustSettings?.registeredAddress || 'NIPANIA, P.O. PARGHA, P.S. BALIAPUR, DISTRICT DHANBAD, JHARKHAND – 828201',
+      presidentName: trustSettings?.presidentName || 'Managing Trustee',
+      presidentTitle: trustSettings?.presidentTitle || 'President / Managing Trustee',
+      presidentSignature: trustSettings?.presidentSignature || '/uploads/1788689904046-pancard_signature_nsdl_1784122650967-Photoroom.png',
+      presidentStamp: trustSettings?.presidentStamp || '/uploads/1788718898264-ChatGPT_Image_Jul_16__2026__12_22_33_PM__1_.png',
+    };
+
+    // Generate A4 PDF buffer with trust settings
     let pdfBuffer: Buffer | undefined;
     try {
-      pdfBuffer = await generateCertificatePdf({
-        certificateNumber: certificate.certificateNumber,
-        certificateType: certificate.certificateType,
-        title: certificate.title,
-        recipientName: certificate.recipientName,
-        recipientEmail: certificate.recipientEmail,
-        description: certificate.description,
-        issueDate: certificate.issueDate,
-        status: certificate.status,
-        signatoryName: certificate.signatoryName,
-        signatoryTitle: certificate.signatoryTitle,
-        verificationCode: certificate.verificationCode,
-        verificationUrl: certificate.verificationUrl,
-        eventName: certificate.event?.title,
-        projectName: certificate.project?.title,
-      });
+      pdfBuffer = await generateCertificatePdf(
+        {
+          certificateNumber: certificate.certificateNumber,
+          certificateType: certificate.certificateType,
+          title: certificate.title,
+          recipientName: certificate.recipientName,
+          recipientEmail: certificate.recipientEmail,
+          description: certificate.description,
+          issueDate: certificate.issueDate,
+          status: certificate.status,
+          signatoryName: certificate.signatoryName || trustConfig.presidentName,
+          signatoryTitle: certificate.signatoryTitle || trustConfig.presidentTitle,
+          verificationCode: certificate.verificationCode,
+          verificationUrl: certificate.verificationUrl,
+          eventName: certificate.event?.title,
+          projectName: certificate.project?.title,
+        },
+        trustConfig
+      );
     } catch (pdfErr) {
       console.warn('PDF generation warning for certificate email:', pdfErr);
     }

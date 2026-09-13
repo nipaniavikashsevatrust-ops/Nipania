@@ -87,242 +87,419 @@ async function resolveImageToBase64(urlOrPath?: string | null): Promise<string |
 }
 
 /**
+ * Draws a filled vector diamond centered at (cx, cy)
+ */
+function drawVectorDiamond(
+  doc: jsPDF,
+  cx: number,
+  cy: number,
+  w: number,
+  h: number,
+  r = 197,
+  g = 155,
+  b = 39
+) {
+  doc.setFillColor(r, g, b);
+  doc.setDrawColor(r, g, b);
+  doc.setLineWidth(0.15);
+  const hw = w / 2;
+  const hh = h / 2;
+  doc.lines(
+    [
+      [hw, hh],
+      [-hw, hh],
+      [-hw, -hh],
+      [hw, -hh],
+    ],
+    cx,
+    cy - hh,
+    [1, 1],
+    'FD',
+    true
+  );
+}
+
+/**
+ * Draws a 5-pointed filled vector star centered at (cx, cy)
+ */
+function drawVectorStar(
+  doc: jsPDF,
+  cx: number,
+  cy: number,
+  outerRadius: number,
+  innerRadius: number,
+  r = 197,
+  g = 155,
+  b = 39
+) {
+  const spikes = 5;
+  let rot = (Math.PI / 2) * 3;
+  let x = cx;
+  let y = cy;
+  const step = Math.PI / spikes;
+  const points: [number, number][] = [];
+
+  for (let i = 0; i < spikes; i++) {
+    x = cx + Math.cos(rot) * outerRadius;
+    y = cy + Math.sin(rot) * outerRadius;
+    points.push([x, y]);
+    rot += step;
+
+    x = cx + Math.cos(rot) * innerRadius;
+    y = cy + Math.sin(rot) * innerRadius;
+    points.push([x, y]);
+    rot += step;
+  }
+
+  doc.setFillColor(r, g, b);
+  doc.setDrawColor(r, g, b);
+  doc.setLineWidth(0.15);
+
+  const startX = points[0][0];
+  const startY = points[0][1];
+  const deltas: [number, number][] = [];
+  let prevX = startX;
+  let prevY = startY;
+
+  for (let i = 1; i < points.length; i++) {
+    deltas.push([points[i][0] - prevX, points[i][1] - prevY]);
+    prevX = points[i][0];
+    prevY = points[i][1];
+  }
+  deltas.push([startX - prevX, startY - prevY]);
+
+  doc.lines(deltas, startX, startY, [1, 1], 'FD', true);
+}
+
+/**
  * Draws a single A4 Landscape Certificate onto a jsPDF document page
+ * Guaranteed 1:1 visual match with the web CertificateRenderer preview
  */
 export async function drawCertificatePage(
   doc: jsPDF,
   cert: CertificatePdfData,
-  customTrust?: TrustPdfDetails
+  trustDetails?: TrustPdfDetails
 ): Promise<void> {
-  const trust = { ...DEFAULT_TRUST_DETAILS, ...customTrust };
   const pageWidth = 297;
   const pageHeight = 210;
 
-  // Background Canvas: Warm Pearl Ivory
+  const trust: TrustPdfDetails = {
+    ...DEFAULT_TRUST_DETAILS,
+    ...trustDetails,
+  };
+
+  // 1. Premium Parchment Background
   doc.setFillColor(254, 254, 252);
   doc.rect(0, 0, pageWidth, pageHeight, 'F');
 
-  // Outer Decorative Navy Border
-  doc.setDrawColor(12, 35, 76); // Deep Royal Sapphire #0C234C
-  doc.setLineWidth(2.5);
+  // 2. Outer Regal Royal Sapphire Border
+  doc.setDrawColor(12, 35, 76); // Royal Sapphire #0C234C
+  doc.setLineWidth(2.8);
   doc.rect(8, 8, pageWidth - 16, pageHeight - 16);
 
-  // Inner Gold Accent Border
+  // 3. Inner Gold Accent Border
   doc.setDrawColor(197, 155, 39); // Amber Gold #C59B27
   doc.setLineWidth(0.8);
-  doc.rect(11, 11, pageWidth - 22, pageHeight - 22);
+  doc.rect(12, 12, pageWidth - 24, pageHeight - 24);
 
-  // Corner Ornaments
-  const cornerSize = 12;
+  // 4. Second Inner Gold Accent Border (Faint)
+  doc.setDrawColor(218, 184, 85);
+  doc.setLineWidth(0.35);
+  doc.rect(13.6, 13.6, pageWidth - 27.2, pageHeight - 27.2);
+
+  // 5. Corner Ornaments (Inner Border Accents)
+  const cornerSize = 11;
   doc.setDrawColor(197, 155, 39);
   doc.setLineWidth(0.6);
   // Top-left
-  doc.line(11, 11 + cornerSize, 11, 11);
-  doc.line(11, 11, 11 + cornerSize, 11);
+  doc.line(12, 12 + cornerSize, 12, 12);
+  doc.line(12, 12, 12 + cornerSize, 12);
   // Top-right
-  doc.line(pageWidth - 11 - cornerSize, 11, pageWidth - 11, 11);
-  doc.line(pageWidth - 11, 11, pageWidth - 11, 11 + cornerSize);
+  doc.line(pageWidth - 12 - cornerSize, 12, pageWidth - 12, 12);
+  doc.line(pageWidth - 12, 12, pageWidth - 12, 12 + cornerSize);
   // Bottom-left
-  doc.line(11, pageHeight - 11 - cornerSize, 11, pageHeight - 11);
-  doc.line(11, pageHeight - 11, 11 + cornerSize, pageHeight - 11);
+  doc.line(12, pageHeight - 12 - cornerSize, 12, pageHeight - 12);
+  doc.line(12, pageHeight - 12, 12 + cornerSize, pageHeight - 12);
   // Bottom-right
-  doc.line(pageWidth - 11 - cornerSize, pageHeight - 11, pageWidth - 11, pageHeight - 11);
-  doc.line(pageWidth - 11, pageHeight - 11 - cornerSize, pageWidth - 11, pageHeight - 11);
+  doc.line(pageWidth - 12 - cornerSize, pageHeight - 12, pageWidth - 12, pageHeight - 12);
+  doc.line(pageWidth - 12, pageHeight - 12 - cornerSize, pageWidth - 12, pageHeight - 12);
 
-  // 1. Trust Logo & Grand Centered Header
+  // 6. Central Background Watermark Logo (Subtle Opacity)
   const logoData = await resolveImageToBase64('/logo.png');
   if (logoData) {
     try {
-      doc.setDrawColor(197, 155, 39);
-      doc.setLineWidth(0.5);
-      doc.circle(pageWidth / 2, 23, 9.5, 'S');
-      doc.addImage(logoData, 'PNG', pageWidth / 2 - 8.5, 14.5, 17, 17);
-    } catch (e) {
-      console.warn('Could not render logo in certificate:', e);
+      if ((doc as any).GState) {
+        const watermarkGState = new (doc as any).GState({ opacity: 0.035 });
+        (doc as any).setGState(watermarkGState);
+        doc.addImage(logoData, 'PNG', pageWidth / 2 - 42.5, pageHeight / 2 - 42.5, 85, 85);
+        (doc as any).setGState(new (doc as any).GState({ opacity: 1 }));
+      }
+    } catch (wmErr) {
+      console.warn('Could not draw watermark on certificate PDF:', wmErr);
     }
   }
 
-  // 2. Organization Header: Prominent Trust Title
+  // 7. Header Section: Symmetrically Centered Lockup (Logo + Gap + Text Block)
   const trustName = (trust.name || 'NIPANIA VIKASH SEVA TRUST').toUpperCase();
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(21);
+  const trustNameW = doc.getTextWidth(trustName);
+
+  doc.setFontSize(8.5);
+  const taglineStr = `REGISTERED PUBLIC CHARITABLE TRUST | ${trust.tagline || 'SEVA | VIKASH | SAMARPAN'}`.toUpperCase();
+  const taglineW = doc.getTextWidth(taglineStr);
+
+  doc.setFontSize(7.5);
+  const regNo = trust.registrationNumber || 'IV-120/2022';
+  const pan = trust.pan || 'AAFTN4004N';
+  const darpan = trust.darpanId || 'UP/2021/0295112';
+  const credsStr = `Govt. Reg. No: ${regNo}  |  PAN: ${pan}  |  NGO Darpan ID: ${darpan}`;
+  const credsW = doc.getTextWidth(credsStr);
+
+  doc.setFont('helvetica', 'normal');
+  doc.setFontSize(7);
+  const addressStr = (trust.address || 'NIPANIA, P.O. PARGHA, P.S. BALIAPUR, DISTRICT DHANBAD, JHARKHAND - 828201').toUpperCase();
+  const addressW = doc.getTextWidth(addressStr);
+
+  const maxHeaderW = Math.max(trustNameW, taglineW, credsW, addressW);
+  const lockupLogoW = 20;
+  const lockupGap = 6;
+  const totalLockupW = lockupLogoW + lockupGap + maxHeaderW;
+  const lockupStartX = (pageWidth - totalLockupW) / 2;
+  const logoCenterX = lockupStartX + lockupLogoW / 2;
+  const logoCenterY = 28;
+  const textCenterX = lockupStartX + lockupLogoW + lockupGap + maxHeaderW / 2;
+
+  // Render Circular Trust Logo on Left
+  if (logoData) {
+    try {
+      doc.setDrawColor(197, 155, 39);
+      doc.setLineWidth(0.6);
+      doc.setFillColor(255, 255, 255);
+      doc.circle(logoCenterX, logoCenterY, 10, 'FD');
+
+      doc.setDrawColor(218, 184, 85);
+      doc.setLineWidth(0.3);
+      doc.circle(logoCenterX, logoCenterY, 9, 'S');
+
+      doc.addImage(logoData, 'PNG', logoCenterX - 7.5, logoCenterY - 7.5, 15, 15);
+    } catch (e) {
+      console.warn('Could not render header logo in certificate PDF:', e);
+    }
+  }
+
+  // Trust Name
   doc.setTextColor(12, 35, 76); // Deep Royal Sapphire #0C234C
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(22);
-  doc.text(trustName, pageWidth / 2, 38, { align: 'center' });
+  doc.setFontSize(21);
+  doc.text(trustName, textCenterX, 22.5, { align: 'center' });
 
   // Subtitle / Legal Status
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(8.5);
   doc.setTextColor(180, 83, 9); // Amber 800
-  const tagline = trust.tagline ? ` • ${trust.tagline}` : ' • SEVA | VIKASH | SAMARPAN';
-  doc.text(`REGISTERED PUBLIC CHARITABLE TRUST${tagline}`.toUpperCase(), pageWidth / 2, 43, { align: 'center' });
+  doc.text(taglineStr, textCenterX, 28, { align: 'center' });
 
   // Statutory Credentials
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(7.5);
   doc.setTextColor(71, 85, 105);
-  const regNo = trust.registrationNumber || 'IV-120/2022';
-  const pan = trust.pan || 'AAFTN4004N';
-  const darpan = trust.darpanId || 'UP/2021/0295112';
-  doc.text(`Govt. Reg. No: ${regNo}  •  PAN: ${pan}  •  NGO Darpan ID: ${darpan}`, pageWidth / 2, 47, { align: 'center' });
+  doc.text(credsStr, textCenterX, 32.8, { align: 'center' });
 
   // Registered Address Line
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(7);
   doc.setTextColor(100, 116, 139);
-  doc.text(trust.address || 'NIPANIA, P.O. PARGHA, P.S. BALIAPUR, DISTRICT DHANBAD, JHARKHAND – 828201', pageWidth / 2, 50.5, { align: 'center' });
+  doc.text(addressStr, textCenterX, 36.8, { align: 'center' });
 
-  // Majestic Ornate Divider Ribbon with Diamond Accent
+  // Majestic Ornate Divider Ribbon with Pure Vector Diamonds (no Unicode artifacts)
   doc.setDrawColor(197, 155, 39);
   doc.setLineWidth(0.6);
-  doc.line(35, 53.5, 138, 53.5);
-  doc.line(159, 53.5, 262, 53.5);
-  doc.setTextColor(197, 155, 39);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7.5);
-  doc.text('♦ ❖ ♦', pageWidth / 2, 54.5, { align: 'center' });
+  doc.line(35, 41.5, pageWidth / 2 - 9, 41.5);
+  doc.line(pageWidth / 2 + 9, 41.5, pageWidth - 35, 41.5);
 
-  // 3. Certificate Category Badge (Rounded Gold Pill matching preview)
-  const certTypeHeading = cert.title || `CERTIFICATE OF ${cert.certificateType.replace(/_/g, ' ')}`;
-  const badgeText = `★  ${certTypeHeading.toUpperCase()}  ★`;
+  // Trio of Vector Gold Diamonds
+  drawVectorDiamond(doc, pageWidth / 2 - 5, 41.5, 2.2, 2.2, 197, 155, 39);
+  drawVectorDiamond(doc, pageWidth / 2, 41.5, 3.6, 3.6, 197, 155, 39);
+  drawVectorDiamond(doc, pageWidth / 2 + 5, 41.5, 2.2, 2.2, 197, 155, 39);
+
+  // 8. Certificate Award Category Badge (Rounded Gold Pill with Vector Stars)
+  const certTypeHeading = (cert.title || `CERTIFICATE OF ${cert.certificateType.replace(/_/g, ' ')}`).toUpperCase();
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(12);
-  const textWidth = doc.getTextWidth(badgeText);
-  const badgeW = Math.max(textWidth + 18, 105);
+  doc.setFontSize(10.5);
+  const badgeTextW = doc.getTextWidth(certTypeHeading);
+  const badgeW = badgeTextW + 28;
+  const badgeH = 8.5;
+  const badgeY = 46.5;
+
   doc.setFillColor(254, 243, 199); // Amber 100
   doc.setDrawColor(197, 155, 39); // Amber 500 / Gold
-  doc.setLineWidth(0.5);
-  doc.roundedRect(pageWidth / 2 - badgeW / 2, 57.5, badgeW, 8, 4, 4, 'FD');
-  doc.setTextColor(12, 35, 76);
-  doc.text(badgeText, pageWidth / 2, 63, { align: 'center' });
+  doc.setLineWidth(0.6);
+  doc.roundedRect(pageWidth / 2 - badgeW / 2, badgeY, badgeW, badgeH, 4.25, 4.25, 'FD');
 
-  // 4. Presentation line
+  // Left vector gold star
+  drawVectorStar(doc, pageWidth / 2 - badgeTextW / 2 - 6, badgeY + badgeH / 2, 2.2, 0.95, 197, 155, 39);
+
+  // Clean ASCII Category Title
+  doc.setTextColor(12, 35, 76);
+  doc.text(certTypeHeading, pageWidth / 2, badgeY + 5.8, { align: 'center' });
+
+  // Right vector gold star
+  drawVectorStar(doc, pageWidth / 2 + badgeTextW / 2 + 6, badgeY + badgeH / 2, 2.2, 0.95, 197, 155, 39);
+
+  // 9. Presentation Line
   doc.setTextColor(71, 85, 105);
   doc.setFont('times', 'italic');
-  doc.setFontSize(11);
-  doc.text('This certificate of honour is proudly presented to', pageWidth / 2, 71.5, { align: 'center' });
+  doc.setFontSize(12);
+  doc.text('This certificate of honour is proudly presented to', pageWidth / 2, 61.5, { align: 'center' });
 
-  // 5. Recipient Name Spotlight
+  // 10. Recipient Name Spotlight (Grand Serif Bold)
   doc.setTextColor(12, 35, 76);
   doc.setFont('times', 'bold');
-  doc.setFontSize(25);
-  doc.text(cert.recipientName.toUpperCase(), pageWidth / 2, 82.5, { align: 'center' });
+  doc.setFontSize(26);
+  doc.text(cert.recipientName.toUpperCase(), pageWidth / 2, 73, { align: 'center' });
 
-  // Recipient Flourish Underline with center diamond
+  // Recipient Flourish Underline with Vector Center Diamond
   doc.setDrawColor(197, 155, 39);
   doc.setLineWidth(0.6);
-  doc.line(pageWidth / 2 - 32, 85.5, pageWidth / 2 - 4, 85.5);
-  doc.line(pageWidth / 2 + 4, 85.5, pageWidth / 2 + 32, 85.5);
-  doc.setTextColor(197, 155, 39);
-  doc.setFontSize(7.5);
-  doc.text('❖', pageWidth / 2, 86.5, { align: 'center' });
+  doc.line(pageWidth / 2 - 30, 76.5, pageWidth / 2 - 4, 76.5);
+  doc.line(pageWidth / 2 + 4, 76.5, pageWidth / 2 + 30, 76.5);
+  drawVectorDiamond(doc, pageWidth / 2, 76.5, 3, 3, 197, 155, 39);
 
-  // 6. Citation / Description Body
+  // 11. Citation / Description Body (Balanced width preventing orphan single-word lines)
   doc.setTextColor(51, 65, 85);
   doc.setFont('helvetica', 'normal');
   doc.setFontSize(10);
   const defaultCitation =
     'In recognition of valuable voluntary service, sincere dedication, and active participation towards the community development, social welfare, and humanitarian initiatives of the Trust.';
   const citationText = cert.description || defaultCitation;
-  const wrappedCitation = doc.splitTextToSize(citationText, 215);
-  doc.text(wrappedCitation, pageWidth / 2, 93.5, { align: 'center', lineHeightFactor: 1.35 });
+  const wrappedCitation = doc.splitTextToSize(citationText, 235);
+  doc.text(wrappedCitation, pageWidth / 2, 83.5, { align: 'center', lineHeightFactor: 1.45 });
 
-  // Event / Project reference if provided
-  let currentY = 93.5 + wrappedCitation.length * 5.2 + 2;
+  // Event / Project Reference Pill if provided
+  let currentY = 83.5 + wrappedCitation.length * 5.8 + 2;
   if (cert.eventName || cert.projectName) {
+    const progText = `Program / Initiative: ${cert.eventName || cert.projectName}`;
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(8.5);
+    const progW = doc.getTextWidth(progText) + 16;
+    doc.setFillColor(254, 243, 199); // Amber 100
+    doc.setDrawColor(245, 158, 11);
+    doc.setLineWidth(0.4);
+    doc.roundedRect(pageWidth / 2 - progW / 2, currentY - 3.5, progW, 6.5, 3, 3, 'FD');
+
+    // Vector Diamond Bullet
+    drawVectorDiamond(doc, pageWidth / 2 - progW / 2 + 4.5, currentY - 0.25, 2, 2, 217, 119, 6);
+
     doc.setTextColor(180, 83, 9);
-    doc.text(`✦ Program / Initiative: ${cert.eventName || cert.projectName}`, pageWidth / 2, currentY, { align: 'center' });
+    doc.text(progText, pageWidth / 2 + 2, currentY + 1, { align: 'center' });
+    currentY += 8;
   }
 
-  // Divider above footer
+  // Divider above footer (matching preview border-t border-slate-200/90)
+  const dividerY = 122;
   doc.setDrawColor(226, 232, 240);
-  doc.setLineWidth(0.4);
-  doc.line(22, 118, 275, 118);
+  doc.setLineWidth(0.5);
+  doc.line(22, dividerY, pageWidth - 22, dividerY);
 
-  // 7. Footer Columns [Left: Metadata Card] [Center: QR Code] [Right: Authorized Signatory]
-  const footerY = 124;
+  // 12. Footer Columns: Left Metadata Box, Center QR Code, Right Signatory & Stamp
+  const footerY = 127;
 
-  // Left Column: Certificate Metadata Card (Matching Web Preview Card)
+  // LEFT COLUMN: Certificate Metadata Card (Identical to Web Preview Card, height 48mm)
   doc.setFillColor(248, 250, 252);
   doc.setDrawColor(226, 232, 240);
-  doc.setLineWidth(0.4);
-  doc.roundedRect(22, footerY, 70, 52, 3, 3, 'FD');
+  doc.setLineWidth(0.5);
+  doc.roundedRect(22, footerY, 74, 48, 3, 3, 'FD');
 
   doc.setTextColor(100, 116, 139);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.text('CERTIFICATE NUMBER', 26, footerY + 7);
+  doc.setFontSize(7.5);
+  doc.text('CERTIFICATE NUMBER', 26, footerY + 6.5);
 
   doc.setTextColor(12, 35, 76);
   doc.setFont('courier', 'bold');
-  doc.setFontSize(9.5);
+  doc.setFontSize(10);
   doc.text(cert.certificateNumber, 26, footerY + 13);
 
   doc.setTextColor(100, 116, 139);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  doc.text('DATE OF ISSUE', 26, footerY + 21);
+  doc.setFontSize(7.5);
+  doc.text('DATE OF ISSUE', 26, footerY + 20.5);
 
   doc.setTextColor(15, 23, 42);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(8.5);
+  doc.setFontSize(9);
   doc.text(formatDate(cert.issueDate), 26, footerY + 27);
 
-  // Status Badge Pill inside Metadata Card
-  doc.setFillColor(209, 250, 229);
-  doc.setDrawColor(110, 231, 183);
-  doc.setLineWidth(0.3);
-  doc.roundedRect(26, footerY + 34, 62, 7.5, 2.5, 2.5, 'FD');
-  doc.setTextColor(4, 120, 87);
-  doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7);
-  const statusLabel = cert.status === 'ISSUED' ? 'OFFICIALLY ISSUED & VERIFIED' : `STATUS: ${cert.status}`;
-  doc.text(statusLabel, 26 + 31, footerY + 39, { align: 'center' });
+  // Status Badge Pill inside Metadata Card (symmetrically centered)
+  const isIssued = cert.status === 'ISSUED';
+  const isRevoked = cert.status === 'REVOKED';
+  doc.setFillColor(isIssued ? 209 : isRevoked ? 254 : 241, isIssued ? 250 : isRevoked ? 226 : 245, isIssued ? 229 : isRevoked ? 226 : 249);
+  doc.setDrawColor(isIssued ? 110 : isRevoked ? 252 : 203, isIssued ? 231 : isRevoked ? 165 : 213, isIssued ? 183 : isRevoked ? 165 : 225);
+  doc.setLineWidth(0.35);
+  const pillW = 66;
+  const pillH = 7.5;
+  const pillX = 26;
+  const pillY = footerY + 34.5;
+  doc.roundedRect(pillX, pillY, pillW, pillH, 3.5, 3.5, 'FD');
 
-  // Center Column: Server-Verified QR Code
+  // Status Indicator Dot
+  doc.setFillColor(isIssued ? 5 : isRevoked ? 225 : 100, isIssued ? 150 : isRevoked ? 29 : 116, isIssued ? 105 : isRevoked ? 72 : 139);
+  doc.circle(pillX + 5, pillY + pillH / 2, 1.2, 'F');
+
+  // Status Text
+  doc.setTextColor(isIssued ? 4 : isRevoked ? 190 : 71, isIssued ? 120 : isRevoked ? 18 : 85, isIssued ? 87 : isRevoked ? 60 : 105);
+  doc.setFont('helvetica', 'bold');
+  doc.setFontSize(7.5);
+  const statusLabel = isIssued ? 'OFFICIALLY ISSUED' : cert.status;
+  doc.text(statusLabel, pillX + 9, pillY + 5.1, { align: 'left' });
+
+  // CENTER COLUMN: Server-Verified QR Code Frame
   const origin = process.env.NEXT_PUBLIC_APP_URL || 'https://nipaniatrust.org';
   const verifyUrl = cert.verificationUrl || `${origin}/verify/${cert.certificateNumber}`;
 
   try {
     const qrDataUrl = await QRCode.toDataURL(verifyUrl, {
-      width: 160,
+      width: 180,
       margin: 1,
       color: { dark: '#0C234C', light: '#FFFFFF' },
     });
 
     // White QR card with gold border matching web preview
+    const qrCardSize = 30;
+    const qrCardX = pageWidth / 2 - qrCardSize / 2;
     doc.setFillColor(255, 255, 255);
     doc.setDrawColor(197, 155, 39);
-    doc.setLineWidth(0.5);
-    doc.roundedRect(pageWidth / 2 - 15, footerY + 1, 30, 30, 3, 3, 'FD');
-    doc.addImage(qrDataUrl, 'PNG', pageWidth / 2 - 13.5, footerY + 2.5, 27, 27);
+    doc.setLineWidth(0.6);
+    doc.roundedRect(qrCardX, footerY, qrCardSize, qrCardSize, 3, 3, 'FD');
+    doc.addImage(qrDataUrl, 'PNG', qrCardX + 1.5, footerY + 1.5, qrCardSize - 3, qrCardSize - 3);
 
     doc.setTextColor(12, 35, 76);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(7.5);
+    doc.setFontSize(8);
     doc.text('SCAN TO VERIFY ONLINE', pageWidth / 2, footerY + 36, { align: 'center' });
 
     doc.setTextColor(100, 116, 139);
     doc.setFont('courier', 'normal');
-    doc.setFontSize(6.5);
+    doc.setFontSize(7);
     doc.text(cert.verificationCode, pageWidth / 2, footerY + 40.5, { align: 'center' });
 
+    doc.setTextColor(148, 163, 184);
     doc.setFont('helvetica', 'normal');
-    doc.setFontSize(6);
-    doc.text('Direct Central DB Authentication', pageWidth / 2, footerY + 44.5, { align: 'center' });
+    doc.setFontSize(6.5);
+    doc.text('Direct Central DB Verification', pageWidth / 2, footerY + 44.5, { align: 'center' });
   } catch (qrErr) {
     console.warn('Could not render QR code on certificate PDF:', qrErr);
   }
 
-  // Right Column: Official Stamp, Signature and Signatory Info
-  const signatoryX = pageWidth - 60;
+  // RIGHT COLUMN: Authorized Signatory, Authentic Stamp & Signature
+  const signatoryX = pageWidth - 58;
 
   // Render Official President Stamp first (so signature overlays on top)
   const stampData = await resolveImageToBase64(trust.presidentStamp);
   if (stampData) {
     try {
-      doc.addImage(stampData, 'PNG', signatoryX - 18, footerY, 32, 32);
+      doc.addImage(stampData, 'PNG', signatoryX - 22, footerY - 2, 34, 34);
     } catch (e) {
       console.warn('Could not render stamp in certificate PDF:', e);
     }
@@ -332,42 +509,44 @@ export async function drawCertificatePage(
   const sigData = await resolveImageToBase64(trust.presidentSignature);
   if (sigData) {
     try {
-      doc.addImage(sigData, 'PNG', signatoryX - 24, footerY + 8, 46, 18);
+      doc.addImage(sigData, 'PNG', signatoryX - 23, footerY + 7, 46, 19);
     } catch (e) {
       console.warn('Could not render signature in certificate PDF:', e);
     }
   }
 
-  // Signatory separator line
+  // Signatory separator line (matching preview)
   doc.setDrawColor(148, 163, 184);
   doc.setLineWidth(0.6);
-  doc.line(signatoryX - 26, footerY + 31, signatoryX + 26, footerY + 31);
+  doc.line(signatoryX - 26, footerY + 30.5, signatoryX + 26, footerY + 30.5);
 
-  const signName = cert.signatoryName || trust.presidentName || 'Managing Trustee';
+  // Line 1: 'AUTHORIZED SIGNATORY'
   doc.setTextColor(12, 35, 76);
   doc.setFont('helvetica', 'bold');
   doc.setFontSize(9.5);
-  doc.text(signName, signatoryX, footerY + 36, { align: 'center' });
+  doc.text('AUTHORIZED SIGNATORY', signatoryX, footerY + 36, { align: 'center' });
 
+  // Line 2: Signatory Title
   const signTitle = cert.signatoryTitle || trust.presidentTitle || 'President / Managing Trustee';
   doc.setTextColor(71, 85, 105);
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(8);
+  doc.setFontSize(8.5);
   doc.text(signTitle, signatoryX, footerY + 40.5, { align: 'center' });
 
+  // Line 3: Trust Name
   doc.setTextColor(180, 83, 9);
   doc.setFont('helvetica', 'bold');
-  doc.setFontSize(7.5);
+  doc.setFontSize(8);
   doc.text(trust.name || 'Nipania Vikash Seva Trust', signatoryX, footerY + 45, { align: 'center' });
 
-  // 8. Footer Legal Note (Dignified & Subtle)
+  // 13. Footer Legal Note (Dignified at page bottom, safely 5mm inside the inner border)
   doc.setFont('helvetica', 'normal');
-  doc.setFontSize(6.5);
+  doc.setFontSize(7);
   doc.setTextColor(148, 163, 184);
   doc.text(
-    `Official recognition document issued under Trust Registration No. ${trust.registrationNumber || 'IV-120/2022'} • Authenticate at nipaniatrust.org/verify`,
+    `Official recognition document issued under Trust Registration No. ${regNo}  |  Authenticate at nipaniatrust.org/verify`,
     pageWidth / 2,
-    pageHeight - 12,
+    191.5,
     { align: 'center' }
   );
 }
